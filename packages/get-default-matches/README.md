@@ -50,7 +50,7 @@ function App ({device}) {
 }
 ```
 
-## `getDefaultMatches(...<breakPoints>)`
+### `getDefaultMatches(...<breakPoints>)`
 - `breakPoints {string}`
     - One or several `xxs`, `xs`, `sm`, `md`, `lg`, `xl`, `xxl`
     - Should generally be the same as the flags provided to the `BreakPoint` component

@@ -22,7 +22,7 @@ function LazyVideo ({src, offset = 100, ...props}) {
 }
 ```
 
-## `LazyLoad`
+### `LazyLoad`
 Requires a top-level [`@render-props/ViewportProvider`](https://github.com/jaredLunde/render-props/tree/master/packages/viewport#viewportprovider) 
 component
 
@@ -40,7 +40,7 @@ component
     
 -----
 
-## `LazyImage`
+### `LazyImage`
 Inherits props from HTML `<img>`, `curls/Box` and `LazyLoad`
 
 ### Props
@@ -51,7 +51,7 @@ Inherits props from HTML `<img>`, `curls/Box` and `LazyLoad`
     
 -----
 
-## `LazyIframe`
+### `LazyIframe`
 Inherits props from HTML `<iframe>`, `curls/Box`, and `LazyLoad`
 
 ### Props

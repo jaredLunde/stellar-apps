@@ -23,29 +23,37 @@ function HomePage (props) {
 }
 ```
 
-## `getTitle(<title>)`
+### `getTitle(<title>)`
 - `title {string}`
     - Creates a `<title>`, `<meta name='twitter:title'/>`, and `<meta property='og:title'/>`
       component
-    
-## `getDescription(<description>)`
+
+-----
+
+### `getDescription(<description>)`
 - `description {string}`
     - Creates a `<meta name='description'/>` and `<meta property='og:description'/>`
       component
-      
-## `getCanonical(<url>, <options>)`
+
+-----   
+
+### `getCanonical(<url>, <options>)`
 - `url {string}`
     - Creates a `<link rel='canonical'/>`, `<meta name='twitter:url'/>`, and `<meta property='og:url'/>`
       component
 - `options {object}`
     - `resolve {func}`
         - If provided, will resolve the `@url` using this function
-       
-## `getMetaImage(<url>)`
+
+-----
+     
+### `getMetaImage(<url>)`
 - `url {string}`
     - Creates a `<meta property="og:image"/>` and `<meta name="twitter:image"/>` component
-    
-## `getTwitterCard(<content>, <options>)`
+
+-----
+  
+### `getTwitterCard(<content>, <options>)`
 - `content {string}`
     - **default** `summary_large_image`
     - One of `summary_large_image`, `player`, or `summary`

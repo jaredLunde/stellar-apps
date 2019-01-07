@@ -13,6 +13,8 @@ import MadeByStellar from '@stellar-apps/made-by-stellar'
 // </a>
 ```
 
+### MadeByStellar
+
 ### Props
 Inherits props from `curls/A` component
 
