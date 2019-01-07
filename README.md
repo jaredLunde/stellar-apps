@@ -1,4 +1,14 @@
-# @stellar-apps
+# stellar-apps
+
+<p align=center>
+  <br/>
+  <br/>
+  <img src='assets/Icon-FullColor.svg' width='300' height='300' alt='Stellar Apps'/>
+  <br/>
+  <br/>
+</p>
+
+______
 
 A collection of React components and JS libraries used by [**BeStellar.co**](https://BeStellar.co) apps.
 
