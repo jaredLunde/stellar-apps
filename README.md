@@ -41,6 +41,19 @@ ______
 
 A component that creates a "Made with 🚀 by Stellar" link.
 
+------
+
+**Hero (with min-height)** [**`@stellar-apps/min-height-hero`**](./packages/min-height-hero)
+
+A Hero component that sets the viewport's height as a `min-height` unless the `maxHeight` prop
+is set and exceeds the viewport height.
+
+------
+
+**Hero (set to viewport height)** [**`@stellar-apps/viewport-hero`**](./packages/viewport-hero)
+
+A Hero component that sets the viewport's height as a `height`.
+
 ______
 
 **SEO** [**`@stellar-apps/seo`**](./packages/seo)
