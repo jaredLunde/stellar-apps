@@ -29,6 +29,12 @@ function LazyVideo ({src, offset = 100, ...props}) {
     - **default** `200`
     - Starts loading the element when it is within this number of pixels outside of the 
       current viewport
+
+### Render Props
+- `lazyLoadRef {React.creatRef}`
+    - Must be provided as a `ref` to the underlying element you are lazy loading
+- `isVisible {boolean}`
+    - Returns `true` if the the element has been loaded and `false` if not.
     
 -----
 
