@@ -56,6 +56,13 @@ A Hero component that sets the viewport's height as a `height`.
 
 ______
 
+**ScrollToLink** [**`@stellar-apps/scroll-to-link`**](./packages/scroll-to-link)
+
+A link component for scrolling to a particular querySelector on the page using an easing
+function.
+
+______
+
 **SEO** [**`@stellar-apps/seo`**](./packages/seo)
 
 A basic toolset for killing several (social, SEO) birds with one stone in non-complex meta data situations.
