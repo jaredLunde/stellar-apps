@@ -33,3 +33,42 @@ ______
 A component that creates a "Made with 🚀 by Stellar" link.
 
 ______
+
+
+## Package Management
+
+### Create a new package
+`yarn create-pkg [package name] [--react|-r|--esx|-e]`
+
+#### Options
+- `[package name]`
+    - The name of the new package
+- `--react|-r`
+    - Creates a new React package
+- `--esx|-e`
+    - Creates a new plain Babel package without React
+- ``
+______
+
+### Install all packages
+`yarn install-all`
+
+------
+
+### Build all packages
+`yarn build-all`
+
+______
+
+### Upgrade all packages
+`yarn upgrade-all`
+
+______
+
+### Publish all packages
+`yarn publish-all [version bump]`
+
+#### Options
+- `[version bump]`
+    - abides by `semver`
+    - one of `prerelease`, `patch`, `minor`, `major` to be applied to all packages in the repo
