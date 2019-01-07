@@ -13,7 +13,7 @@
 ______
 
 <p align=center>
-  A collection of React components and JS libraries used by <a href='https://BeStellar.co'><b>BeStellar.co</b></a> apps.
+  A collection of React components and JS libraries used by <a href='https://BeStellar.co'><b>BeStellar.co</b></a> apps
 </p>
 
 <p align=center>
