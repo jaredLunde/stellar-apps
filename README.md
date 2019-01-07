@@ -1,4 +1,6 @@
-# stellar-apps
+<h1 align=center>
+  stellar-apps  
+</h1>
 
 <p align=center>
   <br/>
@@ -10,9 +12,13 @@
 
 ______
 
-A collection of React components and JS libraries used by [**BeStellar.co**](https://BeStellar.co) apps.
+<p align=center>
+  A collection of React components and JS libraries used by <a href='https://BeStellar.co'><b>BeStellar.co</b></a> apps.
+</p>
 
+<p align=center>
 https://www.npmjs.com/org/stellar-apps
+</p>
 
 ## Packages
 
