@@ -19,7 +19,12 @@ export default React.memo(
         >
           Made with{" "}
           <span role="img" aria-label="Rocket">
-            <link rel="preconnect dns-prefetch" href='https://cdn.jsdelivr.net' crossOrigin='true'/>
+            <link
+              rel="preconnect dns-prefetch"
+              href='https://cdn.jsdelivr.net'
+              crossOrigin='true'
+            />
+
             <LazyImage
               width={iconSize}
               height={iconSize}

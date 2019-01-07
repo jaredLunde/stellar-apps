@@ -50,7 +50,7 @@ ______
     - Creates a new React package
 - `--esx|-e`
     - Creates a new plain Babel package without React
-- ``
+
 ______
 
 ### Install all packages

@@ -1,0 +1,53 @@
+# @stellar-apps/lazy-load
+
+`yarn add @stellar-apps/lazy-load`
+
+## Usage
+```js
+import LazyLoad, {LazyImage, LazyIframe} from '@stellar-apps/lazy-load'
+
+function LazyVideo ({src, offset = 100, ...props}) {
+  return (
+    <LazyLoad offset={offset}>
+      {({lazyLoadRef, isVisible}) => (
+        <video 
+          key={String(isVisible)} 
+          ref={lazyLoadRef} 
+          src={isVisible ? src : ''}
+          {...props}
+        />               
+      )}
+    </LazyLoad>
+  )
+}
+```
+
+## `LazyLoad`
+
+### Props
+- `offset {number}`
+    - **default** `200`
+    - Starts loading the element when it is within this number of pixels outside of the 
+      current viewport
+    
+-----
+
+## `LazyImage`
+Inherits props from HTML `<img>`, `curls/Box` and `LazyLoad`
+
+### Props
+- `offset {number}`
+    - See `LazyLoad` above
+- `placeholder(<Object {lazyLoadRef}>) {func}`
+    - Should return a component to display when the element is not yet visible
+    
+-----
+
+## `LazyIframe`
+Inherits props from HTML `<iframe>`, `curls/Box`, and `LazyLoad`
+
+### Props
+- `offset {number}`
+    - See `LazyLoad` above
+- `placeholder(<Object {lazyLoadRef}>) {func}`
+    - Should return a component to display when the element is not yet visible
