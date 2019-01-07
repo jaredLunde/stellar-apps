@@ -30,6 +30,6 @@ ______
 
 **MadeByStellar** [**`@stellar-apps/made-by-stellar`**](./packages/made-by-stellar)
 
-A component that creates a Made with 🚀 by Stellar link.
+A component that creates a "Made with 🚀 by Stellar" link.
 
 ______

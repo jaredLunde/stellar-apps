@@ -3,8 +3,6 @@
 `yarn add @stellar-apps/made-by-stellar`
 
 ## Usage
-Inherits props from `curls/A` component
-
 ```js
 import MadeByStellar from '@stellar-apps/made-by-stellar'
 
@@ -14,3 +12,10 @@ import MadeByStellar from '@stellar-apps/made-by-stellar'
 //   Made with <img>🚀</img> by Stellar
 // </a>
 ```
+
+### Props
+Inherits props from `curls/A` component
+
+- `iconSize {number}`
+    - **default** `16`
+    - Changes the size of the rocket icon
