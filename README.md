@@ -34,6 +34,7 @@ A component that creates a "Made with 🚀 by Stellar" link.
 
 ______
 
+<br/><br/>
 
 ## Package Management
 
