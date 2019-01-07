@@ -1,8 +1,10 @@
-# @stellar-apps/[package name]
+# @stellar-apps/[packageName]
+[description]
 
-`yarn add @stellar-apps/[package name]`
+## Installation
+`yarn add @stellar-apps/[packageName]`
 
 ## Usage
 ```js
-import _ from '@stellar-apps/[package name]'
+import _ from '@stellar-apps/[packageName]'
 ```

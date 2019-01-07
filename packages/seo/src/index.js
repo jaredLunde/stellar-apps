@@ -1,0 +1,5 @@
+export getCanonical from './getCanonical'
+export getDescription from './getDescription'
+export getMetaImage from './getMetaImage'
+export getTitle from './getTitle'
+export getTwitterCard from './getTwitterCard'

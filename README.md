@@ -24,6 +24,13 @@ https://www.npmjs.com/org/stellar-apps
 
 ## Packages
 
+**getDefaultMatches** [**`@stellar-apps/get-default-matches`**](./packages/get-default-matches)
+
+Determines the default breakpoint to set for a `curls/BreakPoint` component based upon the
+device returned by the curls `theme.grid.device` (one of desktop/mobile/tablet).
+
+______
+
 **LazyLoad** [**`@stellar-apps/lazy-load`**](./packages/lazy-load)
 
 Components for lazy loading images, iframes, and more.
@@ -33,6 +40,12 @@ ______
 **MadeByStellar** [**`@stellar-apps/made-by-stellar`**](./packages/made-by-stellar)
 
 A component that creates a "Made with 🚀 by Stellar" link.
+
+______
+
+**SEO** [**`@stellar-apps/seo`**](./packages/seo)
+
+A basic toolset for killing several (social, SEO) birds with one stone in non-complex meta data situations.
 
 ______
 
