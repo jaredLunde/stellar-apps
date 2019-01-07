@@ -1,0 +1,16 @@
+{
+  "presets": [
+    ["@inst-app/react", {"removePropTypes": false}]
+  ],
+
+  "env": {
+    "cjs": {
+      "presets": ["@inst-app/esx"]
+    },
+    "es": {
+      "presets": [
+        ["@inst-app/esx", {"env": {"modules": false}}]
+      ]
+    }
+  }
+}

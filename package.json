@@ -1,0 +1,23 @@
+{
+  "name": "stellar-apps",
+  "version": "1.0.0",
+  "author": "jared@BeStellar.co",
+  "private": true,
+  "repository": "https://github.com/jaredLunde/stellar-apps",
+  "scripts": {
+    "create-pkg": "node scripts/createPkg",
+    "build-all": "node scripts/buildAll",
+    "install-all": "node scripts/installAll",
+    "publish-all": "node scripts/publishAll",
+    "upgrade-all": "node scripts/upgradeAll"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "edit-json-file": "^1.2.1",
+    "fs-extra": "^7.0.1",
+    "minimist": "^1.2.0",
+    "node-cmd": "^3.0.0",
+    "ora": "^3.0.0",
+    "semver": "^5.6.0"
+  }
+}
