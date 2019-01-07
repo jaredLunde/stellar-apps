@@ -98,6 +98,10 @@ async function create (pkgName) {
                   path.join(__dirname, `assets/LICENSE`),
                   path.join(pathName, 'LICENSE')
                 )
+                await fs.copy(
+                  path.join(__dirname, `assets/README.md`),
+                  path.join(pathName, 'README.md')
+                )
                 resolve(data)
               }
               else {
