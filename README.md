@@ -1,6 +1,7 @@
 # @stellar-apps
 
 A collection of React components and JS libraries used by [**BeStellar.co**](https://BeStellar.co) apps.
+
 https://www.npmjs.com/org/stellar-apps
 
 ## Packages
