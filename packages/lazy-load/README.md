@@ -23,7 +23,8 @@ function LazyVideo ({src, offset = 100, ...props}) {
 ```
 
 ## `LazyLoad`
-Requires a top-level `@render-props/ViewportProvider` component
+Requires a top-level [`@render-props/ViewportProvider`](https://github.com/jaredLunde/render-props/tree/master/packages/viewport#viewportprovider) 
+component
 
 ### Props
 - `offset {number}`
