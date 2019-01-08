@@ -14,6 +14,7 @@ export default class FetchForm extends React.Component {
   }
 
   static propTypes = {
+    config: PropTypes.func,
     onSubmit: PropTypes.func,
     endpoint: PropTypes.string.isRequired,
     getRequestBody: PropTypes.func.isRequired,
@@ -21,24 +22,26 @@ export default class FetchForm extends React.Component {
   }
 
   onSubmit = async (values, formikBag) => {
-    formikBag.setSubmitting(true)
-    await callIfExists(this.props.onSubmit, values, formikBag)
+    if (typeof this.props.confirm !== 'function' || this.props.confirm(values, formikBag)) {
+      formikBag.setSubmitting(true)
+      await callIfExists(this.props.onSubmit, values, formikBag)
 
-    const response = await fetch(
-      this.props.endpoint,
-      {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          ...this.props.getRequestHeaders(values, formikBag)
-        },
-        body: this.props.getRequestBody(values, formikBag)
-      }
-    )
+      const response = await fetch(
+        this.props.endpoint,
+        {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            ...this.props.getRequestHeaders(values, formikBag)
+          },
+          body: this.props.getRequestBody(values, formikBag)
+        }
+      )
 
-    this.setState({response, json: await response.json()})
-    formikBag.setSubmitting(false)
+      this.setState({response, json: await response.json()})
+      formikBag.setSubmitting(false)
+    }
   }
 
   render () {

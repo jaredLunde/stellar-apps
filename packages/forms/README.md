@@ -42,6 +42,9 @@ JSON response handling. It includes a `fetch` polyfill using `unfetch`.
 In addition to the props below, it inherits props from [Formik](https://jaredpalmer.com/formik/docs/api/formik#props-1)
 - `endpoint {string}`
     - This is the URL endpoint you'd like to send the form request to
+- `confirm {func}`
+    - If defined, the fetch will only run if this function returns `true`
+    - Receives two arguments `(formikValues, formikBag)` [seen here](https://jaredpalmer.com/formik/docs/api/formik#onsubmit-values-values-formikbag-formikbag-void)
 - `getRequestBody {func}`
     - **default** `(values, formikBag) => JSON.stringify(values)`
     - Returns the body for the request
@@ -72,6 +75,9 @@ your Apollo implementation.
 ### Props
 In addition to the props below, it inherits props from [Formik](https://jaredpalmer.com/formik/docs/api/formik#props-1)
 and [react-apollo Mutation](https://www.apollographql.com/docs/react/essentials/mutations.html#props)
+- `confirm {func}`
+    - If defined, the mutation will only run if this function returns `true`
+    - Receives two arguments `(formikValues, formikBag)` [seen here](https://jaredpalmer.com/formik/docs/api/formik#onsubmit-values-values-formikbag-formikbag-void)
 - `prepareUpdate {func}`
     - **default** `({variables}) => ({variables})`
     - Should return an object to send to the `react-apollo` `mutate()` function. See 

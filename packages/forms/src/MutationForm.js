@@ -49,15 +49,17 @@ export default function MutationForm (
         <Formik
           onReset={onReset}
           onSubmit={function (variables, formikBag) {
-            callIfExists(onSubmit, variables, formikBag)
-            mutate(prepareUpdate({variables}, formikBag)).then(
-              result => {
-                formikBag.setSubmitting(false)
-                if (result !== void 0 && result.data) {
-                  callIfExists(onCompleted, result.data, formikBag)
+            if (typeof confirm !== 'function' || confirm(variables, formikBag) === true) {
+              callIfExists(onSubmit, variables, formikBag)
+              mutate(prepareUpdate({variables}, formikBag)).then(
+                result => {
+                  formikBag.setSubmitting(false)
+                  if (result !== void 0 && result.data) {
+                    callIfExists(onCompleted, result.data, formikBag)
+                  }
                 }
-              }
-            )
+              )
+            }
           }}
           initialValues={initialValues}
           enableReinitialize={enableReinitialize}
