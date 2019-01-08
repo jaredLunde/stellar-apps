@@ -1,5 +1,5 @@
 # @stellar-apps/buttons
-[description]
+This package contains helpful wrapper `Button` types around `curls/Button`
 
 ## Installation
 `yarn add @stellar-apps/buttons`
