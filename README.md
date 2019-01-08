@@ -24,6 +24,13 @@ https://www.npmjs.com/org/stellar-apps
 
 ## Packages
 
+**Forms** [**`@stellar-apps/forms`**](./packages/forms)
+
+This package contains form-related components with helpers for `fetch`-based and `react-apollo`-based
+forms using `Formik` and `curls` in the background.
+
+------
+
 **getDefaultMatches** [**`@stellar-apps/get-default-matches`**](./packages/get-default-matches)
 
 Determines the default breakpoint to set for a `curls/BreakPoint` component based upon the
