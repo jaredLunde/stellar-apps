@@ -80,8 +80,7 @@ ______
 A component for triggering events when an element enters or exits the viewport.
 
 ______
-
-<br/><br/>
+<br/>
 
 ## Package Management
 
