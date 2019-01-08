@@ -29,17 +29,11 @@ https://www.npmjs.com/org/stellar-apps
 Determines the default breakpoint to set for a `curls/BreakPoint` component based upon the
 device returned by the curls `theme.grid.device` (one of desktop/mobile/tablet).
 
-______
+------
 
-**LazyLoad** [**`@stellar-apps/lazy-load`**](./packages/lazy-load)
+**HamburgerMenu** [**`@stellar-apps/hamburger-menu`**](./packages/hamburger-menu)
 
-Components for lazy loading images, iframes, and more.
-
-______
-
-**MadeByStellar** [**`@stellar-apps/made-by-stellar`**](./packages/made-by-stellar)
-
-A component that creates a "Made with 🚀 by Stellar" link.
+A component for creating configurable and versatile hamburger menus and hamburgers.
 
 ------
 
@@ -53,6 +47,18 @@ is set and exceeds the viewport height.
 **Hero (set to viewport height)** [**`@stellar-apps/viewport-hero`**](./packages/viewport-hero)
 
 A Hero component that sets the viewport's height as a `height`.
+
+______
+
+**LazyLoad** [**`@stellar-apps/lazy-load`**](./packages/lazy-load)
+
+Components for lazy loading images, iframes, and more.
+
+______
+
+**MadeByStellar** [**`@stellar-apps/made-by-stellar`**](./packages/made-by-stellar)
+
+A component that creates a "Made with 🚀 by Stellar" link.
 
 ______
 
