@@ -24,6 +24,19 @@ https://www.npmjs.com/org/stellar-apps
 
 ## Packages
 
+**Buttons** [**`@stellar-apps/buttons`**](./packages/buttons)
+
+This package contains wrapper `Button` types around `curls/Button`
+
+------
+
+**Errors** [**`@stellar-apps/errors`**](./packages/errors)
+
+This package contains an Error provider and formatter  around `@jaredlunde/Alerts` for 
+displaying errors in a Drawer-like fashion from the top of the viewport.
+
+------
+
 **Forms** [**`@stellar-apps/forms`**](./packages/forms)
 
 This package contains form-related components with helpers for `fetch`-based and `react-apollo`-based
