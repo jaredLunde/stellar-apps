@@ -75,6 +75,12 @@ A basic toolset for killing several (social, SEO) birds with one stone in non-co
 
 ______
 
+**TriggerPoint** [**`@stellar-apps/trigger-point`**](./packages/trigger-point)
+
+A component for triggering events when an element enters or exits the viewport.
+
+______
+
 <br/><br/>
 
 ## Package Management
