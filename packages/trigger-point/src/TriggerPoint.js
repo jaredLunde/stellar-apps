@@ -18,35 +18,47 @@ class TriggerPoint_ extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      triggered: false,
+      inView: false,
       direction: 0,
       triggerPointRef: this.setRef,
+      status: 'untriggered',
       element: null
     }
+    this.previnView = false
   }
 
   static getDerivedStateFromProps ({inView, direction}, state) {
-    const triggered = state.element !== null && inView(state.element)
+    const nextInView = state.element !== null && inView(state.element)
 
-    if (triggered === state.triggered) {
+    if (nextInView === state.inView) {
       return null
     }
 
-    return {
-      ...state,
-      triggered,
-      direction
+    let status = 'untriggered'
+
+    if (state.status !== 'untriggered' || nextInView === true) {
+      if (direction === -1) {
+        status = nextInView === false ? 'exitTop' : 'enterBottom'
+      }
+      else if (direction === 0) {
+        status = 'exitTop'
+      }
+      else {
+        status = nextInView === false ? 'exitBottom' : 'enterTop'
+      }
     }
+
+    return {...state, inView: nextInView, status, direction}
   }
 
   setRef = e => this.setState({element: e})
 
   componentDidUpdate (
     {onEnter, onEnterTop, onEnterBottom, onExit, onExitTop, onExitBottom},
-    {triggered}
+    {inView}
   ) {
-    if (triggered !== this.state.triggered) {
-      if (this.state.triggered === true) {
+    if (inView !== this.state.inView) {
+      if (this.state.inView === true) {
         callIfExists(onEnter, this.state)
 
         if (this.state.direction === 1) {

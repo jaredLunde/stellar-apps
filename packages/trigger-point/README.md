@@ -11,9 +11,11 @@ import TriggerPoint from '@stellar-apps/trigger-point'
 
 
 <TriggerPoint partial>
-  {({triggerPointRef, triggered, direction, element}) => (
+  {({triggerPointRef, inView, status, direction, element}) => (
     <span ref={triggerPointRef}>
-      {triggered ? 'in view' : 'not in view'}
+      {inView ? 'in view' : 'not in view'}
+      {" "}
+      {status ? status : 'not yet triggered'}
     </span>
   )}
 </TriggerPoint>
@@ -40,3 +42,20 @@ import TriggerPoint from '@stellar-apps/trigger-point'
     - Callback event for when the element enters into the viewport from the bottom
 - `onExitBottom {func}`
     - Callback event for when the element exits the viewport from the bottom
+    
+### Render props
+- `triggerPointRef {React.createRef}`
+    - A ref to provided to the element attached to the trigger point
+- `inView {bool}`
+    - **default** `false`
+    - Returns `true` if the element is currently in the viewport, `false` if not
+- `status {string}`
+    - **default** `untriggered`
+    - One of `untriggered`, `enterTop`, `exitTop`, `enterBottom`, `exitBottom`. This represents
+      the most recent status of the trigger event.
+- `direction {number}`
+    - **default** `0`
+    - The direction scrolling is happening. `-1` for up, `1` for down, `0` for neutral
+- `element {DOMElement}`
+    - **default** `null`
+    - The ref'd element
