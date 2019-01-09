@@ -1,14 +1,14 @@
 import React from 'react'
 import {Mutation} from 'react-apollo'
 import {callIfExists} from '@render-props/utils'
-import SpinnerButton from './SpinnerButton'
+import {SpinnerButton} from '@stellar-apps/buttons'
 
 
 function defaultUpdater (mutateOptions) {
   return mutateOptions
 }
 
-export default function MutationClick (
+export default function MutationButton (
   {
     buttonType = SpinnerButton,
     // mutation

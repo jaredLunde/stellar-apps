@@ -24,6 +24,12 @@ https://www.npmjs.com/org/stellar-apps
 
 ## Packages
 
+**Apollo** [**`@stellar-apps/apollo`**](./packages/apollo)
+
+This package contains `react-apollo` utilities and components
+
+------
+
 **Buttons** [**`@stellar-apps/buttons`**](./packages/buttons)
 
 This package contains wrapper `Button` types around `curls/Button`

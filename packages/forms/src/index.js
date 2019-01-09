@@ -1,2 +1,3 @@
 export FetchForm from './FetchForm'
-export MutationForm from './MutationForm'
+export Input from './Input'
+export TextArea from './TextArea'
