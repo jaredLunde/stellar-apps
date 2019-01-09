@@ -30,7 +30,7 @@ export default React.forwardRef(
           const typeProps = Object.assign(
             theme.type,
             {
-              face: typeFace,
+              face: typeFace || theme.type.face,
               color: typeColor,
               children: props.children
             }

@@ -78,9 +78,10 @@ In addition to the props below, this component inherits props from `TypeButton` 
 ------
 
 ### `SpinnerButton`
-In addition to the props below, this component inherits props from `TypeButton` above. 
+A button which displays a Spinner instead of its `children` when the `loading` flag is set.
 
 ### Props
+In addition to the props below, this component inherits props from `TypeButton` above. 
 - `loading {bool}`
     - When `true`, this button will display a `@jaredlunde/curls-addons/Spinner` as a child instead
       of the defined children

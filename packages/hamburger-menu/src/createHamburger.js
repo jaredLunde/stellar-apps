@@ -1,10 +1,13 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import {css} from 'emotion'
 import {Button, createComponent, colorize} from 'curls'
 
 
 const defaultTheme = {
-  color: 'primary',
+  defaultProps: {
+    color: 'primary',
+  },
   getLine: n => css`
     width: 18px;
     height: 2px;
@@ -43,7 +46,13 @@ export default function createHamburger (
   const lines = []
 
   for (let i = 0; i < numLines; i++) {
-    lines.push(SFC({lineNo: i, color, children: p => <span {...p}/>}))
+    const sfcProps = {lineNo: i, key: i, children: p => <span {...p}/>}
+
+    if (color) {
+      sfcProps.color = color
+    }
+
+    lines.push(<SFC {...sfcProps}/>)
   }
 
   return function Hamburger ({show, hide, toggle, isVisible}) {

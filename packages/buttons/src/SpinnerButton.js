@@ -1,7 +1,7 @@
 import React from 'react'
 import {ThemeConsumer} from 'curls'
 import {Spinner} from '@jaredlunde/curls-addons'
-import {defaultTheme as buttonDefaults} from './TypeButton'
+import TypeButton, {defaultTheme as buttonDefaults} from './TypeButton'
 
 
 const defaultTheme = {
