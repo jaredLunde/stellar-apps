@@ -1,5 +1,5 @@
 # @stellar-apps/errors
-This package contains an Error provider and formatter  around `@jaredlunde/Alerts` for 
+This package contains an Error provider and formatter  around `@jaredlunde/curls-addons/Alerts` for 
 displaying errors in a Drawer-like fashion from the top of the viewport.
 
 ## Installation
