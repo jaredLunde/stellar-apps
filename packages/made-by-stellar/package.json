@@ -1,6 +1,6 @@
 {
   "name": "@stellar-apps/made-by-stellar",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "dist/cjs/index.js",
   "author": "Jared Lunde <jared@BeStellar.co> (https://BeStellar.co)",
   "license": "MIT",
@@ -27,6 +27,7 @@
   },
   "peerDependencies": {
     "curls": "^1.1.5",
+    "emotion": "^10.0.6",
     "prop-types": "^15.6.0",
     "react": "^16.7.0"
   }
