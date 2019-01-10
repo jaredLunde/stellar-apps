@@ -36,6 +36,12 @@ This package contains wrapper `Button` types around `curls/Button`
 
 ------
 
+**Content** [**`@stellar-apps/content`**](./packages/content)
+
+A component for establishing site-wide content widths
+
+------
+
 **Errors** [**`@stellar-apps/errors`**](./packages/errors)
 
 This package contains an Error provider and formatter  around `@jaredlunde/curls-addons/Alerts` for 
