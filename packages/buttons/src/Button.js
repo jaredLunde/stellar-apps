@@ -10,25 +10,23 @@ export const defaultTheme = {
   }
 }
 
-export default React.memo(
-  React.forwardRef(
-    function Button ({outline = false, ...props}, ref) {
-      return (
-        <ThemeConsumer path='button' defaultTheme={defaultTheme}>
-          {({theme}) => {
-            props = {...theme.defaultProps, ...props}
+export default React.forwardRef(
+  function Button ({outline = false, ...props}, ref) {
+    return (
+      <ThemeConsumer path='button' defaultTheme={defaultTheme}>
+        {({theme}) => {
+          props = {...theme.defaultProps, ...props}
 
-            if (outline === true) {
-              props.bc = props.bg || theme.bg
-              props.bg = 'transparent'
-              delete props.sh
-              Object.assign(props, theme.outline)
-            }
+          if (outline === true) {
+            props.bc = props.bg || theme.bg
+            props.bg = 'transparent'
+            delete props.sh
+            Object.assign(props, theme.outline)
+          }
 
-            return <Button ref={ref} {...props}/>
-          }}
-        </ThemeConsumer>
-      )
-    }
-  )
+          return <Button ref={ref} {...props}/>
+        }}
+      </ThemeConsumer>
+    )
+  }
 )

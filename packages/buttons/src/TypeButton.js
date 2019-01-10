@@ -28,6 +28,7 @@ export default React.forwardRef(
           typeColor = typeColor || theme.type.color
 
           const typeProps = Object.assign(
+            {},
             theme.type,
             {
               face: typeFace || theme.type.face,
