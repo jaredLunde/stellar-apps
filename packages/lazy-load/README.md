@@ -8,7 +8,7 @@ import LazyLoad, {LazyImage, LazyIframe} from '@stellar-apps/lazy-load'
 
 function LazyVideo ({src, offset = 100, ...props}) {
   return (
-    <LazyLoad offset={offset}>
+    <LazyLoad rootMargin='200px'>
       {({lazyLoadRef, isVisible}) => (
         <video 
           key={String(isVisible)} 
