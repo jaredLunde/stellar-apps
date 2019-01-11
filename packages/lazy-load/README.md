@@ -58,7 +58,7 @@ A render props component pattern for lazy loading elements as they appear in the
     - You can choose to not check for intersections when the DOM changes by setting this property to `true`
 
 
-### Render Props
+### Render props
 - `lazyLoadRef {React.creatRef}`
     - Must be provided as a `ref` to the underlying element you are lazy loading
 - `isVisible {boolean}`
