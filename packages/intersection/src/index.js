@@ -1,1 +1,1 @@
-export Intersection from './Intersection'
+export default from './Intersection'

@@ -64,7 +64,10 @@ function IntersectionBox (props) {
 - `disableMutationObserver {bool}`
     - **default** `false`
     - You can choose to not check for intersections when the DOM changes by setting this property to `true`
-
+- `initialIsIntersecting {bool}`
+    - **default** `false`
+    - Changes the default value of `isIntersecting` for use in places like SSR
+    
 ### Render props
 - `intersectionRef {React.createRef}`
     - Must be provided to the element you'd like to start observing
@@ -81,7 +84,7 @@ function IntersectionBox (props) {
     - **default** `0`
     - Returns the ratio of the `intersectionRect` to the `boundingClientRect`
 - `isIntersecting {bool}`
-    - **default** `false`
+    - **default** `props.initialIsIntersecting`
     - A Boolean value which is `true` if the target element intersects with the intersection observer's root. If this is 
       `true`, then, the IntersectionObserverEntry describes a transition into a state of intersection; if it's `false`,
       then you know the transition is from intersecting to not-intersecting.

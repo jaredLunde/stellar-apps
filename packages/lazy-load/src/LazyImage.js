@@ -6,9 +6,32 @@ import LazyLoad from './LazyLoad'
 
 export default React.memo(
   React.forwardRef(
-    function LazyImg ({src, srcSet, placeholder, offset, ...props}, ref) {
+    function LazyImg (
+      {
+        src,
+        srcSet,
+        placeholder,
+        // from LazyLoad
+        root,
+        pollInterval,
+        disableMutationObserver,
+        offset,
+        rootMargin = '160px',
+        thresholds,
+        // for Box
+        ...props
+      },
+      ref
+    ) {
       return (
-        <LazyLoad offset={offset}>
+        <LazyLoad
+          root={root}
+          pollInterval={pollInterval}
+          disableMutationObserver={disableMutationObserver}
+          offset={offset}
+          rootMargin={rootMargin}
+          thresholds={thresholds}
+        >
           {({lazyLoadRef, isVisible}) =>
             placeholder && isVisible === false
               ? placeholder({lazyLoadRef})

@@ -1,4 +1,6 @@
-import 'intersection-observer'
+if (typeof window !== 'undefined') {
+  require('intersection-observer')
+}
 import React from 'react'
 import PropTypes from 'prop-types'
 import strictShallowEqual from '@render-props/utils/cjs/strictShallowEqual'
@@ -7,10 +9,11 @@ import strictShallowEqual from '@render-props/utils/cjs/strictShallowEqual'
 export default class Intersection extends React.Component {
   static propTypes = {
     root: PropTypes.any,
-    pollInterval: PropTypes.number.isRequired,
-    useMutationObserver: PropTypes.bool.isRequired,
+    pollInterval: PropTypes.number,
+    disableMutationObserver: PropTypes.bool.isRequired,
     rootMargin: PropTypes.string,
-    thresholds: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.number), PropTypes.number])
+    thresholds: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.number), PropTypes.number]),
+    initialIsIntersecting: PropTypes.bool.isRequired
   }
 
   static defaultProps = {
@@ -18,7 +21,8 @@ export default class Intersection extends React.Component {
     pollInterval: null,
     disableMutationObserver: false,
     rootMargin: '0px 0px 0px 0px',
-    thresholds: 0
+    thresholds: 0,
+    initialIsIntersecting: false
   }
 
   element = null
@@ -30,7 +34,7 @@ export default class Intersection extends React.Component {
       boundingClientRect: null,
       intersectionRatio: 0,
       intersectionRect: null,
-      isIntersecting: false,
+      isIntersecting: props.initialIsIntersecting,
       rootBounds: null,
       target: null,
       time: null
@@ -40,13 +44,22 @@ export default class Intersection extends React.Component {
   setRef = element => {
     if (this.element !== element) {
       if (this.observer) {
-        this.observer.unobserve(this.element)
+        if (this.element) {
+          this.observer.unobserve(this.element)
+        }
+
         this.element = element
-        this.observer.observe(this.element)
+
+        if (this.element) {
+          this.observer.observe(this.element)
+        }
       }
       else {
         this.element = element
-        this.createObserver()
+
+        if (this.element) {
+          this.createObserver()
+        }
       }
     }
   }
@@ -57,7 +70,7 @@ export default class Intersection extends React.Component {
       {
         root: this.props.root,
         rootMargin: this.props.rootMargin,
-        thresholds: this.props.thresholds
+        threshold: this.props.thresholds
       }
     )
 
@@ -67,9 +80,17 @@ export default class Intersection extends React.Component {
     this.observer.observe(this.element)
   }
 
-  setObserverState = ([entry]) => this.setState(entry)
+  setObserverState = ([entry]) => this.setState({
+    boundingClientRect: entry.boundingClientRect,
+    intersectionRatio: entry.intersectionRatio,
+    intersectionRect: entry.intersectionRect,
+    isIntersecting: entry.isIntersecting,
+    rootBounds: entry.rootBounds,
+    target: entry.target,
+    time: entry.time,
+  })
 
-  componentDidUpdate ({rootMargin, thresholds, pollInterval, useMutationObserver}) {
+  componentDidUpdate ({root, rootMargin, thresholds, pollInterval, useMutationObserver}) {
     if (
       root !== this.props.root
       || rootMargin !== this.props.rootMargin
@@ -83,7 +104,10 @@ export default class Intersection extends React.Component {
       pollInterval !== this.props.pollInterval
       || useMutationObserver !== this.props.useMutationObserver
     ) {
-      this.observer.unobserve(this.element)
+      if (this.element) {
+        this.observer.unobserve(this.element)
+      }
+
       this.observer.POLL_INTERVAL = this.props.pollInterval
       this.observer.USE_MUTATION_OBSERVER = this.props.useMutationObserver === false
       this.observer.observe(this.element)
