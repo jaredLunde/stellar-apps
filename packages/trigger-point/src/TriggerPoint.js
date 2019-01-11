@@ -2,11 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {callIfExists} from '@render-props/utils'
 import {ViewportConsumer} from '@render-props/viewport'
+import Intersection from '@stellar-apps/intersection'
 import emptyObj from 'empty/object'
 
 
-// TODO: https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
-// https://github.com/w3c/IntersectionObserver/tree/master/polyfill
 class TriggerPoint_ extends React.Component {
   static propTypes = {
     onEnter: PropTypes.func,
@@ -20,47 +19,53 @@ class TriggerPoint_ extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      inView: false,
+      isTriggered: false,
       direction: 0,
-      triggerPointRef: this.setRef,
-      status: 'untriggered',
-      element: null
+      triggerPointRef: props.intersectionRef,
+      status: 'untriggered'
     }
-    this.previnView = false
+    this.previsTriggered = false
   }
 
-  static getDerivedStateFromProps ({inView, direction}, state) {
-    const nextInView = state.element !== null && inView(state.element)
+  static getDerivedStateFromProps (
+    {isTriggered, direction, intersectionRef, intersectionRatio},
+    state
+  ) {
+    const nextIsTriggered = isTriggered
 
-    if (nextInView === state.inView) {
+    if (nextIsTriggered === state.isTriggered) {
       return null
     }
 
     let status = 'untriggered'
 
-    if (state.status !== 'untriggered' || nextInView === true) {
+    if (state.status !== 'untriggered' || nextIsTriggered === true) {
       if (direction === -1) {
-        status = nextInView === false ? 'exitTop' : 'enterBottom'
+        status = nextIsTriggered === false ? 'exitTop' : 'enterBottom'
       }
       else if (direction === 0) {
         status = 'exitTop'
       }
       else {
-        status = nextInView === false ? 'exitBottom' : 'enterTop'
+        status = nextIsTriggered === false ? 'exitBottom' : 'enterTop'
       }
     }
 
-    return {...state, inView: nextInView, status, direction}
+    return {
+      triggerPointRef: intersectionRef,
+      visibilityRatio: intersectionRatio,
+      isTriggered: nextIsTriggered,
+      status,
+      direction,
+    }
   }
-
-  setRef = e => this.setState({element: e})
 
   componentDidUpdate (
     {onEnter, onEnterTop, onEnterBottom, onExit, onExitTop, onExitBottom},
-    {inView}
+    {isTriggered}
   ) {
-    if (inView !== this.state.inView) {
-      if (this.state.inView === true) {
+    if (isTriggered !== this.state.isTriggered) {
+      if (this.state.isTriggered === true) {
         callIfExists(onEnter, this.state)
 
         if (this.state.direction === 1) {
@@ -88,14 +93,48 @@ class TriggerPoint_ extends React.Component {
   }
 }
 
-export default function TriggerPoint ({partial = false, leeway, ...props}) {
-  return <ViewportConsumer observe='scrollY' children={
-    ({inFullViewY, inViewY, direction}) => <TriggerPoint_
-      direction={direction.y}
-      inView={e => partial === true ? inViewY(e, leeway) : inFullViewY(e, leeway)}
-      {...props}
-    />
-  }/>
+export default function TriggerPoint (
+  {
+    root,
+    pollInterval,
+    disableMutationObserver,
+    rootMargin,
+    thresholds,
+    onEnter,
+    onExit,
+    onEnterTop,
+    onExitTop,
+    onEnterBottom,
+    onExitBottom,
+    children
+  }
+) {
+  return (
+    <Intersection
+      root={root}
+      pollInterval={pollInterval}
+      disableMutationObserver={disableMutationObserver}
+      rootMargin={rootMargin}
+      thresholds={thresholds}
+    >
+      {({isIntersecting, intersectionRef, intersectionRatio}) =>
+        <ViewportConsumer observe='scrollY' children={
+          ({direction}) => <TriggerPoint_
+            direction={direction.y}
+            isTriggered={isIntersecting}
+            intersectionRef={intersectionRef}
+            intersectionRatio={intersectionRatio}
+            onEnter={onEnter}
+            onExit={onExit}
+            onEnterTop={onEnterTop}
+            onExitTop={onExitTop}
+            onEnterBottom={onEnterBottom}
+            onExitBottom={onExitBottom}
+            children={children}
+          />
+        }/>}
+    </Intersection>
+  )
 }
 
 export function withTriggerPoint (Component, opt = emptyObj) {
