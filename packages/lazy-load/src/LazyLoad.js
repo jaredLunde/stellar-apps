@@ -3,6 +3,8 @@ import {ViewportConsumer} from '@render-props/viewport'
 import {strictShallowEqual} from '@render-props/utils'
 
 
+// TODO: https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
+// https://github.com/w3c/IntersectionObserver/tree/master/polyfill
 class LazyLoad_ extends React.Component {
   lazy = React.createRef()
   state = {visible: false}

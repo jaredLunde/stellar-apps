@@ -3,10 +3,6 @@
     ["@inst-app/react", {"removePropTypes": false}]
   ],
 
-  "plugins": [
-    "emotion"
-  ],
-
   "env": {
     "cjs": {
       "presets": ["@inst-app/esx"]

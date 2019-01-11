@@ -80,6 +80,12 @@ is set and exceeds the viewport height.
 
 A Hero component that sets the viewport's height as a `height`.
 
+------
+
+**Intersection** [**`@stellar-apps/intersection`**](./packages/intersection)
+
+A render prop component pattern which provides an interface for the `IntersectionObserver` API.
+
 ______
 
 **LazyLoad** [**`@stellar-apps/lazy-load`**](./packages/lazy-load)

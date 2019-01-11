@@ -5,6 +5,8 @@ import {ViewportConsumer} from '@render-props/viewport'
 import emptyObj from 'empty/object'
 
 
+// TODO: https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
+// https://github.com/w3c/IntersectionObserver/tree/master/polyfill
 class TriggerPoint_ extends React.Component {
   static propTypes = {
     onEnter: PropTypes.func,
