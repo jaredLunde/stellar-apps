@@ -74,10 +74,10 @@ component
 Inherits props from HTML `<img>`, `curls/Box` and `LazyLoad`
 
 ### Props
-- `placeholder(<Object {lazyLoadRef}>) {func}`
-    - Should return a component to display when the element is not yet visible
 - `rootMargin {string}`
     - **default** `160px`
+- `placeholder(<Object {lazyLoadRef}>) {func}`
+    - Should return a component to display when the element is not yet visible
     
 -----
 

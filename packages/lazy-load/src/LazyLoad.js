@@ -3,28 +3,19 @@ import Intersection from '@stellar-apps/intersection'
 
 
 class LazyLoader extends React.Component {
-  state = {
-    isVisible: false,
-    visibilityRatio: 0,
-    lazyLoadRef: null
-  }
-
-  static getDerivedStateFromProps (
-    {isIntersecting, intersectionRatio, intersectionRef},
-    {isVisible}
-  ) {
-    return {
-      isVisible: isVisible || isIntersecting,
-      visibilityRatio: intersectionRatio,
-      lazyLoadRef: intersectionRef
-    }
-  }
+  isVisible = false
 
   render () {
-    return this.props.children(this.state)
+    const {isIntersecting, intersectionRatio, intersectionRef, children} = this.props
+    this.isVisible = this.isVisible || isIntersecting
+
+    return children({
+      isVisible: this.isVisible || isIntersecting,
+      visibilityRatio: intersectionRatio,
+      lazyLoadRef: intersectionRef
+    })
   }
 }
-
 
 let WARNED = false
 
