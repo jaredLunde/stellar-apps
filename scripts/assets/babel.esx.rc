@@ -5,15 +5,8 @@
         [
           "@inst-app/esx",
           {
-            "env": {
-              "targets": {
-                "chrome": "41",
-                "ie": "11"
-              }
-            },
-            "runtime": {
-              "corejs": 2
-            }
+            "env": {"targets": {"chrome": "41", "ie": "11"}},
+            "runtime": {"corejs": 2}
           }
         ]
       ]
@@ -25,14 +18,9 @@
           {
             "env": {
               "modules": false,
-              "targets": {
-                "chrome": "41",
-                "ie": "11"
-              }
+              "targets": {"chrome": "41", "ie": "11"}
             },
-            "runtime": {
-              "corejs": 2
-            }
+            "runtime": {"corejs": 2}
           }
         ]
       ]

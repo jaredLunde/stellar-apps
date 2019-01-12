@@ -11,7 +11,7 @@
             "env": {
               "targets": {
                 "chrome": "41",
-                "ie": "11"
+                "ie": "10"
               }
             },
             "runtime": {
@@ -29,7 +29,7 @@
             "modules": false,
             "targets": {
               "chrome": "41",
-              "ie": "11"
+              "ie": "10"
             }
           },
           "runtime": {
