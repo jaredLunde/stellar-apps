@@ -1,6 +1,6 @@
 {
   "name": "@stellar-apps/intersection",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "main": "dist/cjs/index.js",
   "author": "Jared Lunde <jared@BeStellar.co> (https://BeStellar.co)",
   "license": "MIT",
@@ -21,7 +21,7 @@
     "prettier": "^1.15.3"
   },
   "dependencies": {
-    "@babel/runtime": "^7.2.0",
+    "@babel/runtime-corejs2": "^7.2.0",
     "@render-props/utils": "^0.2.9",
     "intersection-observer": "^0.5.1"
   },
