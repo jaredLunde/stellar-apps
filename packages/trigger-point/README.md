@@ -83,6 +83,7 @@ import TriggerPoint from '@stellar-apps/trigger-point'
 - `direction {number}`
     - **default** `0`
     - The direction scrolling is happening. `-1` for up, `1` for down, `0` for neutral
-- `element {DOMElement}`
-    - **default** `null`
-    - The ref'd element
+- `scrollTop {number}`
+    - **default** `0`
+    - The `y` scroll position from the top of the `@root` where the latest intersection threshold
+      was recorded.

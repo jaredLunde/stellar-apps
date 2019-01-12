@@ -34,7 +34,7 @@ export default React.memo(
         >
           {({lazyLoadRef, isVisible}) =>
             placeholder && isVisible === false
-              ? placeholder({lazyLoadRef})
+              ? placeholder({lazyLoadRef, ...props})
               : <Box
                   ref={ref ? juxt(lazyLoadRef, ref) : lazyLoadRef}
                   nodeType='img'
@@ -42,6 +42,8 @@ export default React.memo(
                   data-src={src}
                   srcSet={isVisible ? srcSet : ''}
                   data-srcset={srcSet}
+                  width={props.width ? props.width : isVisible ? void 0 : 1}
+                  height={props.height ? props.height : isVisible ? void 0 : 1}
                   {...props}
                 />
           }

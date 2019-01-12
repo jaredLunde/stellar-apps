@@ -1,10 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {callIfExists} from '@render-props/utils'
-import {ViewportConsumer} from '@render-props/viewport'
 import Intersection from '@stellar-apps/intersection'
 import emptyObj from 'empty/object'
 
+
+function getScrollTop (element) {
+  return !element
+    ? (window.scrollY || window.pageYOffset)
+    : (element.scrollTop || element.scrollY || element.pageYOffset)
+}
 
 class TriggerPoint_ extends React.Component {
   static propTypes = {
@@ -19,8 +24,9 @@ class TriggerPoint_ extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      isTriggered: false,
       direction: 0,
+      scrollTop: 0,
+      isTriggered: false,
       triggerPointRef: props.intersectionRef,
       status: 'untriggered'
     }
@@ -28,7 +34,7 @@ class TriggerPoint_ extends React.Component {
   }
 
   static getDerivedStateFromProps (
-    {isTriggered, direction, intersectionRef, intersectionRatio},
+    {root, isTriggered, intersectionRef, intersectionRatio},
     state
   ) {
     const nextIsTriggered = isTriggered
@@ -38,6 +44,8 @@ class TriggerPoint_ extends React.Component {
     }
 
     let status = 'untriggered'
+    const scrollTop = getScrollTop(root)
+    const direction = scrollTop > state.scrollTop ? 1 : -1
 
     if (state.status !== 'untriggered' || nextIsTriggered === true) {
       if (direction === -1) {
@@ -57,6 +65,7 @@ class TriggerPoint_ extends React.Component {
       isTriggered: nextIsTriggered,
       status,
       direction,
+      scrollTop
     }
   }
 
@@ -118,21 +127,20 @@ export default function TriggerPoint (
       thresholds={thresholds}
     >
       {({isIntersecting, intersectionRef, intersectionRatio}) =>
-        <ViewportConsumer observe='scrollY' children={
-          ({direction}) => <TriggerPoint_
-            direction={direction.y}
-            isTriggered={isIntersecting}
-            intersectionRef={intersectionRef}
-            intersectionRatio={intersectionRatio}
-            onEnter={onEnter}
-            onExit={onExit}
-            onEnterTop={onEnterTop}
-            onExitTop={onExitTop}
-            onEnterBottom={onEnterBottom}
-            onExitBottom={onExitBottom}
-            children={children}
-          />
-        }/>}
+        <TriggerPoint_
+          root={root}
+          isTriggered={isIntersecting}
+          intersectionRef={intersectionRef}
+          intersectionRatio={intersectionRatio}
+          onEnter={onEnter}
+          onExit={onExit}
+          onEnterTop={onEnterTop}
+          onExitTop={onExitTop}
+          onEnterBottom={onEnterBottom}
+          onExitBottom={onExitBottom}
+          children={children}
+        />
+      }
     </Intersection>
   )
 }

@@ -33,7 +33,7 @@ export default React.memo(
         >
           {({lazyLoadRef, isVisible}) => (
             placeholder && isVisible === false
-              ? placeholder({lazyLoadRef})
+              ? placeholder({lazyLoadRef, ...props})
               : <Box
                   key={String(isVisible)}
                   ref={ref ? juxt(lazyLoadRef, ref) : lazyLoadRef}
