@@ -1,6 +1,6 @@
 {
   "name": "@stellar-apps/trigger-point",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "main": "dist/cjs/index.js",
   "author": "Jared Lunde <jared@BeStellar.co> (https://BeStellar.co)",
   "license": "MIT",
@@ -22,7 +22,7 @@
     "prettier": "^1.15.3"
   },
   "dependencies": {
-    "@babel/runtime": "^7.2.0",
+    "@babel/runtime-corejs2": "^7.2.0",
     "@render-props/utils": "^0.2.9",
     "@stellar-apps/intersection": "^1.0.8",
     "empty": "^0.10.1"
