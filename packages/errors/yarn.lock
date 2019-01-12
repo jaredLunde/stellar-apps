@@ -1543,7 +1543,7 @@ csstype@^2.5.2:
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-2.6.0.tgz#6cf7b2fa7fc32aab3d746802c244d4eda71371a2"
   integrity sha512-by8hi8BlLbowQq0qtkx54d9aN73R9oUW20HISpka5kmgsR9F7nnxgfsemuR2sdCKZh+CDNf5egW9UZMm4mgJRg==
 
-curls@^1.1.4, curls@^1.1.5:
+curls@^1.1.4:
   version "1.1.5"
   resolved "https://registry.yarnpkg.com/curls/-/curls-1.1.5.tgz#8fbb2cce4b17ed96a6b0c2117253cde7f70a0f48"
   integrity sha512-QWUXxERTehfWhZpdCrHk69E7l0pyDVR/5yHarmti9Bx/Ra4T7XrE0/qTE7jc+MeiyEYyzIXBJGD/7i7IlW2A0A==
