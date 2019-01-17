@@ -109,6 +109,7 @@ export default function TriggerPoint (
     disableMutationObserver,
     rootMargin,
     thresholds,
+    minRatio,
     onEnter,
     onExit,
     onEnterTop,
@@ -129,7 +130,7 @@ export default function TriggerPoint (
       {({isIntersecting, intersectionRef, intersectionRatio}) =>
         <TriggerPoint_
           root={root}
-          isTriggered={isIntersecting}
+          isTriggered={isIntersecting && (minRatio || intersectionRatio) <= intersectionRatio}
           intersectionRef={intersectionRef}
           intersectionRatio={intersectionRatio}
           onEnter={onEnter}

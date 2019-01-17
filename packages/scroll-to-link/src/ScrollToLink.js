@@ -44,13 +44,14 @@ export class ScrollToLink_ extends React.Component {
   }
 
   render () {
-    const {to, as, scrollTo, duration, timing, offset, onClick, ...props} = this.props
+    const {to, as, scrollTo, duration, timing, offset, onClick, innerRef, ...props} = this.props
     return React.createElement(
       as,
       {
         role: 'button',
         href: `/${to}`,
         onClick: this.handleClick,
+        ref: innerRef,
         ...props
       }
     )
@@ -58,8 +59,10 @@ export class ScrollToLink_ extends React.Component {
 }
 
 
-export default function ScrollToLink (props) {
-  return <ViewportConsumer observe='scrollY' children={
-    ({scrollTo}) => <ScrollToLink_ scrollTo={scrollTo} {...props}/>
-  }/>
-}
+export default React.forwardRef(
+  function ScrollToLink (props, ref) {
+    return <ViewportConsumer observe='scrollY' children={
+      ({scrollTo}) => <ScrollToLink_ innerRef={ref} scrollTo={scrollTo} {...props}/>
+    }/>
+  }
+)

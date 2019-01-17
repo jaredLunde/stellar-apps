@@ -49,6 +49,12 @@ displaying errors in a Drawer-like fashion from the top of the viewport.
 
 ------
 
+**Fetcher** [**`@stellar-apps/fetcher`**](./packages/fetcher)
+
+A useful set of components for fetching JSON data on both the client and server side.
+
+------
+
 **Forms** [**`@stellar-apps/forms`**](./packages/forms)
 
 This package contains form-related components with helpers for `fetch`-based and `react-apollo`-based
