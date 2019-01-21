@@ -27,6 +27,10 @@ export default class Hero extends React.Component {
   }
 
   getHeight = vh => {
+    if (!vh) {
+      return '100vh'
+    }
+
     let subtract = this.headerEl ? this.headerEl.getBoundingClientRect().height : 0
     subtract += this.footerEl ? this.footerEl.getBoundingClientRect().height : 0
     return Math.min(vh - subtract, this.props.maxHeight)
