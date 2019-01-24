@@ -10,7 +10,8 @@
     "install-all": "node scripts/installAll",
     "publish-all": "node scripts/publishAll",
     "upgrade-all": "node scripts/upgradeAll",
-    "list-all": "node scripts/listAll"
+    "list-all": "node scripts/listAll",
+    "replace-all": "node scripts/replaceAll"
   },
   "license": "MIT",
   "dependencies": {

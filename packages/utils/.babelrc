@@ -3,7 +3,7 @@
     "cjs": {
       "presets": [
         [
-          "@inst-app/esx",
+          "@stellar-apps/es",
           {
             "env": {"targets": {"chrome": "41", "ie": "11"}},
             "runtime": {"corejs": 2}
@@ -14,7 +14,7 @@
     "es": {
       "presets": [
         [
-          "@inst-app/esx",
+          "@stellar-apps/es",
           {
             "env": {
               "modules": false,

@@ -1,5 +1,6 @@
 const getPackages = require('./getPackages')
 const fs = require('fs')
+const chalk = require('chalk')
 const {promisify} = require('util')
 const path = require('path')
 
@@ -21,23 +22,29 @@ function editFile (filename, find, replace, opt = {}) {
 
         const tmpSource = `${source}.tmp`
         const data = await readFile(source, 'utf8')
+        const replacement = data.replace(new RegExp(find, 'g'), replace)
+
+        if (replacement === data) {
+          return
+        }
 
         if (dry) {
           console.log(
-            `[Dry]\n`,
+            `[Dry]`,
+            '\n------------------------------------------------------------------\n',
+            chalk.bold('Found\n'),
             data,
-            '------------------------------------------------------------------',
-            data.replace(new RegExp(find, 'g'), replace),
-            '__________________________________________________________________\n\n',
+            '\n------------------------------------------------------------------\n',
+            chalk.bold('Replaced\n'),
+            replacement,
+            '\n__________________________________________________________________\n\n',
           )
+
+          return
         }
 
-        return writeFile(
-          tmpSource,
-          data.replace(new RegExp(find, 'g'), replace)
-        ).then(
-          () => rename(tmpSource, source)
-        )
+        console.log('Edited', chalk.bold(source))
+        return writeFile(tmpSource, replacement).then(() => rename(tmpSource, source))
       }
     )
   )

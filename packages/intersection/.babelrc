@@ -1,12 +1,12 @@
 {
   "presets": [
-    ["@inst-app/react", {"removePropTypes":  false}]
+    ["@stellar-apps/react", {"removePropTypes":  false}]
   ],
   "env": {
     "cjs": {
       "presets": [
         [
-          "@inst-app/esx",
+          "@stellar-apps/es",
           {
             "env": {
               "targets": {
@@ -24,7 +24,7 @@
     "es": {
       "presets": [
         [
-          "@inst-app/esx", {
+          "@stellar-apps/es", {
             "env": {
               "modules": false,
               "targets": {

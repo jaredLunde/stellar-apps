@@ -9,14 +9,17 @@ async function editAll () {
 
   if (!filename) {
     console.log(chalk.red('Error'), 'you must include a filename.')
+    return
   }
 
   if (!find) {
     console.log(chalk.red('Error'), 'you must include a second argument for `find`')
+    return
   }
 
   if (!replace) {
     console.log(chalk.red('Error'), 'you must include a second argument for `replace`')
+    return
   }
 
   const ignore = argv.ignore ? new RegExp(argv.ignore) : void 0
