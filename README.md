@@ -30,6 +30,12 @@ This package contains `react-apollo` utilities and components
 
 ------
 
+**Babel Presets** [**`@stellar-apps/babel-presets`**](./packages/babel-presets)
+
+These are the Babel presets used by `@stellar-apps` when creating packages and web applications.
+
+------
+
 **Buttons** [**`@stellar-apps/buttons`**](./packages/buttons)
 
 This package contains wrapper `Button` types around `curls/Button`
@@ -39,6 +45,14 @@ This package contains wrapper `Button` types around `curls/Button`
 **Content** [**`@stellar-apps/content`**](./packages/content)
 
 A component for establishing site-wide content widths
+
+------
+
+**createPreset** [**`@stellar-apps/create-preset`**](./packages/create-preset)
+
+Utility function for creating and maintaining [**`@stellar-apps/babel-presets`**](./packages/babel-presets).
+It allows one to define presets and plugins, turn off transforms, configure sub-presets, and impose
+granularity for `development` and `production` Babel environments.
 
 ------
 
@@ -106,6 +120,13 @@ A component that creates a "Made with 🚀 by Stellar" link.
 
 ______
 
+**Select** [**`@stellar-apps/select`**](./packages/select)
+
+A component for creating `<select>` menus which use the native `<select>` functionality 
+on touch devices while using custom functionality on all other devices.
+
+______
+
 **ScrollToLink** [**`@stellar-apps/scroll-to-link`**](./packages/scroll-to-link)
 
 A link component for scrolling to a particular querySelector on the page using an easing
@@ -122,6 +143,13 @@ ______
 **TriggerPoint** [**`@stellar-apps/trigger-point`**](./packages/trigger-point)
 
 A component for triggering events when an element enters or exits the viewport.
+
+------
+
+**Webpack** [**`@stellar-apps/webpack`**](./packages/webpack)
+
+Used for creating webpack configurations for Stellar apps with predefined `development`
+and `production` configs. Also provides a function for starting simple, fast development servers.
 
 ______
 <br/>

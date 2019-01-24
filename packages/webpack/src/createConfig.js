@@ -44,7 +44,6 @@ export default function createConfig (...configs) {
     'resolve.mainFields': 'replace'
   })(
     {
-      devtool: 'eval',
       target: target === 'lambda' ? 'node' : target,
 
       // The base directory for resolving the entry option
@@ -128,6 +127,7 @@ export default function createConfig (...configs) {
                 presets: [babelPreset]
               }
             },
+            ...babelRules,
             include: babelRules.include,
             exclude: (
               babelRules.include && babelRules.include.length
@@ -137,8 +137,6 @@ export default function createConfig (...configs) {
           }
         ]
       },
-
-      plugins: [],
 
       // Include mocks for when node.js specific modules may be required
       node: {
