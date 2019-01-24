@@ -2,7 +2,7 @@
 A babel preset for configuring ECMAScript-next features Stellar apps and packages.
 
 ## Installation
-`yarn add --dev @stellar-apps/babel-preset-react
+`yarn add --dev @stellar-apps/babel-preset-es`
 
 ## Usage
 ### `.babelrc`

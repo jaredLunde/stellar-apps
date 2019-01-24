@@ -2,7 +2,7 @@
 A babel preset for configuring React transforms in Stellar apps and packages.
 
 ## Installation
-`yarn add --dev @stellar-apps/babel-preset-react
+`yarn add --dev @stellar-apps/babel-preset-react`
 
 ## Usage
 ### `.babelrc`

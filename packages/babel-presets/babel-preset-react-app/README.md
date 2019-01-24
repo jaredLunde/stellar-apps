@@ -2,7 +2,7 @@
 A babel preset for configuring React web applications in Stellar apps.
 
 ## Installation
-`yarn add --dev @stellar-apps/babel-preset-react-app
+`yarn add --dev @stellar-apps/babel-preset-react-app`
 
 ## Usage
 ### `.babelrc`
