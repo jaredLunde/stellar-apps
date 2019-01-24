@@ -1,0 +1,16 @@
+{
+  "name": "@stellar-apps/create-preset",
+  "main": "index.js",
+  "version": "1.0.1",
+  "license": "MIT",
+  "devDependencies": {
+    "rimraf": "^2.6.2"
+  },
+  "scripts": {
+    "clean": "rimraf yarn.lock && rimraf ./node_modules"
+  },
+  "dependencies": {
+    "prettier": "^1.14.2",
+    "semver": "^5.5.1"
+  }
+}
