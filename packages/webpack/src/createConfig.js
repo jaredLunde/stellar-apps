@@ -18,9 +18,9 @@ export default function createConfig (...configs) {
   }
 
   babelPreset = babelPreset || [
-    '@stellar-apps/web-app',
+    '@stellar-apps/react-app',
     {
-      esx: {
+      es: {
         env: {
           targets: (
             target === 'node'

@@ -1,0 +1,8 @@
+yarn.lock
+node_modules
+index.dev.js
+package.dev.json
+create-package.js
+.DS_Store
+*.log
+.idea
