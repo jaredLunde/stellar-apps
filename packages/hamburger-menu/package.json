@@ -1,6 +1,6 @@
 {
   "name": "@stellar-apps/hamburger-menu",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "main": "dist/cjs/index.js",
   "author": "Jared Lunde <jared@BeStellar.co> (https://BeStellar.co)",
   "license": "MIT",
@@ -17,8 +17,8 @@
     "prettier:cjs": "yarn prettier \"dist/cjs/**/*.js\""
   },
   "devDependencies": {
-    "@inst-app/babel-preset-esx": "^1.0.15",
-    "@inst-app/babel-preset-react": "^1.0.4",
+    "@stellar-apps/babel-preset-es": "^1.0.0",
+    "@stellar-apps/babel-preset-react": "^1.0.0",
     "prettier": "^1.15.3"
   },
   "dependencies": {
