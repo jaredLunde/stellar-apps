@@ -4,7 +4,7 @@ const ora = require('ora')
 const cmd = require('node-cmd')
 const semver = require('semver')
 const {getPackages} = require('./utils')
-const argv = require('minimist')(process.argv.slice(2));
+const argv = require('minimist')(process.argv.slice(2))
 
 
 let versionBump, preId
@@ -29,7 +29,9 @@ const promises = []
 const spinner = ora(`Publishing all packages`).start()
 
 function publishAll () {
-  for (let pkg of getPackages()) {
+  const ignore = argv.ignore ? new RegExp(argv.ignore) : void 0
+
+  for (let pkg of getPackages(ignore)) {
     promises.push(
       new Promise(
         (resolve, reject) => {

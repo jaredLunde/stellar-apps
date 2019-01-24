@@ -260,7 +260,7 @@
     "@babel/helper-remap-async-to-generator" "^7.1.0"
     "@babel/plugin-syntax-async-generators" "^7.2.0"
 
-"@babel/plugin-proposal-class-properties@^7.2.3":
+"@babel/plugin-proposal-class-properties@7.3.0":
   version "7.3.0"
   resolved "https://registry.yarnpkg.com/@babel/plugin-proposal-class-properties/-/plugin-proposal-class-properties-7.3.0.tgz#272636bc0fa19a0bc46e601ec78136a173ea36cd"
   integrity sha512-wNHxLkEKTQ2ay0tnsam2z7fGZUi+05ziDJflEt3AZTP3oXLKHJp9HqhfroB/vdMvt3sda9fAbq7FsG8QPDrZBg==
@@ -657,7 +657,7 @@
     "@babel/helper-regex" "^7.0.0"
     regexpu-core "^4.1.3"
 
-"@babel/preset-env@^7.2.3":
+"@babel/preset-env@^7.3.1":
   version "7.3.1"
   resolved "https://registry.yarnpkg.com/@babel/preset-env/-/preset-env-7.3.1.tgz#389e8ca6b17ae67aaf9a2111665030be923515db"
   integrity sha512-FHKrD6Dxf30e8xgHQO0zJZpUPfVZg+Xwgz5/RdSWCbza9QLNk4Qbp40ctRoqDxml3O8RMzB1DU55SXeDG6PqHQ==
@@ -739,14 +739,14 @@
     lodash "^4.17.10"
     to-fast-properties "^2.0.0"
 
-"@inst-app/babel-preset-esx@^1.0.15":
-  version "1.0.15"
-  resolved "https://registry.yarnpkg.com/@inst-app/babel-preset-esx/-/babel-preset-esx-1.0.15.tgz#0dc0c4e19096a5ffd1f610474725e0be2869e4f4"
-  integrity sha512-TQ+srUmK+2BK7RP4mS8Y2Q9SZLxFKlYLxLc4uP4JHgDIOgwsH16gsoXi4+ibBzrruskzjAAUQ+ig73dNJbFAhw==
+"@stellar-apps/babel-preset-es@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@stellar-apps/babel-preset-es/-/babel-preset-es-1.0.0.tgz#5a2a0ad9d8a9d17b80c644277708e35c49122a8e"
+  integrity sha512-YchX0iXUjRx6w0LyHTR0WETNzfz8ZtvJm1qVkf8nWXf3DIFfEhMGL3fE08lU+ekvhCBkPQC5NDd1ZBrKME2iKA==
   dependencies:
     "@babel/cli" "^7.2.3"
     "@babel/core" "^7.2.2"
-    "@babel/plugin-proposal-class-properties" "^7.2.3"
+    "@babel/plugin-proposal-class-properties" "7.3.0"
     "@babel/plugin-proposal-export-default-from" "^7.2.0"
     "@babel/plugin-proposal-export-namespace-from" "^7.2.0"
     "@babel/plugin-proposal-logical-assignment-operators" "^7.2.0"
@@ -757,10 +757,10 @@
     "@babel/plugin-syntax-import-meta" "^7.2.0"
     "@babel/plugin-transform-object-assign" "^7.2.0"
     "@babel/plugin-transform-runtime" "^7.2.0"
-    "@babel/preset-env" "^7.2.3"
+    "@babel/preset-env" "^7.3.1"
     babel-plugin-closure-elimination "^1.3.0"
     babel-plugin-dev-expression "^0.2.1"
-    babel-plugin-macros "^2.4.3"
+    babel-plugin-macros "^2.4.5"
     cross-env "^5.2.0"
 
 abbrev@1:
@@ -960,7 +960,7 @@ babel-plugin-dev-expression@^0.2.1:
   resolved "https://registry.yarnpkg.com/babel-plugin-dev-expression/-/babel-plugin-dev-expression-0.2.1.tgz#d4a7beefefbb50e3f2734990a82a2486cf9eb9ee"
   integrity sha1-1Ke+7++7UOPyc0mQqCokhs+eue4=
 
-babel-plugin-macros@^2.4.3:
+babel-plugin-macros@^2.4.5:
   version "2.4.5"
   resolved "https://registry.yarnpkg.com/babel-plugin-macros/-/babel-plugin-macros-2.4.5.tgz#7000a9b1f72d19ceee19a5804f1d23d6daf38c13"
   integrity sha512-+/9yteNQw3yuZ3krQUfjAeoT/f4EAdn3ELwhFfDj0rTMIaoHfIdrcLePOfIaL0qmFLpIcgPIL2Lzm58h+CGWaw==

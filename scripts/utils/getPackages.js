@@ -1,8 +1,33 @@
-const fs = require('fs')
+const shell = require('shelljs')
 const path = require('path')
 
-const isDirectory = source => fs.lstatSync(source).isDirectory()
-module.exports = () => {
-  const source = path.join(__dirname, '../../packages')
-  return fs.readdirSync(source).map(name => path.join(source, name)).filter(isDirectory)
+
+module.exports = ignore => {
+  return (
+    shell.find(path.join(__dirname, '../../packages'))
+      .filter(
+        function (source) {
+          if (ignore) {
+            if (typeof ignore === 'function') {
+              if (ignore(source) === true) {
+                return false
+              }
+            }
+            else {
+              if (ignore.test(source) === true) {
+                return false
+              }
+            }
+          }
+
+          return (
+            !(source.indexOf('node_modules') > -1 || source[0] === '.')
+            && path.basename(source) === 'package.json'
+          )
+        }
+      )
+      .map(
+        source => path.dirname(source)
+      )
+  )
 }

@@ -3,7 +3,7 @@
     "cjs": {
       "presets": [
         [
-          "@inst-app/esx",
+          "@stellar-apps/es",
           {
             "env": {"targets": {"node": "11"}},
             "runtime": false
@@ -14,7 +14,7 @@
     "es": {
       "presets": [
         [
-          "@inst-app/esx",
+          "@stellar-apps/es",
           {
             "env": {
               "modules": false,

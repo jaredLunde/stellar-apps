@@ -1,3 +1,4 @@
 module.exports = {
-  getPackages: require('./getPackages')
+  getPackages: require('./getPackages'),
+  editFile: require('./editFile'),
 }

@@ -9,15 +9,18 @@
     "build-all": "node scripts/buildAll",
     "install-all": "node scripts/installAll",
     "publish-all": "node scripts/publishAll",
-    "upgrade-all": "node scripts/upgradeAll"
+    "upgrade-all": "node scripts/upgradeAll",
+    "list-all": "node scripts/listAll"
   },
   "license": "MIT",
   "dependencies": {
+    "chalk": "^2.4.2",
     "edit-json-file": "^1.2.1",
     "fs-extra": "^7.0.1",
     "minimist": "^1.2.0",
     "node-cmd": "^3.0.0",
     "ora": "^3.0.0",
-    "semver": "^5.6.0"
+    "semver": "^5.6.0",
+    "shelljs": "^0.8.3"
   }
 }
