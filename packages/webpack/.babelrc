@@ -1,0 +1,29 @@
+{
+  "env": {
+    "cjs": {
+      "presets": [
+        [
+          "@inst-app/esx",
+          {
+            "env": {"targets": {"node": "11"}},
+            "runtime": false
+          }
+        ]
+      ]
+    },
+    "es": {
+      "presets": [
+        [
+          "@inst-app/esx",
+          {
+            "env": {
+              "modules": false,
+              "targets": {"node": "11"}
+            },
+            "runtime": false
+          }
+        ]
+      ]
+    }
+  }
+}
