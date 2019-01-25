@@ -65,7 +65,7 @@ async function create (pkgName) {
           const peerDeps = []
 
           if (IS_REACT_PKG) {
-            devDeps.push('@inst-app/babel-preset-react')
+            devDeps.push('@stellar-apps/babel-preset-react')
             peerDeps.push('prop-types@^15.6.0')
             peerDeps.push('react@^16.7.0')
           }
@@ -74,7 +74,7 @@ async function create (pkgName) {
 
           cmd.get(
             `
-              yarn add --cwd ${pathName} --dev @inst-app/babel-preset-esx prettier ${devDeps.join(' ')}
+              yarn add --cwd ${pathName} --dev @stellar-apps/babel-preset-es rimraf prettier ${devDeps.join(' ')}
               yarn add --cwd ${pathName} @babel/runtime-corejs2
               ${peerDeps.length === 0 ? '' : `yarn add --cwd ${pathName} --peer ${peerDeps.join(' ')}`}
             `,

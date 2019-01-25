@@ -1,0 +1,35 @@
+{
+  "name": "@stellar-apps/ssr",
+  "version": "1.0.0",
+  "main": "dist/cjs/index.js",
+  "author": "Jared Lunde <jared@BeStellar.co> (https://BeStellar.co)",
+  "license": "MIT",
+  "sideEffects": false,
+  "module": "dist/es/index.js",
+  "repository": "https://github.com/jaredLunde/stellar-apps/tree/master/packages/ssr",
+  "scripts": {
+    "build": "yarn build:createRenderer && yarn build:deployClient && yarn build:startDevRenderer",
+    "build:createRenderer": "rimraf createRenderer && cross-env NODE_ENV=production cross-env BABEL_ENV=production babel src/createRenderer --out-dir createRenderer && yarn prettier createRenderer/*",
+    "build:deployClient": "rimraf deployClient && cross-env NODE_ENV=production cross-env BABEL_ENV=production babel src/deployClient --out-dir deployClient && yarn prettier deployClient/*",
+    "build:startDevRenderer": "rimraf startDevRenderer && cross-env NODE_ENV=production cross-env BABEL_ENV=production babel src/startDevRenderer --out-dir startDevRenderer && yarn prettier startDevRenderer/*",
+    "watch:startDevRenderer": "rimraf startDevRenderer && cross-env NODE_ENV=production cross-env BABEL_ENV=production babel src/startDevRenderer --out-dir startDevRenderer -w",
+    "prettier": "prettier --single-quote --no-semi --no-bracket-spacing --trailing-comma es5 --write"
+  },
+  "devDependencies": {
+    "@stellar-apps/babel-preset-es": "^1.0.0",
+    "prettier": "^1.16.1"
+  },
+  "dependencies": {
+    "micro": "^9.3.3",
+    "micro-cookie": "^1.1.4",
+    "micro-dev": "https://github.com/zeit/micro-dev",
+    "mime": "^2.4.0",
+    "rimraf": "^2.6.3",
+    "webpack-dev-middleware": "^3.5.1",
+    "webpack-hot-middleware": "^2.24.3",
+    "webpack-hot-server-middleware": "^0.5.0"
+  },
+  "peerDependencies": {
+    "webpack": "^4.29.0"
+  }
+}

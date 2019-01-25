@@ -1,0 +1,9 @@
+.git
+node_modules
+.DS_Store
+*.log
+dist
+.idea
+startDevRenderer
+deployClient
+createRenderer
