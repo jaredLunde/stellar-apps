@@ -86,12 +86,10 @@ module.exports = function startRenderer (
   ]
 
   // micro listener which is run after the compiler is done
-  let isBuilt = false
   function startListening (handler) {
     return function listener () {
-      if ((__DEV__ ||debug === true) && isBuilt === false) {
+      if (__DEV__ || debug === true) {
         microDev({silent, limit, host, port})(handler)
-        isBuilt = true
       }
       else {
         const server = micro(handler)
