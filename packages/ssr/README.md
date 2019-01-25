@@ -77,7 +77,7 @@ startRenderer({
 
 -----
 
-## `createRenderer(render <func>, renderError <func>)`
+### `createRenderer(render <func>, renderError <func>)`
 ### Arguments
 - `render(<options>)`
   - `options {object}`
@@ -101,7 +101,7 @@ startRenderer({
 
 -----
   
-## `withRobots(robots <string>)`
+### `withRobots(robots <string>)`
 Middleware for injecting a `robots.txt` file at `/robots.txt`
 ### Arguments
 - `robots {string}`
@@ -109,12 +109,12 @@ Middleware for injecting a `robots.txt` file at `/robots.txt`
 
 -----
 
-## `withCookies()`
+### `withCookies()`
 Middleware for injecting parsed cookies into the `req` object at `req.cookies
 
 -----
 
-## `startRenderer(options <object>)`
+### `startRenderer(options <object>)`
 Starts a server side renderer using `micro` and `webpack-dev-server` in `development` mode.
 
 ### Arguments
