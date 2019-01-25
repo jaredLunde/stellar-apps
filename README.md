@@ -140,7 +140,7 @@ A basic toolset for killing several (social, SEO) birds with one stone in non-co
 
 ------
 
-**SSR** [**`@stellar-apps/ssr`**]('./packages/ssr)
+**SSR** [**`@stellar-apps/ssr`**](./packages/ssr)
 
 Utility functions for rendering and serving React apps from the server-side
 
