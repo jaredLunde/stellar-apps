@@ -12,6 +12,7 @@ import webpack from 'webpack'
 import webpackDevMiddleware from 'webpack-dev-middleware'
 import webpackHotMiddleware from 'webpack-hot-middleware'
 import webpackHotServerMiddleware from 'webpack-hot-server-middleware'
+import {pipe} from '../createRenderer'
 
 
 function serveStatic (route, localPath) {
@@ -57,7 +58,6 @@ function createHandler (error, serverRenderer) {
   }
 }
 
-const pipe = fns => x => fns.reduce((v, f) => f(v), x)
 
 module.exports = function startRenderer (
   {
@@ -141,7 +141,7 @@ module.exports = function startRenderer (
           const serverRenderer = require(serverPath).default
           // handler
           startListening(
-            pipe(middleware)(serverRenderer({clientStats}))
+            pipe.apply(null, middleware)(serverRenderer({clientStats}))
           )()
         }
       }
@@ -190,7 +190,7 @@ module.exports = function startRenderer (
     middleware = [...middleware, devMiddleware, hotMiddleware]
     instance.waitUntilValid(
       // pipes the middleware to create a handler
-      startListening(pipe(middleware)(hotServerMiddleware))
+      startListening(pipe.apply(null, middleware)(hotServerMiddleware))
     )
   }
 }

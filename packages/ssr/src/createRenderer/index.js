@@ -115,6 +115,22 @@ function getDevice (headers) {
   return 'desktop'
 }
 
+const beautifyConfig = {
+  indent_size: 2,
+  html: {
+    end_with_newline: true,
+    indent_scripts: 'keep',
+    preserve_newlines: true,
+    inline: [],
+    eol: '\n',
+    wrap_attributes: 'aligned-multiple',
+    wrap_attributes_indent_size: 2,
+    wrap_line_length: 120,
+    content_unformatted: ['script', 'style'],
+    extra_liners: [],
+  }
+}
+
 // this creates an http handler
 export default function createRenderer(
   // function which generates the HTML markup for the app
@@ -137,10 +153,11 @@ export default function createRenderer(
     const device = getDevice(req.headers)
     const env = process.env.NODE_ENV || 'development'
     const stage = process.env.STAGE || 'development'
+    let html
 
     try {
       // sends the request with micro
-      const html = await render({
+      html = await render({
         // micro
         req,
         res,
@@ -149,17 +166,22 @@ export default function createRenderer(
         env,
         stage
       })
-      // sends the response body via micro
-      send(res, res.statusCode || 200, html)
+
+      res.statusCode = res.statusCode || 200
     }
     catch (err) {
       // gets rendered error
       res.statusCode =
         res.statusCode === 200 || res.statusCode === void 0 ? 500 : res.statusCode
-      const html = renderError ? (await renderError({req, res, err, device, env, stage})) : err
-      // returns a custom error page if there is one, otherwise just the
-      // error message
-      send(res, res.statusCode, html)
+      html = renderError ? (await renderError({req, res, err, device, env, stage})) : err
     }
+
+    // prettifies the output in dev for better debugging
+    if (__DEV__) {
+      html = require('js-beautify').html(html, beautifyConfig)
+    }
+
+    // sends the response body via micro
+    send(res, res.statusCode, html)
   }
 }
