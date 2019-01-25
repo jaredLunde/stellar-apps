@@ -21,7 +21,7 @@ if (!pkgName || pkgName === true) {
 }
 
 async function create (pkgName) {
-  const pathName = path.join(__dirname, `../packages/${pkgName}`)
+  const pathName = path.join(__dirname, '../packages/', argv.path || '', pkgName)
   let spinner = ora(`Creating ${pkgName}`).start()
 
   if (fs.existsSync(pathName)) {
@@ -33,7 +33,7 @@ async function create (pkgName) {
   await new Promise(
     (resolve, reject) => cmd.get(
       `
-          mkdir ${pathName}
+          mkdir -p ${pathName}
           mkdir ${path.join(pathName, 'src')}
           touch ${path.join(pathName, 'src/index.js')}
           cd ${pathName}

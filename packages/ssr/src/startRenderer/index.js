@@ -4,6 +4,7 @@ import boxen from 'boxen'
 import url from 'url'
 import path from 'path'
 import mime from 'mime'
+import isGzip from 'is-gzip'
 import chalk from 'chalk'
 import rimraf from 'rimraf'
 import micro, {send} from 'micro'
@@ -37,6 +38,11 @@ function serveStatic (route, localPath) {
             send(res, 500)
           } else {
             res.setHeader('Content-Type', mime.getType(filename))
+
+            if (isGzip(data)) {
+              res.setHeader('Content-Encoding', 'gzip')
+            }
+
             send(res, 200, data)
           }
         }
