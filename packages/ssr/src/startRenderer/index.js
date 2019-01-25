@@ -1,10 +1,13 @@
 import fs from 'fs'
+import ip from 'ip'
+import boxen from 'boxen'
 import url from 'url'
 import path from 'path'
 import mime from 'mime'
+import chalk from 'chalk'
 import rimraf from 'rimraf'
-import {send} from 'micro'
-import micro from 'micro-dev'
+import micro, {send} from 'micro'
+import microDev from 'micro-dev'
 import webpack from 'webpack'
 import webpackDevMiddleware from 'webpack-dev-middleware'
 import webpackHotMiddleware from 'webpack-hot-middleware'
@@ -56,7 +59,7 @@ function createHandler (error, serverRenderer) {
 
 const pipe = fns => x => fns.reduce((v, f) => f(v), x)
 
-module.exports = function startDevRenderer (
+module.exports = function startRenderer (
   {
     clientConfig, // dev webpack client config
     serverConfig, // dev webpack server config
@@ -65,7 +68,9 @@ module.exports = function startDevRenderer (
     silent = false,
     limit = '1mb',
     host = '::',
-    port = 3000
+    port = 3000,
+    // debug forces use of micro-dev in production environment
+    debug = false
   }
 ) {
   const publicPath = clientConfig.output.publicPath
@@ -84,9 +89,39 @@ module.exports = function startDevRenderer (
   let isBuilt = false
   function startListening (handler) {
     return function listener () {
-      if (isBuilt === false) {
-        micro({silent, limit, host, port: parseInt(port)})(handler)
+      if ((__DEV__ ||debug === true) && isBuilt === false) {
+        microDev({silent, limit, host, port})(handler)
         isBuilt = true
+      }
+      else {
+        const server = micro(handler)
+        server.listen(port, host, err => {
+          if (err) {
+            console.error('micro:', err.stack)
+            process.exit(1)
+          }
+
+          if (silent === false) {
+            const details = server.address()
+            const ipAddress = ip.address()
+            const url = `http://${ipAddress}:${details.port}`
+            let message = chalk.bold('\n\nmicro ')
+            message += chalk.green('production')
+            message += '\n\n'
+
+            host = host === '::' ? 'localhost' : host
+            const localURL = `http://${host}:${details.port}`
+
+            message += `${chalk.bold('Local           ')} ${localURL}\n`
+            message += `${chalk.bold('On Your Network ')} ${url}\n\n`
+
+            console.log(boxen(message, {
+              padding: 2,
+              borderColor: 'green',
+              margin: 2
+            }))
+          }
+        })
       }
     }
   }

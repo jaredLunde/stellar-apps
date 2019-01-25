@@ -4,6 +4,6 @@ node_modules
 *.log
 dist
 .idea
-/startDevRenderer
+/startRenderer
 /deployClient
 /createRenderer

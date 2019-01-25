@@ -138,6 +138,12 @@ ______
 
 A basic toolset for killing several (social, SEO) birds with one stone in non-complex meta data situations.
 
+------
+
+**SSR** [**`@stellar-apps/ssr`**]('./packages/ssr)
+
+Utility functions for rendering and serving React apps from the server-side
+
 ______
 
 **TriggerPoint** [**`@stellar-apps/trigger-point`**](./packages/trigger-point)

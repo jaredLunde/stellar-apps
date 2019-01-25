@@ -8,11 +8,11 @@
   "module": "dist/es/index.js",
   "repository": "https://github.com/jaredLunde/stellar-apps/tree/master/packages/ssr",
   "scripts": {
-    "build": "yarn build:createRenderer && yarn build:deployClient && yarn build:startDevRenderer",
+    "build": "yarn build:createRenderer && yarn build:startRenderer",
     "build:createRenderer": "rimraf createRenderer && cross-env NODE_ENV=production cross-env BABEL_ENV=production babel src/createRenderer --out-dir createRenderer && yarn prettier createRenderer/*",
-    "build:deployClient": "rimraf deployClient && cross-env NODE_ENV=production cross-env BABEL_ENV=production babel src/deployClient --out-dir deployClient && yarn prettier deployClient/*",
-    "build:startDevRenderer": "rimraf startDevRenderer && cross-env NODE_ENV=production cross-env BABEL_ENV=production babel src/startDevRenderer --out-dir startDevRenderer && yarn prettier startDevRenderer/*",
-    "watch:startDevRenderer": "rimraf startDevRenderer && cross-env NODE_ENV=production cross-env BABEL_ENV=production babel src/startDevRenderer --out-dir startDevRenderer -w",
+    "watch:createRenderer": "rimraf createRenderer && cross-env NODE_ENV=production cross-env BABEL_ENV=production babel src/createRenderer --out-dir createRenderer -w",
+    "build:startRenderer": "rimraf startRenderer && cross-env NODE_ENV=production cross-env BABEL_ENV=production babel src/startRenderer --out-dir startRenderer && yarn prettier startRenderer/*",
+    "watch:startRenderer": "rimraf startRenderer && cross-env NODE_ENV=production cross-env BABEL_ENV=production babel src/startRenderer --out-dir startRenderer -w",
     "prettier": "prettier --single-quote --no-semi --no-bracket-spacing --trailing-comma es5 --write"
   },
   "devDependencies": {
@@ -20,6 +20,10 @@
     "prettier": "^1.16.1"
   },
   "dependencies": {
+    "boxen": "^2.1.0",
+    "chalk": "^2.4.2",
+    "http-status": "^1.3.1",
+    "ip": "^1.1.5",
     "micro": "^9.3.3",
     "micro-cookie": "^1.1.4",
     "micro-dev": "https://github.com/zeit/micro-dev",
