@@ -147,7 +147,6 @@ module.exports = function startDevRenderer (
       compiler,
       {
         reload: true,
-        chunkName: 'm',
         createHandler
       }
     )
