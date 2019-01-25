@@ -1,5 +1,5 @@
 # @stellar-apps/ssr
-Utility functions for rendering and serving React apps from the server-side
+Utility functions for rendering and serving React apps from the server-side with [`micro`](https://github.com/zeit/micro)
 
 ## Installation
 `yarn add @stellar-apps/ssr`
@@ -123,7 +123,7 @@ Starts a server side renderer using `micro` and `webpack-dev-server` in `develop
         - Webpack client configuration object
     - `serverConfig {object}`
         - Webpack server configuration object
-    - `publicAssets {string{`
+    - `publicAssets {string}`
         - Path to local public assets that are otherwise not defined in your
           Webpack emitted assets
     - `silent {bool}`
@@ -139,4 +139,5 @@ Starts a server side renderer using `micro` and `webpack-dev-server` in `develop
         - **default** `3000`
         - If the port is already in use, a unique one will be assigned.
     - `debug {bool}`
+        - **default** `false`
         - Debug forces use of `micro-dev` in production environments instead of `micro`
