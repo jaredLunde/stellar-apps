@@ -141,15 +141,8 @@ function createBucketCORS (s3, {name, corsRules}) {
   }
 }
 
-async function createBucket (
-  {
-    credentials,
-    object,
-    bucket,
-    ...s3Config
-  }
-) {
-  const s3 = new aws.S3({credentials: getCredentials(credentials), ...s3Config})
+async function createBucket ({credentials, object, bucket, params = {}}) {
+  const s3 = new aws.S3({credentials: getCredentials(credentials), ...params})
   const bucketExists = await doesBucketExist(s3, bucket)
 
   if (bucketExists === false) {
@@ -170,14 +163,14 @@ async function uploadToS3 (
     credentials,
     object,
     bucket,
-    ...s3Config
+    params = {}
   }
 ) {
   const filenames =
     Array.isArray(assets)
       ? assets.map(asset => asset.name)
       : Object.keys(assets)
-  const s3 = new aws.S3({credentials: getCredentials(credentials), ...s3Config})
+  const s3 = new aws.S3({credentials: getCredentials(credentials), ...params})
   const uploads = []
 
   filenames.forEach(

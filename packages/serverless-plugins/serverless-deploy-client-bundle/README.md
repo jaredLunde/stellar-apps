@@ -65,9 +65,7 @@ custom:
 ```
 
 ## Configuring the [`AWS.S3`](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#constructor-property) constructor
-The configuration for `custom.deployClientBundle.s3` has five special properties: `object`,
-`credentials`, and `bucket`. Every other parameter provided to the configuration will be delivered
-to the `AWS.S3()` constructor as is.
+Location in config: `custom.deployClientBundle.s3.params`
 
 See the [S3() API](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#constructor-property) for
 a complete list of parameters.
@@ -75,7 +73,8 @@ a complete list of parameters.
 custom:
   deployClientBundle:
     s3:
-      maxRetries: 3
+      params:
+        maxRetries: 3
 ```
 
 ## Commands
@@ -86,19 +85,20 @@ but not when individual functions are deployed.
 #### Configuring
 Location in config: `custom.deployClientBundle.s3.bucket`
 
-There are two special properties for this configuration: `name` and `corsRules`. Any other
-property is added to the `params` of the `createBucket()` API in the `aws-sdk`.
+There are three properties for this configuration: `name`,  and `corsRules`.
 
-See the [createBucket() API](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#createBucket-property)
+See the [`createBucket()` API](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#createBucket-property)
 for more parameters.
 
 #### Parameters
 - `name {string}`
     - The name of your S3 bucket
 - `corsRules {array}`
-    - See [putBucketCors()](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#putBucketCors-property)
+    - See [putBucketCors().CORSConfiguration.CORSRules](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#putBucketCors-property)
       for parameters
-      
+- `params {object}`
+    - These are added to the `params` of the [`createBucket()` API](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#createBucket-property)
+    
 #### Example
 ```yaml
 custom:
@@ -106,6 +106,8 @@ custom:
     s3:
       bucket:
         name: test-stellar-public-0
+        params:
+          ACL: 'private'
         corsRules:
           - allowedOrigins:
               - '*'
