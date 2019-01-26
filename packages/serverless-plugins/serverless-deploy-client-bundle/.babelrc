@@ -1,0 +1,11 @@
+{
+  "presets": [
+    [
+      "@stellar-apps/es",
+      {
+        "env": {"targets": {"node": "8"}},
+        "runtime": false
+      }
+    ]
+  ]
+}
