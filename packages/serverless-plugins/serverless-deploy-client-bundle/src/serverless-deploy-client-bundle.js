@@ -40,7 +40,11 @@ async function readClientStats (filename) {
 
 function getCredentials (credentials = {}) {
   if (credentials.accessKeyId) {
-    return new aws.Credentials(credentials)
+    return new aws.Credentials(
+      credentials.accessKeyId,
+      credentials.secretAccessKey,
+      credentials.sessionToken || null
+    )
   }
 
   if (credentials.profile === void 0 && process.env.AWS_PROFILE) {
@@ -66,7 +70,8 @@ function transformParams (params) {
     const out = {}
 
     Object.keys(params).forEach(key => {
-      out[isUpperCase(key.charAt(0)) ? key : pascalCase(key)] = transformParams(params[key])
+      out[isUpperCase(key.charAt(0)) ? key : pascalCase(key)] =
+        key.toLowerCase() === 'metadata' ? params[key] : transformParams(params[key])
     })
 
     return out
