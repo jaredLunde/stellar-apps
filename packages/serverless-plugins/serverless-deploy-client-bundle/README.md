@@ -64,7 +64,7 @@ custom:
         profile: stellar-s3
 ```
 
-## Configuring AWS.S3
+## Configuring the [`AWS.S3`]((https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#constructor-property)) constructor
 The configuration for `custom.deployClientBundle.s3` has five special properties: `object`,
 `credentials`, and `bucket`. Every other parameter provided to the configuration will be delivered
 to the `AWS.S3()` constructor as is.
