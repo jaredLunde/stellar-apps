@@ -5,7 +5,6 @@
   "author": "Jared Lunde <jared@BeStellar.co> (https://BeStellar.co)",
   "license": "MIT",
   "sideEffects": false,
-  "module": "dist/es/index.js",
   "repository": "https://github.com/jaredLunde/stellar-apps/tree/master/packages/serverless-plugin-deploy-client-bundle",
   "scripts": {
     "build": "rimraf dist/cjs && cross-env NODE_ENV=production babel src --out-dir dist/cjs && npm run prettier:cjs",
@@ -21,12 +20,12 @@
     "rimraf": "^2.6.3"
   },
   "dependencies": {
-    "@babel/runtime-corejs2": "^7.3.1",
     "aws-sdk": "^2.395.0",
     "chalk": "^2.4.2",
     "change-case": "^3.1.0",
     "deepmerge": "^3.1.0",
     "is-gzip": "^2.0.0",
+    "is-plain-object": "^2.0.4",
     "mime": "^2.4.0",
     "minimatch": "^3.0.4",
     "ora": "^3.0.0",

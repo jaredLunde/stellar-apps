@@ -8,6 +8,7 @@ import readChunk from 'read-chunk'
 import chalk from 'chalk'
 import {pascalCase, isUpperCase} from 'change-case'
 import ora from 'ora'
+import isPlainObject from 'is-plain-object'
 import rimraf from 'rimraf'
 import webpack from 'webpack'
 import minimatch from 'minimatch'
@@ -61,15 +62,20 @@ function getReadStream (filename, opt) {
 }
 
 function transformParams (params) {
-  if (params) {
+  if (isPlainObject(params)) {
     const out = {}
 
     Object.keys(params).forEach(key => {
-      out[isUpperCase(key.charAt(0)) ? key : pascalCase(key)] = params[key]
+      out[isUpperCase(key.charAt(0)) ? key : pascalCase(key)] = transformParams(params[key])
     })
 
     return out
   }
+  else if (Array.isArray(params)) {
+    return params.map(transformParams)
+  }
+
+  return params
 }
 
 // replaces [filename] [basename] [file] [ext] [dirname] [publicPath] for
@@ -84,6 +90,71 @@ function fillPlaceholders (key, filename, replacements = {}) {
     .replace('[dirname]', path.dirname(filename))
   Object.keys(replacements).forEach(k => key = key.replace(`[${k}]`, replacements[k]))
   return key.replace(/^\//, '')
+}
+
+
+async function doesBucketExist (s3, {name}) {
+  try {
+    await s3.headBucket({Bucket: name}).promise()
+    return true
+  } catch (error) {
+    if (error.statusCode === 404) {
+      return false
+    }
+
+    throw error
+  }
+}
+
+async function createS3Bucket (s3, {name, corsRules, ...params}) {
+  params = {
+    Bucket: name,
+    ACL: 'private',
+    ObjectLockEnabledForBucket: false,
+    ...transformParams(params)
+  }
+
+  try {
+    const data = await s3.createBucket(params).promise()
+    await s3.waitFor('bucketExists', {Bucket: name}).promise()
+    return data
+  } catch (error) {
+    throw error
+  }
+}
+
+function createBucketCORS (s3, {name, corsRules}) {
+  if (Array.isArray(corsRules)) {
+    const params = {
+      Bucket: name,
+      CORSConfiguration: {
+        CORSRules: transformParams(corsRules)
+      }
+    }
+
+    return s3.putBucketCors(params).promise()
+  }
+}
+
+async function createBucket (
+  {
+    credentials,
+    object,
+    bucket,
+    ...s3Config
+  }
+) {
+  const s3 = new aws.S3({credentials: getCredentials(credentials), ...s3Config})
+  const bucketExists = await doesBucketExist(s3, bucket)
+
+  if (bucketExists === false) {
+    await createS3Bucket(s3, bucket)
+    await createBucketCORS(s3, bucket)
+    return true
+  }
+  else {
+    return false
+  }
 }
 
 async function uploadToS3 (
@@ -125,7 +196,7 @@ async function uploadToS3 (
 
       // creates the params object for upload()
       const params = {
-        Bucket: bucket,
+        Bucket: bucket.name,
         Body: getReadStream(absoluteName),
         ...transformParams(config.params),
         Key: fillPlaceholders(config.key, filename, {publicPath}),
@@ -153,11 +224,20 @@ module.exports = class ServerlessPlugin {
   constructor(serverless, options) {
     this.name = 'serverless-deploy-client-bundle'
     this.serverless = serverless
-    this.config = {statsFile: 'stats.json', ...serverless.service?.custom?.deployClientBundle}
+    this.config = {
+      webpackConfig: 'webpack.config.js',
+      statsFile: 'stats.json',
+      ...serverless.service?.custom?.deployClientBundle,
+      s3: {
+        credentials: {
+          profile: serverless.service?.provider?.profile
+        },
+        ...serverless.service?.custom?.deployClientBundle?.s3,
+      }
+    }
     this.servicePath = serverless.config.servicePath
     this.options = options
     this.spinner = ora({spinner: 'star2'})
-
     this.commands = {
       'create-bucket': {
         usage: 'Creates the S3 bucket referenced in the config',
@@ -200,14 +280,6 @@ module.exports = class ServerlessPlugin {
   }
 
   get webpackConfig () {
-    if (this.config === void 0 || this.config.webpackConfig === void 0) {
-      throw (
-        chalk.bold.red(`[${this.name}] error: `)
-        + `Configuration must include a path to your webpack config at: `
-        + chalk.bold(`custom.deployClientBundle.webpackConfig`)
-      )
-    }
-
     // loads the Webpack configuration from the specified location relative to the Serverless
     // service configuration
     const webpackConfig = path.join(this.servicePath, this.config.webpackConfig)
@@ -223,13 +295,12 @@ module.exports = class ServerlessPlugin {
     this.spinner.start('Building the client bundle...')
     const compiler = webpack(this.webpackConfig)
     const outputPath = this.webpackConfig.output.path
-    const publicPath = this.webpackConfig.output.publicPath || '/public/'
     // cleans up the current distribution
     rimraf.sync(outputPath)
 
     // builds the bundle in Webpack
     let clientStats = await new Promise(
-      (resolve, reject) => compiler.run(
+      resolve => compiler.run(
         (err, stats) => {
           if (err || stats.hasErrors()) {
             this.spinner.fail(chalk.bold('Compilation error'))
@@ -257,15 +328,33 @@ module.exports = class ServerlessPlugin {
 
   upload = async () => {
     // upload the bundle assets to S3
-    this.spinner.start(`Uploading bundle to ${chalk.bold(this.config.s3.bucket)}`)
+    this.validateBucketConfig()
+    this.spinner.start(`Uploading bundle to ${chalk.bold(this.config.s3.bucket.name)}`)
     const outputPath = this.webpackConfig.output.path
     const publicPath = this.webpackConfig.output.publicPath || '/public/'
     const clientStats = await readClientStats(path.join(outputPath, this.config.statsFile))
     await uploadToS3(clientStats.assets, {outputPath, publicPath, ...this.config.s3})
-    this.spinner.succeed(`Uploaded bundle to ${chalk.bold(this.config.s3.bucket)}`)
+    this.spinner.succeed(`Uploaded bundle to ${chalk.bold(this.config.s3.bucket.name)}`)
   }
 
-  createBucket = () => {
+  createBucket = async () => {
+    this.validateBucketConfig()
+    const bucketName = this.config.s3.bucket.name
+    this.spinner.start(`Creating bucket ${chalk.bold(bucketName)}`)
+    const successful = await createBucket(this.config.s3)
+
+    if (successful) {
+      this.spinner.succeed(`${chalk.bold(bucketName)} was successfully created`)
+    }
+    else {
+      this.spinner.warn(
+        `A bucket named ${chalk.bold(bucketName)} already exists. This is not be a big ` +
+        `deal if you already own the bucket.`
+      )
+    }
+  }
+
+  validateBucketConfig () {
     if (this.config?.s3?.bucket === void 0) {
       throw (
         chalk.bold.red(`[${this.name}] error: `)
@@ -273,7 +362,5 @@ module.exports = class ServerlessPlugin {
         + chalk.bold(`custom.deployClientBundle.s3.bucket`)
       )
     }
-
-    this.log(`Creating bucket ${chalk.bold(this.config.s3.bucket)}`)
   }
 }

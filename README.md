@@ -140,6 +140,12 @@ A basic toolset for killing several (social, SEO) birds with one stone in non-co
 
 ------
 
+**Serverless Plugins** [**`@stellar-apps/serverless-plugins`**](./packages/serverless-plugins)
+
+Plugins for the [`Serverless Framework`](https://github.com/serverless/serverless) used in Stellar apps and apis.
+
+------
+
 **SSR** [**`@stellar-apps/ssr`**](./packages/ssr)
 
 Utility functions for rendering and serving React apps from the server-side

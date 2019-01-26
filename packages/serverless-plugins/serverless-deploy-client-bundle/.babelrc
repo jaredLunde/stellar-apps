@@ -3,7 +3,7 @@
     [
       "@stellar-apps/es",
       {
-        "env": {"targets": {"node": "8"}},
+        "env": {"targets": {"node": "10"}},
         "runtime": false
       }
     ]
