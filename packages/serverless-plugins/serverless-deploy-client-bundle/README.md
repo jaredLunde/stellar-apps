@@ -32,7 +32,7 @@ custom:
       object:
         '**/*.js':
           # file, filename, basename, dirname, publicPath, ext
-          key: '[filename]'
+          key: 'customized/[file].key[ext]'
           params:
             contentType: 'auto'
             cacheControl: 'public, immutable, max-age=31536000'
