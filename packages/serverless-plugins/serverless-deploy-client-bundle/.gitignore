@@ -7,3 +7,4 @@ dist
 serverless.yml
 webpack.config.js
 faux-*
+.serverless
