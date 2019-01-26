@@ -1,7 +1,7 @@
 # @stellar-apps/serverless-deploy-client-bundle
-A Serverless plugin that bundles your client-side code with Webpack then uploads it to your
-public S3 bucket. This was built to be used with React SSR lambda functions, but may
-have additional uses.
+A Serverless plugin that bundles your client-side code with Webpack and uploads it to an 
+S3 bucket. This was built to be used with React SSR lambda functions, but may have additional 
+uses.
 
 ## Installation
 `yarn add @stellar-apps/serverless-deploy-client-bundle`
