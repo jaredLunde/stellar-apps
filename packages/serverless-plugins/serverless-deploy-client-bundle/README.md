@@ -85,6 +85,7 @@ but not when individual functions are deployed.
 
 #### Configuring
 Location in config: `custom.deployClientBundle.s3.bucket`
+
 There are two special properties for this configuration: `name` and `corsRules`. Any other
 property is added to the `params` of the `createBucket()` API in the `aws-sdk`.
 
