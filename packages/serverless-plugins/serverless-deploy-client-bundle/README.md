@@ -124,7 +124,7 @@ custom:
 -----
 
 ### `sls build-client`
-This command builds your client bundle in Webpack. 
+This command builds your client bundle with Webpack. 
 
 #### Configuring
 Location in config: `custom.deployClientBundle.webpack` 
