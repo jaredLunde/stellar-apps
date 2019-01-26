@@ -197,11 +197,11 @@ export default function createRenderer(
     }
 
     // prettifies the output in dev for better debugging
-    if (__DEV__) {
+    if (process.env.NODE_ENV !== 'production') {
       html = beautify ? require('js-beautify').html(html, beautify) : html
     }
 
-    if (!__DEV__) {
+    if (process.env.NODE_ENV === 'production') {
       html = minify ? require('@stellar-apps/html-minifier').minify(html, minify) : html
     }
 
