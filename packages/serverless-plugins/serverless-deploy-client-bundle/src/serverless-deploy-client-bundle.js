@@ -197,6 +197,10 @@ async function uploadToS3 (
             config = deepMerge(config, object[glob])
           }
         }
+
+        if (config.exclude === true) {
+          return
+        }
       }
 
       // creates the params object for upload()
@@ -230,9 +234,12 @@ module.exports = class ServerlessPlugin {
     this.name = 'serverless-deploy-client-bundle'
     this.serverless = serverless
     this.config = {
-      webpackConfig: 'webpack.config.js',
-      statsFile: 'stats.json',
       ...serverless.service?.custom?.deployClientBundle,
+      webpack: {
+        config: 'webpack.config.js',
+        statsFile: 'stats.json',
+        ...serverless.service?.custom?.deployClientBundle?.webpack,
+      },
       s3: {
         credentials: {
           profile: serverless.service?.provider?.profile
@@ -287,7 +294,7 @@ module.exports = class ServerlessPlugin {
   get webpackConfig () {
     // loads the Webpack configuration from the specified location relative to the Serverless
     // service configuration
-    const webpackConfig = path.join(this.servicePath, this.config.webpackConfig)
+    const webpackConfig = path.join(this.servicePath, this.config.webpack.config)
     return require(webpackConfig)
   }
 
@@ -328,7 +335,10 @@ module.exports = class ServerlessPlugin {
     )
 
     // writes the client stats to the local client dist directory
-    await writeClientStats(path.join(outputPath, this.config.statsFile), clientStats.toJson())
+    await writeClientStats(
+      path.join(outputPath, this.config.webpack.statsFile),
+      clientStats.toJson()
+    )
   }
 
   upload = async () => {
@@ -337,7 +347,9 @@ module.exports = class ServerlessPlugin {
     this.spinner.start(`Uploading bundle to ${chalk.bold(this.config.s3.bucket.name)}`)
     const outputPath = this.webpackConfig.output.path
     const publicPath = this.webpackConfig.output.publicPath || '/public/'
-    const clientStats = await readClientStats(path.join(outputPath, this.config.statsFile))
+    const clientStats = await readClientStats(
+      path.join(outputPath, this.config.webpack.statsFile)
+    )
     await uploadToS3(clientStats.assets, {outputPath, publicPath, ...this.config.s3})
     this.spinner.succeed(`Uploaded bundle to ${chalk.bold(this.config.s3.bucket.name)}`)
   }
