@@ -4,7 +4,7 @@ S3 bucket. This was built to be used with React SSR lambda functions, but may ha
 uses.
 
 ## Installation
-`yarn add @stellar-apps/serverless-deploy-client-bundle`
+`yarn add --dev @stellar-apps/serverless-deploy-client-bundle`
 
 ## Usage
 ```yaml
