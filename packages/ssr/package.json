@@ -1,6 +1,6 @@
 {
   "name": "@stellar-apps/ssr",
-  "version": "1.0.1",
+  "version": "1.0.4",
   "main": "dist/cjs/index.js",
   "author": "Jared Lunde <jared@BeStellar.co> (https://BeStellar.co)",
   "license": "MIT",
@@ -20,6 +20,7 @@
     "prettier": "^1.16.1"
   },
   "dependencies": {
+    "@stellar-apps/html-minifier": "^3.5.23",
     "boxen": "^2.1.0",
     "chalk": "^2.4.2",
     "http-status": "^1.3.1",

@@ -138,6 +138,8 @@ Starts a server side renderer using `micro` and `webpack-dev-server` in `develop
     - `port {number}`
         - **default** `3000`
         - If the port is already in use, a unique one will be assigned.
-    - `debug {bool}`
-        - **default** `false`
-        - Debug forces use of `micro-dev` in production environments instead of `micro`
+ 
+ ### Environments
+ This renderer uses `micro` when `process.env.NODE_ENV === 'production'` and `micro-dev` when
+ in `development`. To force the renderer to use `micro-dev` in production you can provide the 
+ environment variable `SSR_DEBUG=true` 

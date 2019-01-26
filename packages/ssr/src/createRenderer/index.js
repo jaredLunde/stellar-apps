@@ -115,7 +115,7 @@ function getDevice (headers) {
   return 'desktop'
 }
 
-const beautifyConfig = {
+const defaultBeautifyConfig = {
   indent_size: 2,
   html: {
     end_with_newline: true,
@@ -131,13 +131,33 @@ const beautifyConfig = {
   }
 }
 
+const defaultMinifyConfig = {
+  collapseWhitespace: true,
+  collapseBooleanAttributes: true,
+  // conservativeCollapse: true,
+  removeComments: true,
+  removeEmptyAttributes: true,
+  removeRedundantAttributes: true,
+  removeScriptTypeAttributes: true,
+  removeStyleLinkTypeAttributes: true,
+  sortAttributes: true,
+  sortClassName: true,
+  quoteCharacter: `'`,
+  minifyJS: false
+}
+
 // this creates an http handler
 export default function createRenderer(
   // function which generates the HTML markup for the app
   render,
   // callback for returning error pages
-  renderError = defaultRenderError
+  renderError = defaultRenderError,
+  // options for minify/beautify
+  options = {}
 ) {
+  const minify = options.minify || defaultMinifyConfig
+  const beautify = options.beautify || defaultBeautifyConfig
+
   return async function handler (req, res) {
     // we will always be returning HTML from this server
     res.setHeader('Content-Type', 'text/html')
@@ -178,7 +198,11 @@ export default function createRenderer(
 
     // prettifies the output in dev for better debugging
     if (__DEV__) {
-      html = require('js-beautify').html(html, beautifyConfig)
+      html = beautify ? require('js-beautify').html(html, beautify) : html
+    }
+
+    if (!__DEV__) {
+      html = minify ? require('@stellar-apps/html-minifier').minify(html, minify) : html
     }
 
     // sends the response body via micro

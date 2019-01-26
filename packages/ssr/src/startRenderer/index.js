@@ -74,9 +74,7 @@ module.exports = function startRenderer (
     silent = false,
     limit = '1mb',
     host = '::',
-    port = 3000,
-    // debug forces use of micro-dev in production environment
-    debug = false
+    port = 3000
   }
 ) {
   const publicPath = clientConfig.output.publicPath
@@ -94,10 +92,11 @@ module.exports = function startRenderer (
   // micro listener which is run after the compiler is done
   function startListening (handler) {
     return function listener () {
-      if (__DEV__ || debug === true) {
+      if (process.env.NODE_ENV !== 'production' || process.env.SSR_DEBUG === 'true') {
         microDev({silent, limit, host, port})(handler)
       }
-      else {
+
+      if (process.env.NODE_ENV === 'production' && process.env.SSR_DEBUG !== 'true') {
         const server = micro(handler)
         server.listen(port, host, err => {
           if (err) {
