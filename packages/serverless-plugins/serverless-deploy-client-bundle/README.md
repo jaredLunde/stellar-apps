@@ -173,7 +173,9 @@ appear in the `serverless.yml`, top-down. The merging algorithm can be seen
             - The `filename` without a `basename`
         - `[publicPath]`
             - The public path defined in your Webpack configuration
-- `params`
+- `exclude {bool}`
+    - If `true` any file matching this glob will not be uploaded to S3
+- `params {object}`
     - The `params` object sent in [`S3.upload()`](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#upload-property)
     - Any parameter defined in the `S3.upload()` API can be defined here.
     - **defaults**
