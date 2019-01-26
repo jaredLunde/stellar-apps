@@ -151,9 +151,9 @@ and metadata to individual files or file types with ease.
 Location in config: `custom.deployClientBundle.s3.object`
 
 #### Parameters
-Parameter groups are determined via glob patterns defined in `custom.deployClientBundle.s3.object`,
-where a pattern of `*` is applied to all files. The config for each glob is deep merged in the order they
-appear in the `serverless.yml`, top-down. The merging algorithm can be seen 
+Parameter groups are determined via [glob patterns](https://github.com/motemen/minimatch-cheat-sheet#minimatch-cheat-sheet) 
+defined in `custom.deployClientBundle.s3.object`, where a pattern of `*` is applied to all files. The config for each 
+glob is deep merged in the order they appear in the `serverless.yml`, top-down. The merging algorithm can be seen 
 [here](https://github.com/TehShrike/deepmerge#example-usage).
 
 - `key {string}`
