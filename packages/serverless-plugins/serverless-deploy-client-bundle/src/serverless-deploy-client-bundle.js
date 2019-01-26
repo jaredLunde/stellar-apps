@@ -272,10 +272,13 @@ module.exports = class ServerlessPlugin {
     }
 
     this.hooks = {
-      // 'before:package:createDeploymentArtifacts': ,
+      // runs right away on 'deploy'
       'after:package:initialize': this.createBucket,
+      // runs before deploying on 'deploy
       'before:package:createDeploymentArtifacts': () => this.build().then(this.upload),
+      // runs on 'deploy -f [func]'
       'before:deploy:function:packageFunction': () => this.build().then(this.upload),
+      // command hooks
       'build-client:build': this.build,
       'deploy-client:build': this.build,
       'deploy-client:upload': this.upload,
