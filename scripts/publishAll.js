@@ -42,11 +42,11 @@ async function publishAll () {
             cd ${pkg}
             yarn publish --new-version ${nextVersion} --no-git-tag-version
           `,
-          (err, data) => {
+          (err, result) => {
             spinner.succeed(`Published ${chalk.bold(data.name)}`)
 
             if (!err || err.code == 0) {
-              resolve(data)
+              resolve(result)
             } else {
               reject(err)
             }

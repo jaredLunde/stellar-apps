@@ -739,10 +739,10 @@
     lodash "^4.17.10"
     to-fast-properties "^2.0.0"
 
-"@stellar-apps/babel-preset-es@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@stellar-apps/babel-preset-es/-/babel-preset-es-1.0.0.tgz#5a2a0ad9d8a9d17b80c644277708e35c49122a8e"
-  integrity sha512-YchX0iXUjRx6w0LyHTR0WETNzfz8ZtvJm1qVkf8nWXf3DIFfEhMGL3fE08lU+ekvhCBkPQC5NDd1ZBrKME2iKA==
+"@stellar-apps/babel-preset-es@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@stellar-apps/babel-preset-es/-/babel-preset-es-1.0.1.tgz#c3ad5739d644246be8a9eedd31e079cd81048784"
+  integrity sha512-pul7LtHvJUCpLutEVS5gFUoAwiEuF8l6aWk2AHmUKyJnJvep+KB4cKUGcrLKTSmNnOcKXYmJkWfuwxHf8uGP2w==
   dependencies:
     "@babel/cli" "^7.2.3"
     "@babel/core" "^7.2.2"

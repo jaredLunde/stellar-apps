@@ -6,7 +6,15 @@ const dependencies = {}
 dependencies.development = {
   "@babel/preset-env": {
     version: '^7.3.1',
-    options: assign({loose: true}, 'env'),
+    options: assign(
+      {
+        loose: true,
+        useBuiltIns: 'usage',
+        ignoreBrowserslistConfig: true,
+        exclude: ['transform-typeof-symbol']
+      },
+      'env'
+    ),
     isOptional: 'env',
     isBabelPreset: true
   },

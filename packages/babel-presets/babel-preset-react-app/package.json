@@ -1,7 +1,7 @@
 {
   "name": "@stellar-apps/babel-preset-react-app",
   "main": "index.js",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "license": "MIT",
   "devDependencies": {
     "rimraf": "^2.6.2"
@@ -11,9 +11,9 @@
     "clean": "rimraf yarn.lock && rimraf ./node_modules"
   },
   "dependencies": {
-    "@stellar-apps/babel-preset-es": "^1.0.0",
+    "@stellar-apps/babel-preset-es": "^1.0.1",
     "@stellar-apps/babel-preset-react": "^1.0.0",
-    "babel-plugin-emotion": "^10.0.6",
+    "@emotion/babel-preset-css-prop": "^10.0.6",
     "babel-plugin-polished": "^1.1.0"
   }
 }

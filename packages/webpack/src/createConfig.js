@@ -1,40 +1,118 @@
 import webpack from 'webpack'
 import merge from 'webpack-merge'
+import path from 'path'
 
+
+const absoluteRuntime = path.dirname(
+  require.resolve('@babel/runtime-corejs2/package.json')
+)
+
+function getBabelDefaultsWithPresets (presets, {include, exclude}) {
+  const isProd = process.env.NODE_ENV === 'production'
+
+  return [
+    // Internal dependencies
+    {
+      test: /(\.js|\.jsx)$/,
+      use: {
+        loader: 'babel',
+        options: {
+          presets,
+          cacheCompression: isProd,
+          compact: isProd,
+          cacheDirectory: true,
+          babelrc: false,
+          configFile: false
+        }
+      },
+      include: include,
+      exclude: (
+        include && include.length
+          ? void 0
+          : (exclude || /(node_modules|bower_components)/)
+      )
+    }
+  ]
+}
+
+function getBabelForWeb (target, babelOverride) {
+  const isProd = process.env.NODE_ENV === 'production'
+  const presets = [
+    [
+      '@stellar-apps/react-app',
+      {
+        es: {
+          runtime: {absoluteRuntime}
+        }
+      }
+    ]
+  ]
+
+  return [
+    ...getBabelDefaultsWithPresets(presets, babelOverride),
+    // External dependencies
+    {
+      test: /\.(js|mjs)$/,
+      exclude: /@babel(?:\/|\\{1,2})runtime|core-js|warning/,
+      loader: 'babel',
+      options: {
+        presets,
+        sourceType: 'unambiguous',
+        cacheCompression: isProd,
+        cacheDirectory: true,
+        sourceMaps: false,
+        compact: false,
+        babelrc: false,
+        configFile: false
+      }
+    }
+  ]
+}
+
+function getBabelForNode (target, babelOverride) {
+  const isProd = process.env.NODE_ENV === 'production'
+  const presets = [
+    [
+      '@stellar-apps/react-app',
+      {
+        env: {
+          targets: target === 'lambda' ? {'node': '8.10'} : {'node': 'current'}
+        },
+        es: {
+          runtime: {absoluteRuntime}
+        }
+      }
+    ]
+  ]
+
+  return [
+    {
+      test: /\.mjs$/,
+      include: /node_modules/,
+      type: 'javascript/auto',
+    },
+    ...getBabelDefaultsWithPresets(presets, babelOverride)
+  ]
+}
+
+function defaultGetBabelRules (target, babelOverride) {
+  return target === 'node' || target === 'lambda'
+    ? getBabelForNode(target, babelOverride)
+    : getBabelForWeb(target, babelOverride)
+}
 
 export default function createConfig (...configs) {
   let {
     target = 'web',
     rootImportSrc,
-    // this opt is here because webpack-merge doesn't understand
-    // rule merging when 'include' or 'exclude' are defined :eyeroll:
-    babelRules = {},
-    babelPreset,
+    babelOverride = {},
+    getBabelRules = defaultGetBabelRules,
     ...config
   } = merge.smartStrategy({'module.rules': 'prepend'})(...configs)
 
   if (rootImportSrc === void 0) {
     throw new Error(`Must define 'config.rootImportSrc' in your development config for: ${config.name}`)
   }
-
-  babelPreset = babelPreset || [
-    '@stellar-apps/react-app',
-    {
-      es: {
-        env: {
-          targets: (
-            target === 'node'
-              ? {'node': 'current'}
-              : target === 'lambda'
-                ? {'node': '8.10'}
-                : process.env.NODE_ENV === 'production'
-                  ? {browsers: 'last 2 versions'}
-                  : {ie: 11, chrome: 41}
-          )
-        }
-      }
-    }
-  ]
 
   const mainFields =
     target === 'web'
@@ -77,11 +155,6 @@ export default function createConfig (...configs) {
       module: {
         rules: [
           {
-            test: /\.mjs$/,
-            include: /node_modules/,
-            type: 'javascript/auto',
-          },
-          {
             type: 'javascript/auto',
             test: /public\/.*\.(json|js)$/,
             use: [
@@ -94,12 +167,6 @@ export default function createConfig (...configs) {
               }
             ],
             exclude: /(node_modules|bower_components)/
-            // include: stellar.include,
-            // exclude: (
-            //   stellar.include && stellar.include.length
-            //     ? void 0
-            //     : (stellar.exclude || /(node_modules|bower_components)/)
-            // )
           },
           {
             test: /public(?:(?!\/json\/))\/.*$/,
@@ -113,35 +180,8 @@ export default function createConfig (...configs) {
               }
             ],
             exclude: /(node_modules|bower_components)/
-            //include: stellar.include,
-            //exclude: (
-            //  stellar.include && stellar.include.length
-            //    ? void 0
-            //    : (stellar.exclude || /(node_modules|bower_components)/)
-            //)
           },
-          {
-            test: /(\.js|\.jsx)$/,
-            use: {
-              loader: 'babel',
-              options: {
-                babelrc: false,
-                configFile: false,
-                cacheDirectory: true,
-                cacheCompression: process.env.NODE_ENV === 'production',
-                compact: process.env.NODE_ENV === 'production',
-                ignoreBrowserslistConfig: true,
-                presets: [babelPreset]
-              }
-            },
-            ...babelRules,
-            include: babelRules.include,
-            exclude: (
-              babelRules.include && babelRules.include.length
-                ? void 0
-                : (babelRules.exclude || /(node_modules|bower_components)/)
-            )
-          }
+          ...getBabelRules(target, babelOverride)
         ]
       },
 

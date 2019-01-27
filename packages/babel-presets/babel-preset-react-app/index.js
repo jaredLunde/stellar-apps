@@ -1,4 +1,4 @@
-// v1.0.1 // 1/26/2019 //
+// v1.0.3 // 1/27/2019 //
 
 function req(plugin) {
   var module = require(plugin)
@@ -45,22 +45,29 @@ module.exports = function(api, opt) {
           req('@stellar-apps/babel-preset-es'),
           deepAssign(
             {
-              env: {useBuiltIns: 'usage', loose: true, modules: false},
-              runtime: {corejs: 2},
+              env: {
+                useBuiltIns: 'usage',
+                loose: true,
+                modules: false,
+                ignoreBrowserslistConfig: true,
+                exclude: ['transform-typeof-symbol'],
+                targets: {ie: 11, chrome: 41},
+              },
+              runtime: {corejs: 2, helpers: true, useESModules: true},
             },
             opt.es,
           ),
         ],
         [req('@stellar-apps/babel-preset-react'), Object.assign({}, opt.react)],
-      ],
-
-      plugins: [
         opt.emotion === false
           ? {}
           : [
-              req('babel-plugin-emotion'),
+              req('@emotion/babel-preset-css-prop'),
               Object.assign({sourceMap: false, hoist: true}, opt.emotion),
             ],
+      ],
+
+      plugins: [
         opt.polished === false ? {} : [req('babel-plugin-polished'), {}],
       ],
     }
@@ -71,22 +78,29 @@ module.exports = function(api, opt) {
           req('@stellar-apps/babel-preset-es'),
           deepAssign(
             {
-              env: {useBuiltIns: 'usage', loose: true, modules: false},
-              runtime: {corejs: 2},
+              env: {
+                useBuiltIns: 'usage',
+                loose: true,
+                modules: false,
+                ignoreBrowserslistConfig: true,
+                exclude: ['transform-typeof-symbol'],
+                targets: {browsers: 'last 2 versions'},
+              },
+              runtime: {corejs: 2, helpers: false, useESModules: true},
             },
             opt.es,
           ),
         ],
         [req('@stellar-apps/babel-preset-react'), Object.assign({}, opt.react)],
-      ],
-
-      plugins: [
         opt.emotion === false
           ? {}
           : [
-              req('babel-plugin-emotion'),
+              req('@emotion/babel-preset-css-prop'),
               Object.assign({sourceMap: true}, opt.emotion),
             ],
+      ],
+
+      plugins: [
         opt.polished === false ? {} : [req('babel-plugin-polished'), {}],
       ],
     }

@@ -1,6 +1,6 @@
 {
   "name": "@stellar-apps/fetcher",
-  "version": "1.0.3",
+  "version": "2.0.0",
   "main": "dist/cjs/index.js",
   "author": "Jared Lunde <jared@BeStellar.co> (https://BeStellar.co)",
   "license": "MIT",
@@ -17,12 +17,13 @@
     "prettier:cjs": "yarn prettier \"dist/cjs/**/*.js\""
   },
   "devDependencies": {
-    "@stellar-apps/babel-preset-es": "^1.0.0",
+    "@stellar-apps/babel-preset-es": "^1.0.1",
     "@stellar-apps/babel-preset-react": "^1.0.0",
     "prettier": "^1.15.3"
   },
   "dependencies": {
-    "@babel/runtime-corejs2": "^7.2.0",
+    "@babel/runtime": "^7.3.1",
+    "@babel/runtime-corejs2": "^7.3.1",
     "@jaredlunde/react-tree-walker": "^4.3.7",
     "cancelable-promise": "^2.4.1",
     "cdll-memoize": "^0.1.8",

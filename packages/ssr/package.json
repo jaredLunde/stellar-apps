@@ -1,6 +1,6 @@
 {
   "name": "@stellar-apps/ssr",
-  "version": "1.0.5",
+  "version": "2.0.0",
   "main": "dist/cjs/index.js",
   "author": "Jared Lunde <jared@BeStellar.co> (https://BeStellar.co)",
   "license": "MIT",
@@ -16,7 +16,7 @@
     "prettier": "prettier --single-quote --no-semi --no-bracket-spacing --trailing-comma es5 --write"
   },
   "devDependencies": {
-    "@stellar-apps/babel-preset-es": "^1.0.0",
+    "@stellar-apps/babel-preset-es": "^1.0.1",
     "prettier": "^1.16.1"
   },
   "dependencies": {

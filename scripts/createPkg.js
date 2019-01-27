@@ -75,7 +75,7 @@ async function create (pkgName) {
           cmd.get(
             `
               yarn add --cwd ${pathName} --dev @stellar-apps/babel-preset-es rimraf prettier ${devDeps.join(' ')}
-              yarn add --cwd ${pathName} @babel/runtime-corejs2
+              yarn add --cwd ${pathName} @babel/runtime-corejs2 @babel/runtime
               ${peerDeps.length === 0 ? '' : `yarn add --cwd ${pathName} --peer ${peerDeps.join(' ')}`}
             `,
             async (err, data, stderr) => {

@@ -20,6 +20,7 @@ async function buildAll () {
     pkgJson = JSON.parse(pkgJson)
 
     if (pkgJson.scripts === void 0 || pkgJson.scripts.build === void 0) {
+      spinner.warn(`Skipped ${chalk.bold(pkgName)}`)
       continue
     }
 

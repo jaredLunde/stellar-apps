@@ -1,4 +1,4 @@
-// v1.0.16 // 1/24/2019 //
+// v1.0.2 // 1/27/2019 //
 
 function req(plugin) {
   var module = require(plugin)
@@ -43,7 +43,18 @@ module.exports = function(api, opt) {
       presets: [
         opt.env === false
           ? {}
-          : [req('@babel/preset-env'), Object.assign({loose: true}, opt.env)],
+          : [
+              req('@babel/preset-env'),
+              Object.assign(
+                {
+                  loose: true,
+                  useBuiltIns: 'usage',
+                  ignoreBrowserslistConfig: true,
+                  exclude: ['transform-typeof-symbol'],
+                },
+                opt.env,
+              ),
+            ],
       ],
 
       plugins: [
@@ -76,7 +87,18 @@ module.exports = function(api, opt) {
       presets: [
         opt.env === false
           ? {}
-          : [req('@babel/preset-env'), Object.assign({loose: true}, opt.env)],
+          : [
+              req('@babel/preset-env'),
+              Object.assign(
+                {
+                  loose: true,
+                  useBuiltIns: 'usage',
+                  ignoreBrowserslistConfig: true,
+                  exclude: ['transform-typeof-symbol'],
+                },
+                opt.env,
+              ),
+            ],
       ],
 
       plugins: [
