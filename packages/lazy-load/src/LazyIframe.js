@@ -37,7 +37,7 @@ export default React.memo(
               : <Box
                   key={String(isVisible)}
                   ref={ref ? juxt(lazyLoadRef, ref) : lazyLoadRef}
-                  nodeType='iframe'
+                  as='iframe'
                   d='block'
                   src={isVisible ? src : ''}
                   data-src={src}

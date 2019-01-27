@@ -26,8 +26,10 @@ export default function createConfig (...configs) {
             target === 'node'
               ? {'node': 'current'}
               : target === 'lambda'
-              ? {'node': '8.10'}
-              : {ie: 11, chrome: 41}
+                ? {'node': '8.10'}
+                : process.env.NODE_ENV === 'production'
+                  ? {browsers: 'last 2 versions'}
+                  : {ie: 11, chrome: 41}
           )
         }
       }
@@ -123,7 +125,12 @@ export default function createConfig (...configs) {
             use: {
               loader: 'babel',
               options: {
+                babelrc: false,
+                configFile: false,
                 cacheDirectory: true,
+                cacheCompression: process.env.NODE_ENV === 'production',
+                compact: process.env.NODE_ENV === 'production',
+                ignoreBrowserslistConfig: true,
                 presets: [babelPreset]
               }
             },
@@ -143,7 +150,11 @@ export default function createConfig (...configs) {
         fs: 'empty',
         vm: 'empty',
         net: 'empty',
-        tls: 'empty'
+        tls: 'empty',
+        url: 'empty',
+        path: 'empty',
+        querystring: 'empty',
+        process: true
       }
     },
     config

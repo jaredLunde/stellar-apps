@@ -26,9 +26,9 @@ dependencies.development = {
     isBabelPreset: true,
     options: assign({}, 'react')
   },
-  "babel-plugin-emotion": {
+  "@emotion/babel-preset-css-prop": {
     "version": "^10.0.6",
-    isBabelPlugin: true,
+    isBabelPreset: true,
     options: assign({"sourceMap": true}, 'emotion'),
     isOptional: 'emotion'
   },
@@ -40,7 +40,7 @@ dependencies.development = {
 }
 
 extendProd(dependencies, {
-  "babel-plugin-emotion": {
+  "@emotion/babel-preset-css-prop": {
     options: assign({"sourceMap": false, "hoist": true}, 'emotion')
   }
 })

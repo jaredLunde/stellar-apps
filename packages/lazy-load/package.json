@@ -1,6 +1,6 @@
 {
   "name": "@stellar-apps/lazy-load",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "main": "dist/cjs/index.js",
   "author": "Jared Lunde <jared@BeStellar.co> (https://BeStellar.co)",
   "license": "MIT",
@@ -27,7 +27,7 @@
     "juxt": "^3.0.3"
   },
   "peerDependencies": {
-    "curls": "^1.1.5",
+    "curls": "^2.0.1",
     "prop-types": "^15.6.0",
     "react": "^16.7.0"
   }

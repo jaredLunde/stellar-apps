@@ -27,7 +27,7 @@
   },
   "peerDependencies": {
     "@emotion/core": "^10.0.6",
-    "curls": "^1.1.5",
+    "curls": "^2.0.1",
     "prop-types": "^15.6.0",
     "react": "^16.7.0"
   }

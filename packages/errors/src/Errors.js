@@ -42,7 +42,7 @@ export class ErrorsProvider extends React.Component {
 export function ErrorBox ({n, id, code, message, ...props}) {
   return (
     <Row
-      nodeType='li'
+      as='li'
       wrap='no'
       align='center'
       p={3}

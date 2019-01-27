@@ -37,7 +37,7 @@ export default React.memo(
               ? placeholder({lazyLoadRef, ...props})
               : <Box
                   ref={ref ? juxt(lazyLoadRef, ref) : lazyLoadRef}
-                  nodeType='img'
+                  as='img'
                   src={isVisible ? src : ''}
                   data-src={src}
                   srcSet={isVisible ? srcSet : ''}

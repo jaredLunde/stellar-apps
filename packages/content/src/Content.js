@@ -1,9 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {createComponent, renderNode, FlexBox} from 'curls'
+import {css} from '@emotion/core'
 
 
-const nodeType = 'div'
+const as = 'div'
 const defaultCSS = css`
   width: 100%;
   margin-left: auto;
@@ -40,7 +41,7 @@ export default React.forwardRef(
       children: function (boxProps) {
         boxProps.children = function (nodeProps) {
           nodeProps.children = props.children
-          nodeProps.nodeType = nodeProps.nodeType || nodeType
+          nodeProps.as = nodeProps.as || as
           delete nodeProps.__base
 
           return renderNode(nodeProps, defaultCSS)
