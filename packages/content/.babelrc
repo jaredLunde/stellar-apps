@@ -2,6 +2,9 @@
   "presets": [
     ["@stellar-apps/react", {"removePropTypes":  false}]
   ],
+  "plugins": [
+    ["emotion", {"sourceMap": false, "hoist": true, "autoLabel":  false}]
+  ],
   "env": {
     "cjs": {
       "presets": [

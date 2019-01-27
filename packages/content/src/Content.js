@@ -1,5 +1,4 @@
 import React from 'react'
-import {css} from 'emotion'
 import PropTypes from 'prop-types'
 import {createComponent, renderNode, FlexBox} from 'curls'
 

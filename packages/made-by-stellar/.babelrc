@@ -3,7 +3,7 @@
     ["@stellar-apps/react", {"removePropTypes":  false}]
   ],
   "plugins": [
-    "emotion"
+    ["emotion", {"sourceMap": false, "hoist": true, "autoLabel":  false}]
   ],
   "env": {
     "cjs": {

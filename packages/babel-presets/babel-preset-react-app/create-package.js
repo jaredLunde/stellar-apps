@@ -27,7 +27,7 @@ dependencies.development = {
     options: assign({}, 'react')
   },
   "babel-plugin-emotion": {
-    "version": "^9.2.11",
+    "version": "^10.0.6",
     isBabelPlugin: true,
     options: assign({"sourceMap": true}, 'emotion'),
     isOptional: 'emotion'
