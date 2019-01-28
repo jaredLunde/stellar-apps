@@ -22,17 +22,19 @@ custom:
 ```
 
 ## Options
-When both `include` and `exclude` options are defined `exclude` will take precedence over `include`. 
+`NOTE:` When both `include` and `exclude` options are defined `exclude` will take precedence over `include`. 
 That is, you cannot define both at the same time.
 - `path {string}`
     - **default** `.env.[--stage] || .env`
     - The path to your `.env` file relative to your `serverless.yml` file
-    
 - `exclude {array|object}`
     - An array of glob patterns which only exclude environment variables whose name match
       the glob
-
-### Examples
+- `include {array|object}`
+    - An array of glob patterns which only include environment variables whose name match
+      the glob
+  
+### Examples using `exclude`
 Excludes all environment variables that start with `SERVERLESS` from all functions
 ```yaml
 # serverless.yml
@@ -57,12 +59,8 @@ custom:
       main: 
         - 'SERVERLESS*'
 ```
-   
-- `include {array|object}`
-    - An array of glob patterns which only include environment variables whose name match
-      the glob
-  
-### Examples
+
+### Examples using `include`
 Includes all environment variables that start with `APP` in all functions
 ```yaml
 # serverless.yml
