@@ -55,7 +55,7 @@ async function create (pkgName) {
           pkgJson.set('scripts.build', 'yarn run build:es && yarn run build:cjs')
           pkgJson.set('scripts.build:es', 'rimraf dist/es && cross-env NODE_ENV=production BABEL_ENV=es babel src --out-dir dist/es && npm run prettier:es')
           pkgJson.set('scripts.build:cjs', 'rimraf dist/cjs && cross-env NODE_ENV=production BABEL_ENV=cjs babel src --out-dir dist/cjs && npm run prettier:cjs')
-          pkgJson.set('scripts.watch:es', 'rimraf dist/es && cross-env NODE_ENV=production BABEL_ENV=dist/es babel src -w --out-dir dist/es')
+          pkgJson.set('scripts.watch:es', 'rimraf dist/es && cross-env NODE_ENV=production BABEL_ENV=es babel src -w --out-dir dist/es')
           pkgJson.set('scripts.prettier', 'prettier --single-quote --no-semi --no-bracket-spacing --trailing-comma es5 --write')
           pkgJson.set('scripts.prettier:es', 'yarn prettier \"dist/es/**/*.js\"')
           pkgJson.set('scripts.prettier:cjs', 'yarn prettier \"dist/cjs/**/*.js\"')

@@ -1,10 +1,9 @@
 {
   "name": "@stellar-apps/serverless-deploy-client-bundle",
   "version": "1.0.0",
-  "main": "dist/cjs/index.js",
+  "main": "dist/cjs/serverless-deploy-client-bundle.js",
   "author": "Jared Lunde <jared@BeStellar.co> (https://BeStellar.co)",
   "license": "MIT",
-  "sideEffects": false,
   "repository": "https://github.com/jaredLunde/stellar-apps/tree/master/packages/serverless-plugin-deploy-client-bundle",
   "scripts": {
     "build": "rimraf dist/cjs && cross-env NODE_ENV=production babel src --out-dir dist/cjs && npm run prettier:cjs",

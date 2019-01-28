@@ -1,0 +1,24 @@
+{
+  "name": "@stellar-apps/scripts",
+  "version": "1.0.0",
+  "main": "dist/cjs/index.js",
+  "author": "Jared Lunde <jared@BeStellar.co> (https://BeStellar.co)",
+  "license": "MIT",
+  "sideEffects": false,
+  "repository": "https://github.com/jaredLunde/stellar-apps/tree/master/packages/stellar-scripts",
+  "scripts": {
+    "build": "rimraf dist/cjs && cross-env NODE_ENV=production babel src --out-dir dist/cjs && npm run prettier:cjs",
+    "watch": "rimraf dist/cjs && cross-env NODE_ENV=production babel src -w --out-dir dist/cjs",
+    "prettier": "prettier --single-quote --no-semi --no-bracket-spacing --trailing-comma es5 --write",
+    "prettier:cjs": "yarn prettier \"dist/cjs/**/*.js\""
+  },
+  "devDependencies": {
+    "@stellar-apps/babel-preset-es": "^1.0.1",
+    "prettier": "^1.16.1",
+    "rimraf": "^2.6.3"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.3.1",
+    "@babel/runtime-corejs2": "^7.3.1"
+  }
+}

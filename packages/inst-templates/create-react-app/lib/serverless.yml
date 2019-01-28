@@ -1,0 +1,100 @@
+service: <:ROOT_NAME:>-<:PKG_NAME:>
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  stage: ${opt:stage, 'development'}
+  profile: ${env:SERVERLESS__PROFILE}
+  region: us-east-1
+  versionFunctions: false
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "cloudformation:DescribeStackResource"
+      Resource: "*"
+
+functions:
+  main:
+    handler: render.main
+    memorySize: ${env:SERVERLESS__MEMORY_SIZE}
+    timeout: 12
+    events:
+      - http: GET /
+      - http: 'GET {proxy+}'
+    package:
+      include:
+        - package.json
+        - dist/server/*
+        - README.md
+    environment:
+      STAGE: ${self:provider.stage}
+      PLATFORM: server
+    tags:
+      STAGE: ${self:provider.stage}
+
+plugins:
+  # Loads environment variables defined in .env.[--stage]
+  - @stellar-apps/serverless-dotenv
+  - serverless-content-encoding
+  - serverless-apigw-binary
+  - serverless-domain-manager
+  # Deploys the client-side bundle to S3
+  - @stellar-apps/serverless-deploy-client-bundle
+  # Packages the server-side bundle
+  - serverless-webpack
+
+custom:
+  # Bundle creation
+  webpack:
+    webpackConfig: 'webpack/server.config.js'
+    includeModules: true
+    packager: 'yarn'
+    packagerOptions:
+      noFrozenLockFile: true
+  # Sets up the domain name in Route 53 an attaches API Gateway to the certificate
+  customDomain:
+    domainName: ${env:DOMAIN}
+    stage: ${self:provider.stage}
+    basePath: ''
+    createRoute53Record: true
+  # Allows API Gateway to Gzip
+  contentEncoding:
+    minimumCompressionSize: 2048
+  # Sets up binary media types in API Gateway -> Settings
+  apigwBinary:
+    types:
+      - 'application/json'
+      - 'text/html'
+      - 'text/plain'
+  # Defines settings for client-side bundle objects and the S3 bucket
+  deployClientBundle:
+    s3:
+      params:
+        maxRetries: 5
+      bucket:
+        name: ${env:SERVERLESS__S3_BUCKET}
+        params:
+          ACL: 'private'
+        corsRules:
+          - allowedOrigins:
+              - ${env:DOMAIN}
+            allowedHeaders:
+              - '*'
+            allowedMethods:
+              - GET
+            exposeHeaders:
+              - x-amz-server-side-encryption
+              - x-amz-request-id
+            maxAgeSeconds: 86400
+      object:
+        '**/*.js':
+          # file, filename, basename, dirname, publicPath, ext
+          key: '[filename]'
+          params:
+            ACL: 'public-read'
+            contentType: 'auto'
+            cacheControl: 'public, immutable, max-age=31536000'
+        '*':
+          params:
+            metadata:
+              stellar: yes

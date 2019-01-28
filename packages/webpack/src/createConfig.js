@@ -91,7 +91,23 @@ function getBabelForNode (target, babelOverride) {
       include: /node_modules/,
       type: 'javascript/auto',
     },
-    ...getBabelDefaultsWithPresets(presets, babelOverride)
+    ...getBabelDefaultsWithPresets(presets, {babelOverride}),
+    // External dependencies
+    {
+      test: /\.(js|mjs)$/,
+      exclude: /@babel(?:\/|\\{1,2})runtime|core-js|warning/,
+      loader: 'babel',
+      options: {
+        presets,
+        sourceType: 'unambiguous',
+        cacheCompression: isProd,
+        cacheDirectory: true,
+        sourceMaps: false,
+        compact: false,
+        babelrc: false,
+        configFile: false
+      }
+    }
   ]
 }
 

@@ -1,0 +1,8 @@
+node_modules
+.babelrc
+*.log
+.idea
+serverless.yml
+webpack.config.js
+.serverless
+.env*

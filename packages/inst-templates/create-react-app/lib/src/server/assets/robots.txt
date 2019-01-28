@@ -1,0 +1,44 @@
+User-agent: Applebot
+Disallow:
+
+User-agent: baiduspider
+Disallow:
+
+User-agent: Bingbot
+Disallow:
+
+User-agent: DuckDuckBot
+Disallow:
+
+User-agent: Googlebot
+Disallow:
+
+User-agent: ia_archiver
+Disallow:
+
+User-agent: msnbot
+Disallow:
+
+User-agent: Naverbot
+Disallow:
+
+User-agent: seznambot
+Disallow:
+
+User-agent: Slurp
+Disallow:
+
+User-agent: teoma
+Disallow:
+
+User-agent: Twitterbot
+Disallow:
+
+User-agent: Yandex
+Disallow:
+
+User-agent: Yeti
+Disallow:
+
+User-agent: *
+Disallow: /
