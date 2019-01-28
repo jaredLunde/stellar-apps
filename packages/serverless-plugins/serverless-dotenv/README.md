@@ -22,7 +22,7 @@ custom:
 ```
 
 ## Options
-`NOTE:` When both `include` and `exclude` options are defined `exclude` will take precedence over `include`. 
+**NOTE:** When both `include` and `exclude` options are defined `exclude` will take precedence over `include`. 
 That is, you cannot define both at the same time.
 - `path {string}`
     - **default** `.env.[--stage] || .env`
