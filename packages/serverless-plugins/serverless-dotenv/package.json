@@ -18,6 +18,9 @@
     "rimraf": "^2.6.3"
   },
   "dependencies": {
-
+    "chalk": "^2.4.2",
+    "dotenv": "^6.2.0",
+    "dotenv-expand": "^4.2.0",
+    "minimatch": "^3.0.4"
   }
 }
