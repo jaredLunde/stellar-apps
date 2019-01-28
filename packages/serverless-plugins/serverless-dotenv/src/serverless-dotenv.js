@@ -56,19 +56,9 @@ module.exports = class ServerlessPlugin {
 
     this.log(chalk.bold(path))
     let variables = dotenvExpand(dotenv.config({path})).parsed
+    const {functions} = this.serverless.service
 
     if (variables) {
-      // Attaches all of the environment variables to Serverless's list of environment variables
-      // so you can use them in your config.
-      Object.keys(variables).forEach(
-        key => {
-          this.log('  ⇢ ' + key)
-          this.serverless.service.provider.environment[key] = variables[key]
-        }
-      )
-
-      const {functions} = this.serverless.service
-
       if (this?.config?.exclude) {
         Object.keys(functions).forEach(fn => {
           assignEnv(
@@ -102,13 +92,13 @@ module.exports = class ServerlessPlugin {
           fn => assignEnv(functions[fn], variables, Object.keys(variables))
         )
       }
-
-      Object.keys(functions).forEach(fn => {
-        this.log(`${chalk.bold(fn)} environment`)
-        Object.keys(functions[fn].environment || {}).forEach(key => this.log('  ⇢ ' + key))
-      })
     } else {
       this.log('Could not find a .env file')
     }
+
+    Object.keys(functions).forEach(fn => {
+      this.log(`${chalk.bold(fn)} environment`)
+      Object.keys(functions[fn].environment || {}).forEach(key => this.log('  ⇢ ' + key))
+    })
   }
 }

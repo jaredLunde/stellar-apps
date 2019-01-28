@@ -91,6 +91,15 @@ custom:
 # serverless.yml
 plugins:
   - @stellar-apps/serverless-dotenv
+
+functions:
+  main:
+    environment:
+       FOO: ${env:FOO}
+       
+custom:
+  dotenv:
+    path: '.env'  # NOTE: you don't actually have to define this as this is the default
 ```
 
 ## Credits
