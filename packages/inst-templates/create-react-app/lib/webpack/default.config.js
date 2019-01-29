@@ -5,8 +5,8 @@ const imageminMozJpeg = require("imagemin-mozjpeg")
 const imageminOptipng = require("imagemin-optipng")
 
 
-const createAliases = is =>
-  is.reduce((o, i) => ({...o, [`~${path.basename(path.dirname(i))}`]: i}), {})
+const createAliases = ps =>
+  ps.reduce((a, p) => ({...a, [`~${path.basename(path.dirname(p))}`]: p}), {})
 
 module.exports = {
   rootImportSrc: paths.appSrc,

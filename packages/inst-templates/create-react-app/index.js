@@ -164,9 +164,14 @@ module.exports.editPackageJson = function editPackageJson (
   packageJson, 
   variables /*from prompts() above*/
 ) {
+  packageJson.stellar = {
+    type: 'app'
+  }
+
   packageJson.scripts = {
     analyze: 'ANALYZE=true yarn start',
-    cert: 'stellar-scripts cert',
+    'create-cert': 'stellar-scripts create-cert',
+    'check-cert': 'stellar-scripts check-cert',
     start: 'stellar-scripts start',
     deploy: 'stellar-scripts deploy'
   }

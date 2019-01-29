@@ -1,7 +1,7 @@
 {
-  "name": "foo",
-  "short_name": "foo",
-  "start_url": "https://foo.foo",
+  "name": "<:PKG_NAME:>",
+  "short_name": "<:PKG_NAME:>",
+  "start_url": "http://127.0.0.1:3000",
   "display": "standalone",
   "background_color": "#0073AD",
   "theme_color": "#0073AD",
@@ -9,12 +9,12 @@
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "https://test-stellar-public.s3.amazonaws.com/images/manifest-192.png",
+      "src": "http://localhost:3000/public/images/manifest-192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "https://test-stellar-public.s3.amazonaws.com/images/manifest-512.png",
+      "src": "http://localhost:3000/public/images/manifest-512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
