@@ -1,6 +1,6 @@
 {
   "name": "@stellar-apps/serverless-dotenv",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "main": "dist/cjs/serverless-dotenv.js",
   "author": "Jared Lunde <jared@BeStellar.co> (https://BeStellar.co)",
   "license": "MIT",
@@ -22,5 +22,11 @@
     "dotenv": "^6.2.0",
     "dotenv-expand": "^4.2.0",
     "minimatch": "^3.0.4"
-  }
+  },
+  "keywords": [
+    "serverless",
+    "serverless-plugin",
+    "plugin",
+    "dotenv"
+  ]
 }

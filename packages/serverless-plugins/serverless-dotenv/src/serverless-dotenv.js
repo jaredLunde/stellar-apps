@@ -50,7 +50,7 @@ module.exports = class ServerlessPlugin {
     const path =
       this?.config?.path
         ? path.join(this.serverless.config.servicePath, this.config.path)
-        : fs.existsSync('.env.' + stage)
+        : stage && fs.existsSync(`.env.${stage}`)
           ? '.env.' + stage
           : '.env'
 

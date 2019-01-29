@@ -1,0 +1,18 @@
+const path = require('path')
+const root = path.resolve(path.basename(__filename), '../')
+const join = (...p) => path.join(root, ...p)
+
+module.exports = {
+  root,
+  join,
+  src: join('src'),
+  appSrc: join('src/App'),
+  clientSrc: join('src/client'),
+  serverSrc: join('src/server'),
+  dist: join('dist'),
+  modules: join('node_modules'),
+  inherits: [<:(
+    value += props.INHERITS ? props.INHERITS.map(src => `\n    join('${src}')`).join(',') : ''
+  ):>
+  ]
+}

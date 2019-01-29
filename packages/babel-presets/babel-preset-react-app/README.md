@@ -29,9 +29,9 @@ A babel preset for configuring React web applications in Stellar apps.
 ## Included presets
 - `@stellar-apps/babel-preset-es`
 - `@stellar-apps/babel-preset-react`
+- `@emotion/babel-preset-css-prop`
 
 ## Included plugins
-- `babel-plugin-emotion`
 - `babel-plugin-polished`
 
 ## Options
@@ -55,7 +55,7 @@ A babel preset for configuring React web applications in Stellar apps.
 - Configures [`@stellar-apps/babel-preset-react`](https://github.com/jaredLunde/stellar-apps/tree/master/packages/babel-presets/babel-preset-react)
 
 ### `emotion`
-- Configures `babel-plugin-emotion`
+- Configures `@emotion/babel-preset-css-prop`
 - Define `false` to turn off this plugin
 - *default* 
 ```js

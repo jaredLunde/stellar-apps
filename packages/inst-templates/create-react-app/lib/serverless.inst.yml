@@ -3,7 +3,7 @@ service: <:ROOT_NAME:>-<:PKG_NAME:>
 provider:
   name: aws
   runtime: nodejs8.10
-  stage: ${opt:stage, 'development'}
+  stage: ${opt:stage, 'staging'}
   profile: ${env:SERVERLESS__PROFILE}
   region: us-east-1
   versionFunctions: false
@@ -23,12 +23,11 @@ functions:
       - http: 'GET {proxy+}'
     package:
       include:
-        - package.json
         - dist/server/*
-        - README.md
+        - package.json
+    warmup: true
     environment:
       STAGE: ${self:provider.stage}
-      PLATFORM: server
     tags:
       STAGE: ${self:provider.stage}
 
@@ -42,8 +41,14 @@ plugins:
   - @stellar-apps/serverless-deploy-client-bundle
   # Packages the server-side bundle
   - serverless-webpack
+  # Prevents cold starts
+  - serverless-plugin-lambda-warmup
 
 custom:
+  # Environment variables
+  dotenv:
+    exclude:
+      - 'SERVERLESS__*'
   # Bundle creation
   webpack:
     webpackConfig: 'webpack/server.config.js'
@@ -53,7 +58,7 @@ custom:
       noFrozenLockFile: true
   # Sets up the domain name in Route 53 an attaches API Gateway to the certificate
   customDomain:
-    domainName: ${env:DOMAIN}
+    domainName: ${env:CONFIG__DOMAIN}
     stage: ${self:provider.stage}
     basePath: ''
     createRoute53Record: true
@@ -66,6 +71,11 @@ custom:
       - 'application/json'
       - 'text/html'
       - 'text/plain'
+  # prevents cold starts
+  warmup:
+    schedule: 'rate(5 minutes)'
+    stages:
+      - production
   # Defines settings for client-side bundle objects and the S3 bucket
   deployClientBundle:
     s3:
@@ -82,19 +92,10 @@ custom:
               - '*'
             allowedMethods:
               - GET
-            exposeHeaders:
-              - x-amz-server-side-encryption
-              - x-amz-request-id
             maxAgeSeconds: 86400
       object:
-        '**/*.js':
-          # file, filename, basename, dirname, publicPath, ext
-          key: '[filename]'
-          params:
-            ACL: 'public-read'
-            contentType: 'auto'
-            cacheControl: 'public, immutable, max-age=31536000'
         '*':
-          params:
-            metadata:
-              stellar: yes
+          key: '[filename]'
+            params:
+              ACL: 'public-read'
+              cacheControl: 'public, immutable, max-age=31536000'
