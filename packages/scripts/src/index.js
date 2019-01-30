@@ -7,36 +7,6 @@ import {log, flag} from './utils'
 yargs.scriptName('stellar-scripts')
 
 yargs.command(
-  'create-cert [domains..]',
-  'Requests a certificate with ACM for the current app',
-  yargs => {
-    yargs.positional(
-      'domains', {
-        describe: (
-          `Domains to add to a new ACM certificate. `
-          + `If empty, stellar-scripts will try to find a DOMAIN in your .env.production file.`
-        )
-      }
-    )
-  }
-)
-
-yargs.command(
-  'check-cert [arn]',
-  'Checks the status of an ACM certificate',
-  yargs => {
-    yargs.positional(
-      'arn', {
-        describe: (
-          `The ARN of the certificate you'd like to check the status of. `
-          + `If empty, stellar-scripts will try to find an ARN in your package.json`
-        )
-      }
-    )
-  }
-)
-
-yargs.command(
   'start [env]',
   'Starts the nearest app or API in a development server',
   yargs => {

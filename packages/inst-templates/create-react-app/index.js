@@ -170,8 +170,6 @@ module.exports.editPackageJson = function editPackageJson (
 
   packageJson.scripts = {
     analyze: 'ANALYZE=true yarn start',
-    'create-cert': 'stellar-scripts create-cert',
-    'check-cert': 'stellar-scripts check-cert',
     start: 'stellar-scripts start',
     deploy: 'stellar-scripts deploy'
   }

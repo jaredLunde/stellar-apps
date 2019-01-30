@@ -1,11 +1,11 @@
 {
-  "name": "@stellar-apps/serverless-dotenv",
-  "version": "1.0.3",
-  "main": "dist/cjs/serverless-dotenv.js",
+  "name": "@stellar-apps/serverless-certificate-manager",
+  "version": "1.0.0",
+  "main": "dist/cjs/serverless-certificate-manager.js",
   "author": "Jared Lunde <jared@BeStellar.co> (https://BeStellar.co)",
   "license": "MIT",
   "sideEffects": false,
-  "repository": "https://github.com/jaredLunde/stellar-apps/tree/master/packages/serverless-dotenv",
+  "repository": "https://github.com/jaredLunde/stellar-apps/tree/master/packages/serverless-certificate-manager",
   "scripts": {
     "build": "rimraf dist/cjs && cross-env NODE_ENV=production babel src --out-dir dist/cjs && npm run prettier:cjs",
     "watch": "rimraf dist/cjs && cross-env NODE_ENV=production babel src -w --out-dir dist/cjs",
@@ -18,10 +18,10 @@
     "rimraf": "^2.6.3"
   },
   "dependencies": {
+    "@inst-pkg/template-utils": "^1.0.5",
+    "aws-sdk": "^2.395.0",
     "chalk": "^2.4.2",
-    "dotenv": "^6.2.0",
-    "dotenv-expand": "^4.2.0",
-    "minimatch": "^3.0.4"
+    "ora": "^3.0.0"
   },
   "keywords": [
     "serverless",
