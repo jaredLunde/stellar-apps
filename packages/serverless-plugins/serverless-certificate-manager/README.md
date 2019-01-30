@@ -36,6 +36,8 @@ custom:
 Creates a certificate for the domains in your configuration if they are not already attached to
 other certificates.
 
+-----
+
 ### `sls get-cert --arn [certificate arn]`
 Prints a JSON object result of `describeCertificate` for the given arn
 
@@ -43,8 +45,12 @@ Prints a JSON object result of `describeCertificate` for the given arn
 - `arn {string}`
     - The certificate ARN to describe
     
+-----
+
 ### `sls has-valid-certs`
 Checks to see if your list of domains has valid certificates attached to them
+
+-----
 
 ### `sls is-cert-valid --arn [certificate arn]`
 Checks whether or not a particular certificate is valid
