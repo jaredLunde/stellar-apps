@@ -1,0 +1,108 @@
+service: <:ROOT_NAME:>-<:PKG_NAME:>
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  stage: ${opt:stage, 'staging'}
+  profile: ${env:SERVERLESS__PROFILE}
+  region: us-east-1
+  versionFunctions: false
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "cloudformation:DescribeStackResource"
+      Resource: "*"
+
+functions:
+  main:
+    handler: render.main
+    memorySize: ${env:SERVERLESS__MEMORY_SIZE}
+    timeout: 12
+    events:
+      - http: GET /
+      - http: 'GET {proxy+}'
+    package:
+      include:
+        - dist/server/*
+        - package.json
+    warmup: true
+    environment:
+      STAGE: ${self:provider.stage}
+    tags:
+      STAGE: ${self:provider.stage}
+
+plugins:
+  # Loads environment variables defined in .env.[--stage]
+  - @stellar-apps/serverless-dotenv
+  # Creates ACM certificates for the app domains
+  - @stellar-apps/serverless-certificate-manager
+  - serverless-domain-manager
+  - serverless-content-encoding
+  - serverless-apigw-binary
+  # Deploys the client-side bundle to S3
+  - @stellar-apps/serverless-deploy-client-bundle
+  # Packages the server-side bundle
+  - serverless-webpack
+  # Prevents cold starts
+  - serverless-plugin-lambda-warmup
+
+custom:
+  # Environment variables
+  dotenv:
+    exclude:
+      - 'SERVERLESS__*'
+  # Bundle creation
+  webpack:
+    webpackConfig: 'webpack/server.config.js'
+    includeModules: true
+    packager: 'yarn'
+    packagerOptions:
+      noFrozenLockFile: true
+  # Creates ACM certificates for the app domains
+  certificateManager:
+    domains:
+      - <:DOMAIN_PRODUCTION:>
+      - '*.<:DOMAIN_PRODUCTION:>'
+  # Sets up the domain name in Route 53 an attaches API Gateway to the certificate
+  customDomain:
+    domainName: ${env:CONFIG__DOMAIN}
+    stage: ${self:provider.stage}
+    basePath: ''
+    createRoute53Record: true
+  # Allows API Gateway to Gzip
+  contentEncoding:
+    minimumCompressionSize: 2048
+  # Sets up binary media types in API Gateway -> Settings
+  apigwBinary:
+    types:
+      - 'application/json'
+      - 'text/html'
+      - 'text/plain'
+  # prevents cold starts
+  warmup:
+    schedule: 'rate(5 minutes)'
+    stages:
+      - production
+  # Defines settings for client-side bundle objects and the S3 bucket
+  deployClientBundle:
+    s3:
+      params:
+        maxRetries: 5
+      bucket:
+        name: ${env:SERVERLESS__S3_BUCKET}
+        params:
+          ACL: 'private'
+        corsRules:
+          - allowedOrigins:
+              - ${env:DOMAIN}
+            allowedHeaders:
+              - '*'
+            allowedMethods:
+              - GET
+            maxAgeSeconds: 86400
+      object:
+        '*':
+          key: '[filename]'
+            params:
+              ACL: 'public-read'
+              cacheControl: 'public, immutable, max-age=31536000'

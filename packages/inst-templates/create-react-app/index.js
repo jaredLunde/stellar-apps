@@ -177,7 +177,6 @@ module.exports.editPackageJson = function editPackageJson (
     start: 'stellar-scripts start',
     deploy: 'stellar-scripts deploy'
   }
-  
   // this function must return a valid package.json object
   return packageJson
 }
