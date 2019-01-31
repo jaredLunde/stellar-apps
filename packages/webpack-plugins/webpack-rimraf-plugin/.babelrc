@@ -1,0 +1,14 @@
+{
+  "presets": [
+    [
+      "@stellar-apps/es",
+      {
+        "env": {
+          "useBuiltIns": false,
+          "targets": {"node": "8"}
+        },
+        "runtime": false
+      }
+    ]
+  ]
+}

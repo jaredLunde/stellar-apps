@@ -1,6 +1,5 @@
 import chalk from 'chalk'
 import yargs from 'yargs'
-import {createCert, checkCert} from './cert'
 import {log, flag} from './utils'
 
 
@@ -48,12 +47,6 @@ function logDone () {
 
 // routes the cmd
 switch (cmd) {
-  case 'create-cert':
-    createCert(args).then(logDone)
-    break;
-  case 'check-cert':
-    checkCert(args).then(logDone)
-    break;
   case 'start':
     break;
   case 'deploy':

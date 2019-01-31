@@ -109,9 +109,11 @@ module.exports.dependencies = {
 module.exports.devDependencies = {
   "@stellar-apps/babel-preset-react-app": "^1.0.4",
   "@stellar-apps/scripts": "^1.0.0",
+  "@stellar-apps/serverless-certificate-manager": "^1.0.0",
   "@stellar-apps/serverless-deploy-client-bundle": "^1.0.1",
   "@stellar-apps/serverless-dotenv": "^1.0.2",
   "@stellar-apps/webpack": "^1.0.9",
+  "@stellar-apps/webpack-rimraf-plugin": "^1.0.0",
   "babel-loader": "^8.0.5",
   "compression-webpack-plugin": "^2.0.0",
   "json-loader": "^0.5.7",

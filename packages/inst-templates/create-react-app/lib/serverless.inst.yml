@@ -34,9 +34,11 @@ functions:
 plugins:
   # Loads environment variables defined in .env.[--stage]
   - @stellar-apps/serverless-dotenv
+  # Creates ACM certificates for the app domains
+  - @stellar-apps/serverless-certificate-manager
+  - serverless-domain-manager
   - serverless-content-encoding
   - serverless-apigw-binary
-  - serverless-domain-manager
   # Deploys the client-side bundle to S3
   - @stellar-apps/serverless-deploy-client-bundle
   # Packages the server-side bundle
@@ -56,6 +58,11 @@ custom:
     packager: 'yarn'
     packagerOptions:
       noFrozenLockFile: true
+  # Creates ACM certificates for the app domains
+  certificateManager:
+    domains:
+      - <:DOMAIN_PRODUCTION:>
+      - '*.<:DOMAIN_PRODUCTION:>'
   # Sets up the domain name in Route 53 an attaches API Gateway to the certificate
   customDomain:
     domainName: ${env:CONFIG__DOMAIN}

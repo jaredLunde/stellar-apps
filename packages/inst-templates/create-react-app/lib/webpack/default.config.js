@@ -3,6 +3,7 @@ const paths = require('./paths')
 const ImageminPlugin = require("imagemin-webpack")
 const imageminMozJpeg = require("imagemin-mozjpeg")
 const imageminOptipng = require("imagemin-optipng")
+const WebpackRimrafPlugin = require('@stellar-apps/webpack-rimraf-plugin')
 
 
 const createAliases = ps =>
@@ -42,6 +43,7 @@ module.exports = {
   },
 
   plugins: [
+    new WebpackRimrafPlugin(),
     new ImageminPlugin({
       bail: false,
       cache: true,

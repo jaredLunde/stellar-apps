@@ -29,7 +29,7 @@ module.exports = createConfig(
     entry: [path.join(paths.serverSrc, 'render.js')],
 
     output: {
-      path: path.join(paths.dist, process.env.STAGE, 'server'),
+      path: path.join(paths.dist, stage, 'server'),
       filename: 'render.js',
       libraryTarget: 'commonjs2'
     },
