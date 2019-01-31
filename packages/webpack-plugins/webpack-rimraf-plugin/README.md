@@ -8,6 +8,7 @@ to define the output path in multiple locations. Simple as that.
 
 ## Usage
 ```js
+const path = require('path')
 const WebpackRimrafPlugin = require('@stellar-apps/webpack-rimraf-plugin')
 
 module.exports = {
