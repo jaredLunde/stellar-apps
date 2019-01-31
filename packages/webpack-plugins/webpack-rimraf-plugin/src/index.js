@@ -1,10 +1,11 @@
 import rimraf from 'rimraf'
 
-class WebpackRimrafPlugin {
+
+module.exports = class WebpackRimrafPlugin {
   apply (compiler) {
     compiler.hooks.emit.tapAsync(
       'WebpackRimrafPlugin',
-      () => rimraf(compiler.options.output.path)
-    );
+      (_, resolve) => rimraf(compiler.options.output.path, resolve)
+    )
   }
 }

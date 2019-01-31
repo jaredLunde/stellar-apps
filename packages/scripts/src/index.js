@@ -1,6 +1,9 @@
+#!/usr/bin/env node
 import chalk from 'chalk'
 import yargs from 'yargs'
 import {log, flag} from './utils'
+import start from './start'
+import deploy from './deploy'
 
 
 yargs.scriptName('stellar-scripts')
@@ -14,9 +17,35 @@ yargs.command(
         describe: (
           `The node environment to start the app in. If not provided, this will default to  `
           + `NODE_ENV || "development".`
-        )
+        ),
+        type: 'string'
       }
     )
+
+    yargs.option('host', {
+      alias: 'h',
+      type: 'string'
+    })
+
+    yargs.option('port', {
+      alias: 'p',
+      type: 'number'
+    })
+
+    yargs.option('assets', {
+      alias: 'a',
+      type: 'string'
+    })
+
+    yargs.option('client-config', {
+      alias: 'c',
+      type: 'string'
+    })
+
+    yargs.option('server-config', {
+      alias: 's',
+      type: 'string'
+    })
   }
 )
 
@@ -48,8 +77,10 @@ function logDone () {
 // routes the cmd
 switch (cmd) {
   case 'start':
+    start(args).then(logDone)
     break;
   case 'deploy':
+    deploy(args).then(logDone)
     break;
   default:
     log(

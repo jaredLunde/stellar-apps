@@ -4,8 +4,8 @@ import renderApp from './renderApp'
 // Sets up robots.txt middleware for micro
 const robots = withRobots(
   __STAGE__ !== 'production'
-    ? require('./templates/robots.disallow.txt')
-    : require('./templates/robots.txt')
+    ? require('./assets/robots.disallow.txt')
+    : require('./assets/robots.txt')
 )
 // creates a middleware pipe for micro
 const middleware = pipe(robots, withCookies)
@@ -20,7 +20,7 @@ const serverRenderer = clientStats =>
 // sets up options for the Serverless lambda function
 let clientStats, mainServerless
 if (__STAGE__ !== 'development') {
-  clientStats = require(`../../dist/${__STAGE__}/client/stats.json`)
+  clientStats = require(`../dist/${__STAGE__}/client/stats.json`)
   mainServerless = require('serverless-http')(serverRenderer({clientStats}))
 }
 // this is the export that Lambda calls as its handler
@@ -36,4 +36,4 @@ export const main = function (event, context) {
 
 // by default this just exports the renderer
 // this will be used by Webpack dev renderers
-export default serverRenderer
+export default ({clientStats}) => serverRenderer(clientStats)

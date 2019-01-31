@@ -40,6 +40,15 @@ export function withRobots (robots) {
   return robotsCache[robots]
 }
 
+export const noFavicon = next => (req, res) => {
+  if (req.url === '/favicon.ico') {
+    send(res, 404, '')
+  }
+  else {
+    next(req, res)
+  }
+}
+
 function defaultRenderError ({res, req, err}) {
   const strErr = err.toString()
   const statusText = httpStatus[res.statusCode]

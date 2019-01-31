@@ -1,6 +1,7 @@
 const {createDevelopment, createProduction} = require('@stellar-apps/webpack')
 const webpack = require('webpack')
 const path = require('path')
+const WriteFileWebpackPlugin = require('write-file-webpack-plugin')
 const defaults = require('./default.config')
 const paths = require('./paths')
 
@@ -19,7 +20,11 @@ if (isDev) {
     },
     node: {
       querystring: true,
-    }
+    },
+    plugins: [
+      // required for webpack dev server
+      new WriteFileWebpackPlugin()
+    ]
   }
 }
 else {
@@ -124,7 +129,7 @@ module.exports = createConfig(
 
     plugins: [
       new webpack.DefinePlugin({
-        __STAGE__: stage,
+        __STAGE__: JSON.stringify(stage),
         __DEV__: JSON.stringify(isDev),
         __SERVER__: JSON.stringify(false),
         __CLIENT__: JSON.stringify(true),

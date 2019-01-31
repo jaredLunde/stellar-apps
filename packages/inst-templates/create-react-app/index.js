@@ -10,7 +10,7 @@ const CREDENTIALS_FILE = path.join(os.homedir(), '.aws/credentials')
 // see https://github.com/SBoudrias/Inquirer.js#objects for prompt object examples
 module.exports.prompts = (
   {ROOT_NAME, ROOT_DIR, PKG_NAME, PKG_DIR}, /*default template variables*/
-  packageJson,                               /*contents of the package.json file as a plain object*/
+  packageJson,                              /*contents of the package.json file as a plain object*/
   args,
   inquirer
 ) => {
@@ -94,6 +94,7 @@ module.exports.dependencies = {
   "@babel/runtime": "^7.3.1",
   "@babel/runtime-corejs2": "^7.3.1",
   "@emotion/core": "^10.0.6",
+  "@stellar-apps/ssr": "^2.0.0",
   "curls": "^2.0.3",
   "invariant": "2.2.4",
   "polished": "^2.3.1",
@@ -113,7 +114,7 @@ module.exports.devDependencies = {
   "@stellar-apps/serverless-deploy-client-bundle": "^1.0.1",
   "@stellar-apps/serverless-dotenv": "^1.0.2",
   "@stellar-apps/webpack": "^1.0.9",
-  "@stellar-apps/webpack-rimraf-plugin": "^1.0.0",
+  "@stellar-apps/webpack-rimraf-plugin": "^1.0.3",
   "babel-loader": "^8.0.5",
   "compression-webpack-plugin": "^2.0.0",
   "json-loader": "^0.5.7",
@@ -124,6 +125,7 @@ module.exports.devDependencies = {
   "imagemin-optipng": "^6.0.0",
   "imagemin-webpack": "^4.1.0",
   "raw-loader": "^1.0.0",
+  "responsive-loader": "^1.2.0",
   "serverless": "^1.36.3",
   "serverless-apigw-binary": "^0.4.4",
   "serverless-domain-manager": "^2.6.13",
@@ -171,7 +173,7 @@ module.exports.editPackageJson = function editPackageJson (
   }
 
   packageJson.scripts = {
-    analyze: 'ANALYZE=true yarn start',
+    analyze: 'ANALYZE=true yarn start production',
     start: 'stellar-scripts start',
     deploy: 'stellar-scripts deploy'
   }

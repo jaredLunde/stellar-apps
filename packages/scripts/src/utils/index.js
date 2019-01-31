@@ -4,7 +4,6 @@ import {pwd as instPwd} from '@inst-pkg/template-utils'
 
 
 export {cmd} from '@inst-pkg/template-utils'
-export * from './aws'
 export writeFile from './writeFile'
 export writeJson from './writeJson'
 export const log = (...msgs) => console.log('❈', ...msgs)
