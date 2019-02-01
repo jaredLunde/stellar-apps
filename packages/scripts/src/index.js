@@ -61,6 +61,14 @@ yargs.command(
         )
       }
     )
+
+    yargs.option(
+      'init', {
+        type: 'boolean',
+        alias: 'i',
+        describe: `Initializes a complete deploy, not just the main function`
+      }
+    )
   }
 )
 

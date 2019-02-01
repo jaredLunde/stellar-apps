@@ -1,6 +1,7 @@
 import path from 'path'
 import startRenderer from '@stellar-apps/ssr/startRenderer'
 import {cmd, pwd, getPkgJson} from '@inst-pkg/template-utils'
+import {findBin} from './utils'
 
 
 export default async function start (
@@ -22,7 +23,8 @@ export default async function start (
   serverConfig = serverConfig || path.join(path.dirname(pkgJson.__path), 'webpack/server.config.js')
 
   switch (pkgJson.stellar.type) {
-    case 'app':
+    case 'static-app':
+    case 'serverless-app':
       startRenderer({
         // dev webpack client config
         clientConfig: require(clientConfig),
@@ -37,14 +39,15 @@ export default async function start (
       })
       break;
     case 'api':
+      const crossEnvBin = findBin('cross-env')
+      const serverlessBin = findBin('serverless')
+
       await cmd.get(`
-        cross-env \
-          NODE_ENV=production \
-          BABEL_ENV=production \
-          STAGE=${stage} \
-        serverless offline start \
-          ${init ? '' : '-f main'} \
-          --stack ${stage} \
+        ${crossEnvBin} \
+          NODE_ENV=${process.env.NODE_ENV} \
+          BABEL_ENV=${process.env.BABEL_ENV} \
+          STAGE=${process.env.STAGE} \
+        ${serverlessBin} offline start \
           --aws-s3-accelerate \
           --watch \
           --color

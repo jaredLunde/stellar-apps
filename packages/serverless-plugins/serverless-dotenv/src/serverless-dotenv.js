@@ -35,18 +35,19 @@ module.exports = class ServerlessPlugin {
   constructor(serverless, options) {
     this.name = 'serverless-dotenv'
     this.serverless = serverless
-    this.serverless.service.provider.environment =
-      this.serverless.service.provider.environment || {}
-    this.config =
-      this.serverless.service.custom && this.serverless.service.custom.dotenv
     this.loadEnv(options)
+  }
+
+  get config () {
+    return this.serverless.service.custom && this.serverless.service.custom.dotenv
   }
 
   log (msg) {
     this.serverless.cli.log(msg, this.name)
   }
 
-  loadEnv({stage = this.serverless.service.provider.stage}) {
+  loadEnv({stage}) {
+    stage = stage || this.serverless.service.provider.stage
     const path =
       this?.config?.path
         ? path.join(this.serverless.config.servicePath, this.config.path)

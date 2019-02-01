@@ -1,6 +1,6 @@
 {
   "name": "@stellar-apps/serverless-deploy-client-bundle",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "main": "dist/cjs/serverless-deploy-client-bundle.js",
   "author": "Jared Lunde <jared@BeStellar.co> (https://BeStellar.co)",
   "license": "MIT",

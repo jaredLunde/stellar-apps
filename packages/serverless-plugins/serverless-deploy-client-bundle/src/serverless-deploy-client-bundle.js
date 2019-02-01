@@ -111,7 +111,7 @@ async function doesBucketExist (s3, {name}) {
   }
 }
 
-async function createS3Bucket (s3, {name, corsRules, ...params}) {
+async function createS3Bucket (s3, {name, corsRules, params}) {
   params = {
     Bucket: name,
     ACL: 'private',
@@ -226,20 +226,6 @@ module.exports = class ServerlessPlugin {
   constructor(serverless, options) {
     this.name = 'serverless-deploy-client-bundle'
     this.serverless = serverless
-    this.config = {
-      ...serverless.service?.custom?.deployClientBundle,
-      webpack: {
-        config: 'webpack.config.js',
-        statsFile: 'stats.json',
-        ...serverless.service?.custom?.deployClientBundle?.webpack,
-      },
-      s3: {
-        credentials: {
-          profile: serverless.service?.provider?.profile
-        },
-        ...serverless.service?.custom?.deployClientBundle?.s3,
-      }
-    }
     this.servicePath = serverless.config.servicePath
     this.options = options
     this.spinner = ora({spinner: 'star2'})
@@ -284,6 +270,23 @@ module.exports = class ServerlessPlugin {
       'deploy-client:upload': this.upload,
       'upload-client:upload': this.upload,
       'create-bucket:create': this.createBucket
+    }
+  }
+
+  get config () {
+    return {
+      ...this.serverless.service?.custom?.deployClientBundle,
+        webpack: {
+        config: 'webpack.config.js',
+          statsFile: 'stats.json',
+      ...this.serverless.service?.custom?.deployClientBundle?.webpack,
+      },
+      s3: {
+        credentials: {
+          profile: this.serverless.service?.provider?.profile
+        },
+        ...this.serverless.service?.custom?.deployClientBundle?.s3,
+      }
     }
   }
 

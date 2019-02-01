@@ -322,8 +322,28 @@ async function waitUntilCertIsValid (env, arn) {
   }
 }
 
+function getConfig (serverless) {
+  // loads the custom config which declares domains
+  let config =
+    serverless.service.custom && serverless.service.custom.certificateManager
+      ? serverless.service.custom.certificateManager
+      : {}
+  // sets the AWS region for the certificates
+  const region = config?.region || serverless.service.provider?.region || process.env.AWS_REGION
+  // grabs the credentials
+  const credentials = {
+    profile: config?.credentials?.profile
+      || serverless.service.provider?.profile
+      || process.env.AWS_PROFILE,
+    ...config.credentials
+  }
+
+  return {...config, credentials, region}
+}
+
 module.exports = class ServerlessPlugin {
   constructor(serverless, options) {
+    this.serverless = serverless
     this.commands = {
       'has-valid-certs': {
         usage: 'Builds the client-side code for your web application',
@@ -376,24 +396,11 @@ module.exports = class ServerlessPlugin {
         ]
       },
     }
-    // loads the custom config which declares domains
-    let config =
-      serverless.service.custom && serverless.service.custom.certificateManager
-        ? serverless.service.custom.certificateManager
-        : {}
-    // sets the AWS region for the certificates
-    const region = config?.region || serverless.service.provider?.region || process.env.AWS_REGION
-    // grabs the credentials
-    const credentials = {
-      profile: config?.credentials?.profile
-        || serverless.service.provider?.profile
-        || process.env.AWS_PROFILE,
-      ...config.credentials
-    }
-    config = {...config, credentials, region}
-    assertHasDomains(config.domains)
 
-    async function createCertsIfNecessary () {
+    assertHasDomains(this.serverless.service.custom.certificateManager.domains)
+
+    const createCertsIfNecessary = async () => {
+      const config = getConfig(this.serverless)
       const isValid = await hasValidCerts(config)
 
       if (isValid.every(Boolean) === false) {
@@ -406,11 +413,11 @@ module.exports = class ServerlessPlugin {
     this.hooks = {
       // runs right away on 'deploy'
       'after:package:initialize': createCertsIfNecessary,
-      'has-valid-certs:hasValidCerts': () => hasValidCerts(config),
-      'is-cert-valid:isCertValid': () => isCertValid(config, options.arn),
-      'wait-for-cert:waitForCert': () => waitUntilCertIsValid(config, options.arn),
+      'has-valid-certs:hasValidCerts': () => hasValidCerts(getConfig(this.serverless)),
+      'is-cert-valid:isCertValid': () => isCertValid(getConfig(this.serverless), options.arn),
+      'wait-for-cert:waitForCert': () => waitUntilCertIsValid(getConfig(this.serverless), options.arn),
       'get-cert:getCert': async () => {
-        const cert = await getCertificate(config, options.arn)
+        const cert = await getCertificate(getConfig(this.serverless), options.arn)
         console.log(JSON.stringify(cert, null, 2))
       },
       'create-cert:createCert': createCertsIfNecessary,
