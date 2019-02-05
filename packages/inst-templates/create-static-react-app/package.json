@@ -6,7 +6,7 @@
   "license": "MIT",
   "dependencies": {
     "@inst-pkg/template-utils": "^1.0.5",
-    "@stellar-apps/create-react-app": "^1.0.1",
+    "@stellar-apps/create-react-app": "^1.0.3",
     "@stellar-apps/inst-utils": "^1.0.1"
   }
 }

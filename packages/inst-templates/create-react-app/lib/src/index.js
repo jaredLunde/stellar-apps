@@ -54,7 +54,7 @@ function Document () {
         />
         <meta name="theme-color" content='#000'/>
         {process.env.PUBLIC_PATH.startsWith('http') &&
-          <link rel="dns-prefetch preconnect" href={process.env.PUBLIC_PATH} crossOrigin='true'/>}
+          <link rel="dns-prefetch preconnect" href={process.env.PUBLIC_PATH} crossOrigin/>}
       </Helmet>
 
       <Global styles={globalStyles}/>

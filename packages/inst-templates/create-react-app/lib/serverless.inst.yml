@@ -87,6 +87,7 @@ custom:
   # Creates ACM certificates for the app domains
   certificateManager:
     name: <:DOMAIN_PRODUCTION:>
+    refFor: resources.Resources.CloudFrontDistribution.Properties.ViewerCertificate.AcmCertificateArn
     domains:
       - <:DOMAIN_PRODUCTION:>
       - <:DOMAIN_STAGING:>
@@ -122,7 +123,7 @@ custom:
     packagerOptions:
       noFrozenLockFile: true
   # Defines settings for client-side bundle objects and the S3 bucket
-  deployClientBundle:
+  syncBundle:
     'webpack/client.config.js':
       bucket:
         name: ${env:SERVERLESS__S3_BUCKET}

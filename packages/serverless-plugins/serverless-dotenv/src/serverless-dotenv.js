@@ -39,7 +39,7 @@ module.exports = class ServerlessPlugin {
   }
 
   get config () {
-    return this.serverless.service.custom && this.serverless.service.custom.dotenv
+    return this.serverless.service?.custom?.dotenv
   }
 
   log (msg) {

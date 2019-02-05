@@ -1,6 +1,6 @@
 {
   "name": "@stellar-apps/serverless-sync-bundle",
-  "version": "1.0.1",
+  "version": "1.0.5",
   "main": "dist/cjs/serverless-sync-bundle.js",
   "author": "Jared Lunde <jared@BeStellar.co> (https://BeStellar.co)",
   "license": "MIT",

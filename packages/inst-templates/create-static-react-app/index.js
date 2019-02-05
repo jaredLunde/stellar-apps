@@ -114,6 +114,8 @@ module.exports.editPackageJson = function editPackageJson (
   }
   // only production builds get pushed to S3
   packageJson.scripts.deploy = 'stellar-scripts deploy production --init'
+  packageJson.scripts['bundle'] = 'NODE_ENV=production BABEL_ENV=production STAGE=production sls bundle --stage=production'
+  packageJson.scripts['sync-bundle'] = 'NODE_ENV=production BABEL_ENV=production STAGE=production sls sync-bundle --stage=production'
   // this function must return a valid package.json object
   return packageJson
 }

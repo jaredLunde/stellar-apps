@@ -146,14 +146,21 @@ async function emptyBucket ({bucket, credentials, params = {}}) {
       ContinuationToken
 
   while (true) {
-    const response = await s3.listObjectsV2({Bucket: bucket.name, Prefix: bucket.prefix}).promise()
+    let response
 
-    response.Contents.forEach(
-      ({Key}) => removals.push(s3.deleteObject({Key, Bucket: bucket.name}).promise())
-    )
+    try {
+      response = await s3.listObjectsV2({Bucket: bucket.name, Prefix: bucket.prefix}).promise()
 
+      response.Contents.forEach(
+        ({Key}) => removals.push(s3.deleteObject({Key, Bucket: bucket.name}).promise())
+      )
+    }
+    catch (err) {
+      console.log('[Error]', err)
+      break
+    }
 
-    ContinuationToken = response.NextContinuationToken
+    ContinuationToken = response && response.NextContinuationToken
 
     if (!ContinuationToken) {
       break
@@ -194,7 +201,7 @@ module.exports = class ServerlessPlugin {
 
     this.hooks = {
       // runs before deploying on `sls deploy`
-      'before:package:createDeploymentArtifacts': this.syncAll,
+      'before:deploy:finalize': this.syncAll,
       // runs before `sls deploy -f [func]`
       'before:deploy:function:packageFunction': this.syncAll,
       // runs before `sls remove`

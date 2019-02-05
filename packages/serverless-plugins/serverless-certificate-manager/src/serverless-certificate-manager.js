@@ -347,6 +347,7 @@ async function waitUntilCertIsValid (env, arn) {
     spinner.stop()
     const cert = await getCert(env, arn)
     success(cert.DomainName, flag(cert.Status))
+    console.log(arn)
     return true
   }
   catch (err) {
@@ -354,6 +355,23 @@ async function waitUntilCertIsValid (env, arn) {
     console.log(err.message ? chalk.bold(err.message) : err)
     return false
   }
+}
+
+function setIn (obj, path, value) {
+  const keys =  path.split('.')
+
+  keys.forEach(
+    (key, i) => {
+      if (i === keys.length - 1) {
+        obj[key] = value
+      }
+      else if (obj[key] === void 0) {
+        obj[key] = {}
+      }
+
+      obj = obj[key]
+    }
+  )
 }
 
 function getConfig (serverless) {
@@ -459,10 +477,15 @@ module.exports = class ServerlessPlugin {
         const needsCert = config.domains.filter((domain, i) => isValid[i] === false)
         const arn = await createCert({...config, domains: needsCert})
         await waitUntilCertIsValid(config, arn)
-        process.env.SERVERLESS__CERTIFICATE_ARN = arn
+
+        if (Array.isArray(config.refFor)) {
+          config.refFor.forEach(refFor => setIn(this.serverless.service, refFor, arn))
+        }
       }
       else {
-        process.env.SERVERLESS__CERTIFICATE_ARN = isValid[0]
+        if (Array.isArray(config.refFor)) {
+          config.refFor.forEach(refFor => setIn(this.serverless.service, refFor, isValid[0]))
+        }
       }
     }
 
@@ -477,8 +500,8 @@ module.exports = class ServerlessPlugin {
         console.log(JSON.stringify(cert, null, 2))
       },
       'create-cert:createCert': createCertsIfNecessary,
-      // runs before `sls remove`
-      'before:remove:remove': () => removeCert(getConfig(this.serverless)),
+      // runs after `sls remove`
+      'after:remove:remove': () => removeCert(getConfig(this.serverless)),
       'remove-cert:removeCert': () => removeCert(getConfig(this.serverless)),
       'remove-cert-dns:removeDns': () => removeDNSValidationRecord(getConfig(this.serverless), options.arn),
     }
