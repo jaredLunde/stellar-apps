@@ -198,7 +198,7 @@ module.exports = class ServerlessPlugin {
       // runs before `sls deploy -f [func]`
       'before:deploy:function:packageFunction': this.syncAll,
       // runs before `sls remove`
-      'before:remove:remove': this.empty,
+      'before:remove:remove': this.emptyAll,
       // command hooks
       'bundle:build': this.bundleAll,
       'sync-bundle:build': this.syncAll,

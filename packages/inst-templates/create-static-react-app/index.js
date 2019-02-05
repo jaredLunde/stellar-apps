@@ -19,24 +19,31 @@ module.exports.prompts = (
   const prompts = [
     // See https://github.com/SBoudrias/Inquirer.js#objects
     // for valid prompts
+    autocompleteIni(inquirer, CREDENTIALS_FILE, {
+      name: 'AWS_PROFILE',
+      message: `AWS Profile        :`,
+      filter: trim,
+      validate: required
+    }),
+
     {
-      name: 'DOMAIN_PRODUCTION',
-      message: `Domain name  ${flag('production', 'green')}:`,
+      name: 'DOMAIN',
+      message: `Domain name        :`,
       filter: trim,
       validate: required
     },
 
-    autocompleteIni(inquirer, CREDENTIALS_FILE, {
-      name: 'AWS_PROFILE_PRODUCTION',
-      message: `AWS Profile  ${flag('production', 'green')}:`,
+    {
+      name: 'SITE_S3_BUCKET',
+      message: `Website S3 bucket  :`,
+      default: a => a.DOMAIN,
       filter: trim,
-      validate: required,
-      default: `${PKG_NAME}-dev`,
-    }),
+      validate: required
+    },
 
     {
-      name: 'S3_BUCKET_PRODUCTION',
-      message: `S3 bucket    ${flag('production', 'green')}:`,
+      name: 'CLIENT_S3_BUCKET',
+      message: `Client S3 bucket   :`,
       default: a => `${PKG_NAME}-public`,
       filter: trim,
       validate: required

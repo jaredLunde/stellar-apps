@@ -34,7 +34,7 @@ async function waitUntil (env, arn, status = 'PENDING_VALIDATION') {
     spinner.start(`Waiting for certificate to be ${status}...`)
     await wait(8)
     spinner.stop()
-    const cert = await getCertificate(env, arn)
+    const cert = await getCert(env, arn)
 
     if (cert.Status === status) {
       break
@@ -42,25 +42,25 @@ async function waitUntil (env, arn, status = 'PENDING_VALIDATION') {
   }
 }
 
-const FOUND = {}
+// const FOUND = {}
 
-async function getCertificate (env, arn) {
-  let spinner = FOUND[arn] ? null : ora({spinner: 'star2'}).start(`Finding certificate: ${flag(arn)}`)
+async function getCert (env, arn) {
+  // let spinner = FOUND[arn] ? null : ora({spinner: 'star2'}).start(`Finding certificate: ${flag(arn)}`)
   const acm = new aws.ACM({credentials: getCredentials(env), region: env.region || 'us-east-1'})
 
   try {
     const response = await acm.describeCertificate({CertificateArn: arn}).promise()
 
     // be sure to only display success message one
-    if (spinner) {
-      FOUND[arn] = true
-      spinner.succeed(`Found certificate: ${flag(arn)}`)
-    }
+    // if (spinner) {
+    //   FOUND[arn] = true
+    //   spinner.succeed(`Found certificate: ${flag(arn)}`)
+    // }
 
     return response.Certificate
   }
   catch (err) {
-    spinner.fail(`Could not find certificate: ${flag(arn)}`)
+    // spinner.fail(`Could not find certificate: ${flag(arn)}`)
     console.log(err.message ? chalk.bold(err.message) : err)
     process.exit(1)
   }
@@ -95,12 +95,12 @@ async function getHostedZone (env, domain) {
   process.exit(1)
 }
 
-async function createDNSValidationRecord (env, arn) {
-  const cert = await getCertificate(env, arn)
+async function updateDNSValidationRecord (action, env, arn) {
+  const cert = await getCert(env, arn)
   const domain = cert.DomainName
   const hostedZone = await getHostedZone(env, domain)
   const validationOptions = cert.DomainValidationOptions
-  const spinner = ora({spinner: 'star2'}).start(`Updating DNS with validation records`)
+  const spinner = ora({spinner: 'star2'}).start(`Updating DNS validation records`)
   const route53 = new aws.Route53({
     credentials: getCredentials(env),
     region: env.region || 'us-east-1'
@@ -120,7 +120,7 @@ async function createDNSValidationRecord (env, arn) {
 
             seen.push(Name)
             return {
-              Action: 'CREATE',
+              Action: action,
               ResourceRecordSet: {Name, Type, ResourceRecords: [{Value}], TTL: 300}
             }
           }
@@ -131,15 +131,19 @@ async function createDNSValidationRecord (env, arn) {
     }
 
     const response = await route53.changeResourceRecordSets(params).promise()
-    spinner.succeed(`Updated DNS with validation records`)
+    spinner.succeed(`Updated DNS validation records`)
     return response
   }
   catch (err) {
-    spinner.fail(`Could create validation records for: ${flag(domain)}`)
+    spinner.fail(`Could not update validation records for: ${flag(domain)}`)
     console.log(err.message ? chalk.bold(err.message) : err)
-    process.exit(1)
+    // process.exit(1)
   }
 }
+
+const createDNSValidationRecord = (env, arn) => updateDNSValidationRecord('CREATE', env, arn)
+const removeDNSValidationRecord = (env, arn) => updateDNSValidationRecord('DELETE', env, arn)
+
 
 function doesDomainMatch (domain, certDomain) {
   if (domain === certDomain) {
@@ -157,12 +161,11 @@ function doesDomainMatch (domain, certDomain) {
   return false
 }
 
-async function hasValidCerts ({domains, ...env}) {
+async function findCerts ({domains, ...env}) {
   const acm = new aws.ACM({credentials: getCredentials(env), region: env.region || 'us-east-1'})
   const spinner = ora({spinner: 'star2'}).start(
     `Searching for certificates with domains: ${domains.join(', ')}`
   )
-
   try {
     const hasCerts = domains.map(() => false)
     const hasPotential = new Set()
@@ -178,7 +181,7 @@ async function hasValidCerts ({domains, ...env}) {
         domains.forEach((domain, i) => {
           if (hasCerts[i] === false) {
             if (doesDomainMatch(domain, cert.DomainName)) {
-              hasCerts[i] = true
+              hasCerts[i] = cert.CertificateArn
             }
             else if (domain.endsWith(cert.DomainName.split('.').slice(-2).join('.'))) {
               hasPotential.add(cert.CertificateArn)
@@ -189,12 +192,12 @@ async function hasValidCerts ({domains, ...env}) {
 
       for (let certArn of hasPotential) {
         spinner.stop()
-        const cert = await getCertificate(env, certArn)
+        const cert = await getCert(env, certArn)
         for (let certDomainName of cert.SubjectAlternativeNames) {
           domains.forEach((domain, i) => {
             if (hasCerts[i] === false) {
               if (doesDomainMatch(domain, certDomainName)) {
-                hasCerts[i] = true
+                hasCerts[i] = cert.CertificateArn
               }
             }
           })
@@ -203,30 +206,35 @@ async function hasValidCerts ({domains, ...env}) {
       }
 
       // if all the certs are verified matches we're done here
-      if (hasCerts.every(Boolean)) {
+      if (hasCerts.every(Boolean) || !certs.NextToken) {
         spinner.stop()
-        success('All domains have valid certificates')
-        return hasCerts
-      }
-
-      if (!certs.NextToken) {
-        spinner.stop()
-        const numInvalid = hasCerts.reduce((v, n) => n === false ? v + 1 : v, 0)
-        log(
-          `${numInvalid} ${numInvalid === 1 ? 'domain does' : 'domains do'} not have `
-          + (numInvalid === 1 ? 'a valid certificate' : 'valid certificates')
-        )
-        console.log(hasCerts.map((v, i) => v ? !v : flag(domains[i])).filter(Boolean).join('\n'))
         return hasCerts
       }
     }
-    // return domains.map(d => false)
   }
   catch (err) {
     spinner.fail(`Could not search for certificates`)
     console.log(err.message ? chalk.bold(err.message) : err)
     process.exit(1)
   }
+}
+
+async function hasValidCerts ({domains, ...env}) {
+  const acm = new aws.ACM({credentials: getCredentials(env), region: env.region || 'us-east-1'})
+  const certs = await findCerts({domains, ...env})
+  // if all the certs are verified matches we're done here
+  if (certs.every(Boolean)) {
+    success('All domains have valid certificates')
+    return certs
+  }
+
+  const numInvalid = certs.reduce((v, n) => n === false ? v + 1 : v, 0)
+  log(
+    `${numInvalid} ${numInvalid === 1 ? 'domain does' : 'domains do'} not have `
+    + (numInvalid === 1 ? 'a valid certificate' : 'valid certificates')
+  )
+  console.log(certs.map((v, i) => v ? !v : flag(domains[i])).filter(Boolean).join('\n'))
+  return certs
 }
 
 async function createCert ({domains, ...env}) {
@@ -266,6 +274,31 @@ async function createCert ({domains, ...env}) {
   }
 }
 
+async function removeCert (env) {
+  if (env.retain === true) {
+    return
+  }
+
+  const certs = (await findCerts(env)).filter(Boolean).filter(
+    // makes sure ARNs are unique
+    (value, index, self) => self.indexOf(value) === index
+  )
+
+  if (certs.length) {
+    const spinner = ora({spinner: 'star2'})
+    // removes the certificates
+    const acm = new aws.ACM({credentials: getCredentials(env), region: env.region || 'us-east-1'})
+    const responses = await Promise.all(certs.map(
+      async (CertificateArn) => {
+        await removeDNSValidationRecord(env, CertificateArn)
+        await acm.deleteCertificate({CertificateArn}).promise()
+        process.env.SERVERLESS__CERTIFICATE_ARN = CertificateArn
+      }
+    ))
+    spinner.succeed(`Removed certificates: ${flag(certs.join(', '))}`)
+    return responses
+  }
+}
 
 async function isCertValid (env, arn) {
   if (!arn) {
@@ -276,11 +309,12 @@ async function isCertValid (env, arn) {
 
   try {
     FOUND[arn] = true
-    const cert = await getCertificate(env, arn)
+    const cert = await getCert(env, arn)
     spinner.stop()
     // cert was valid
     if (cert.Status === 'ISSUED') {
       success(cert.DomainName, flag(cert.Status))
+      console.log(cert.CertificateArn)
       return true
     }
     // cert was not valid
@@ -311,7 +345,7 @@ async function waitUntilCertIsValid (env, arn) {
   try {
     await acm.waitFor('certificateValidated', {CertificateArn: arn}).promise()
     spinner.stop()
-    const cert = await getCertificate(env, arn)
+    const cert = await getCert(env, arn)
     success(cert.DomainName, flag(cert.Status))
     return true
   }
@@ -395,6 +429,24 @@ module.exports = class ServerlessPlugin {
           'createCert'
         ]
       },
+      'remove-cert': {
+        usage: 'Uploads your client-side code to S3 without building it',
+        lifecycleEvents: [
+          'removeCert'
+        ]
+      },
+      'remove-cert-dns': {
+        usage: 'Uploads your client-side code to S3 without building it',
+        lifecycleEvents: [
+          'removeDns'
+        ],
+        options: {
+          arn: {
+            usage: '',
+            shortcut: 'a',
+          },
+        },
+      },
     }
 
     assertHasDomains(this.serverless.service.custom.certificateManager.domains)
@@ -407,6 +459,10 @@ module.exports = class ServerlessPlugin {
         const needsCert = config.domains.filter((domain, i) => isValid[i] === false)
         const arn = await createCert({...config, domains: needsCert})
         await waitUntilCertIsValid(config, arn)
+        process.env.SERVERLESS__CERTIFICATE_ARN = arn
+      }
+      else {
+        process.env.SERVERLESS__CERTIFICATE_ARN = isValid[0]
       }
     }
 
@@ -417,10 +473,14 @@ module.exports = class ServerlessPlugin {
       'is-cert-valid:isCertValid': () => isCertValid(getConfig(this.serverless), options.arn),
       'wait-for-cert:waitForCert': () => waitUntilCertIsValid(getConfig(this.serverless), options.arn),
       'get-cert:getCert': async () => {
-        const cert = await getCertificate(getConfig(this.serverless), options.arn)
+        const cert = await getCert(getConfig(this.serverless), options.arn)
         console.log(JSON.stringify(cert, null, 2))
       },
       'create-cert:createCert': createCertsIfNecessary,
+      // runs before `sls remove`
+      'before:remove:remove': () => removeCert(getConfig(this.serverless)),
+      'remove-cert:removeCert': () => removeCert(getConfig(this.serverless)),
+      'remove-cert-dns:removeDns': () => removeDNSValidationRecord(getConfig(this.serverless), options.arn),
     }
   }
 }

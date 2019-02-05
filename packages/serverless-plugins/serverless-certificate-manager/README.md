@@ -24,6 +24,9 @@ custom:
 - `domains {array}`
     - **required**
     - An array of domain names to add to your certificate
+- `retain {bool}`
+   - **default** `false`
+   - Retains the certificate on `sls remove` if `true`, otherwise the certificate is deleted
 - `profile {string}`
     - **default** `provider.profile || process.env.AWS_PROFILE`
     - An AWS profile to use when creating the certificate
@@ -34,7 +37,12 @@ custom:
 ## Commands
 ### `sls create-cert`
 Creates a certificate for the domains in your configuration if they are not already attached to
-other certificates.
+other certificates. Also sets an environment variable with the certificate's ARN.
+
+-----
+
+### `sls get-cert --arn [certificate arn]`
+Deletes the certificate for the domains in your configuration.
 
 -----
 
