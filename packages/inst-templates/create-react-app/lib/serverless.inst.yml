@@ -73,7 +73,7 @@ plugins:
   # Allows API gateway to gzip
   - serverless-apigw-binary
   # Deploys the client-side bundle to S3
-  - '@stellar-apps/serverless-deploy-client-bundle'
+  - '@stellar-apps/serverless-sync-bundle'
   # Packages the server-side bundle
   - serverless-webpack
   # Prevents cold starts
@@ -123,23 +123,11 @@ custom:
       noFrozenLockFile: true
   # Defines settings for client-side bundle objects and the S3 bucket
   deployClientBundle:
-    webpack:
-      config: 'webpack/client.config.js'
-    s3:
-      params:
-        maxRetries: 5
+    'webpack/client.config.js':
       bucket:
         name: ${env:SERVERLESS__S3_BUCKET}
-        params:
-          ACL: 'private'
-        corsRules:
-          - allowedOrigins:
-              - ${env:DOMAIN}
-            allowedHeaders:
-              - '*'
-            allowedMethods:
-              - GET
-            maxAgeSeconds: 86400
+      params:
+        maxRetries: 5
       object:
         '*':
           key: '[filename]'

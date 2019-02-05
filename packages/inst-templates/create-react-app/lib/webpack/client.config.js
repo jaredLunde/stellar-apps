@@ -1,5 +1,6 @@
 const {createDevelopment, createProduction} = require('@stellar-apps/webpack')
 const webpack = require('webpack')
+const {StatsWriterPlugin} = require('webpack-stats-plugin')
 const path = require('path')
 const defaults = require('./default.config')
 const paths = require('./paths')
@@ -54,7 +55,8 @@ else {
           level: zlib.Z_BEST_COMPRESSION,
           memLevel: zlib.Z_BEST_COMPRESSION,
         }
-      })
+      }),
+      new StatsWriterPlugin({fields: ['publicPath', 'chunks']})
     ],
 
     optimization: {

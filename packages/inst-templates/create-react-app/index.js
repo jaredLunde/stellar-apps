@@ -111,7 +111,7 @@ module.exports.devDependencies = {
   "@stellar-apps/babel-preset-react-app": "^1.0.4",
   "@stellar-apps/scripts": "^1.0.0",
   "@stellar-apps/serverless-certificate-manager": "^1.0.0",
-  "@stellar-apps/serverless-deploy-client-bundle": "^1.0.1",
+  "@stellar-apps/serverless-sync-bundle": "^1.0.0",
   "@stellar-apps/serverless-dotenv": "^1.0.2",
   "@stellar-apps/webpack": "^1.0.9",
   "@stellar-apps/webpack-rimraf-plugin": "^1.0.3",
@@ -138,6 +138,7 @@ module.exports.devDependencies = {
   "webpack": "^4.29.0",
   "webpack-bundle-analyzer": "^3.0.3",
   "webpack-cli": "^3.2.1",
+  "webpack-stats-plugin": "^0.2.1",
   "webpack-node-externals": "^1.7.2",
 }
 

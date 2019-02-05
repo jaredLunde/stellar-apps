@@ -276,13 +276,13 @@ module.exports = class ServerlessPlugin {
       )
     )
 
-    return {clientStats, outputPath, config}
+    return {clientStats, outputPath, webpackConfig, config}
   }
 
-  sync = async ({clientStats, outputPath, config}) => {
-    this.spinner.start(`Uploading bundle to ${chalk.bold(config.bucket.name)}...`)
+  sync = async ({clientStats, outputPath, webpackConfig, config}) => {
+    this.spinner.start(`Uploading ${chalk.bold(webpackConfig.name)} to ${chalk.bold(config.bucket.name)}...`)
     await uploadToS3(clientStats.compilation.assets, {outputPath, ...config})
-    this.spinner.succeed(`Uploaded bundle to ${chalk.bold(config.bucket.name)}`)
+    this.spinner.succeed(`Uploaded ${chalk.bold(webpackConfig.name)} to ${chalk.bold(config.bucket.name)}`)
   }
 
   empty = async webpackConfigFile => {
