@@ -1,8 +1,9 @@
 # @stellar-apps/serverless-certificate-manager
-An ACM certificate manager for API Gateway Lambda functions with custom domain names. This
-plugin will automatically create your ACM certificates before your first deployment and
-wait for them to become valid before continuing your deployment. It will not run when
-individual functions are deployed.
+An ACM certificate manager which allows for certificate re-use and re-issuing outside the scope
+of CloudFormation, while still acting in coalition with it. This plugin will automatically create 
+your ACM certificates before your first deployment and wait for them to become valid before continuing 
+your deployment. You can inject the resulting ARNs elsewhere in your config, i.e. a CloudFront distribution.
+It will not run when individual functions are deployed.
 
 ## Installation
 `yarn add --dev @stellar-apps/serverless-certificate-manager`
@@ -15,9 +16,13 @@ plugins:
  
 custom:
   certificateManager:
-    domains:
-      - foobar.com
-      - '*.foobar.com'
+    - retain: true
+      domains:
+        - foobar.com
+        - '*.foobar.com'
+    - refFor: resources.Resource.SomeAWSResource.AcmCertificateArn
+      domains:
+        - 'foobar.baz'
 ```
 
 ## Configuration
@@ -25,8 +30,19 @@ custom:
     - **required**
     - An array of domain names to add to your certificate
 - `retain {bool}`
-   - **default** `false`
-   - Retains the certificate on `sls remove` if `true`, otherwise the certificate is deleted
+    - **default** `false`
+    - Retains the certificate on `sls remove` if `true`, otherwise the certificate is deleted
+- `refFor {Array<string>}`
+    - Object paths (`custom.bar.baz`) to properties in your Serverless configuration where you'd
+      like the resulting certificate ARN to be injected. This is useful when sharing wildcard
+      certificates between configurations where you don't want to lose the benefits of a pure
+      CloudFormation implementation. These are injected on each `sls deploy`.
+    - **Example**
+ ```yaml
+    certificateManager:
+       - refFor:
+          - resources.Resources.CloudFrontDistribution.Properties.ViewerCertificate.AcmCertificateArn
+ ```
 - `profile {string}`
     - **default** `provider.profile || process.env.AWS_PROFILE`
     - An AWS profile to use when creating the certificate
@@ -36,33 +52,22 @@ custom:
     
 ## Commands
 ### `sls create-cert`
-Creates a certificate for the domains in your configuration if they are not already attached to
-other certificates. Also sets an environment variable with the certificate's ARN.
+Creates certificates for the domains in your configuration if they are not already attached to
+other certificates. Also injects the `refFor` properties into your config.
 
 -----
 
-### `sls get-cert --arn [certificate arn]`
-Deletes the certificate for the domains in your configuration.
+### `sls get-cert`
+Gets the JSON object result of `describeCertificate` attached to the domains in your 
+configuration.
 
 -----
 
-### `sls get-cert --arn [certificate arn]`
-Prints a JSON object result of `describeCertificate` for the given arn
+### `sls remove-cert`
+Deletes the certificates defined in your configuration where the `retain` property is not `true`
 
-### Options
-- `arn {string}`
-    - The certificate ARN to describe
     
 -----
 
 ### `sls has-valid-certs`
-Checks to see if your list of domains has valid certificates attached to them
-
------
-
-### `sls is-cert-valid --arn [certificate arn]`
-Checks whether or not a particular certificate is valid
-
-### Options
-- `arn {string}`
-    - The certificate ARN to check the validity of
+Checks to see if your configurations have valid certificates attached to them

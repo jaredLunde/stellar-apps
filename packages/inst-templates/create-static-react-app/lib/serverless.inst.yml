@@ -2,7 +2,6 @@
 # All variables are here:
 # https://serverless.com/framework/docs/providers/aws/guide/serverless.yml/
 service: <:ROOT_NAME:>-<:PKG_NAME:>
-# TODO: https://github.com/ServerlessOpsIO/serverless-zombo.com/blob/master/serverless.yml
 
 provider:
   name: aws
@@ -22,11 +21,6 @@ provider:
     serverSideEncryption: AES256
   # The S3 prefix under which deployed artifacts should be stored
   deploymentPrefix: artifacts
-  # Use a custom name for the API Gateway API
-  apiName: ${self:service}-${self:provider.stage}
-  apiGateway:
-    # Compress response when larger than specified size in bytes (must be between 0 and 10485760)
-    minimumCompressionSize: 2048
   # Optional endpoint configuration for API Gateway REST API. Other option is 'edge'
   endpointType: regional
   # IAM role statements so that services can be accessed in the AWS account
@@ -36,6 +30,7 @@ provider:
         - cloudformation:DescribeStackResourc
       Resource: "*"
 
+# SEE: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/Welcome.html
 resources:
   Resources:
     # Creates a static site bucket named after the domain name
@@ -187,17 +182,14 @@ plugins:
   - '@stellar-apps/serverless-sync-bundle'
 
 custom:
-  # Environment variables
-  dotenv:
-    exclude:
-      - 'SERVERLESS__*'
   # Creates ACM certificates for the app domains
   certificateManager:
-    refFor:
-      - resources.Resources.CloudFrontDistribution.Properties.ViewerCertificate.AcmCertificateArn
-    domains:
-      - <:DOMAIN:>
-      - '*.<:DOMAIN:>'
+    - refFor:
+        - resources.Resources.CloudFrontDistribution.Properties.ViewerCertificate.AcmCertificateArn
+      retain: false
+      domains:
+        - <:DOMAIN:>
+        - '*.<:DOMAIN:>'
   # Defines settings for client-side bundle objects and the S3 bucket
   syncBundle:
     'webpack/client.config.js':

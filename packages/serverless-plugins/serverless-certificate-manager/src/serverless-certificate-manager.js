@@ -224,7 +224,7 @@ async function hasValidCerts ({domains, ...env}) {
   const certs = await findCerts({domains, ...env})
   // if all the certs are verified matches we're done here
   if (certs.every(Boolean)) {
-    success('All domains have valid certificates')
+    success(`All domains have valid certificates\n  ${flag(domains.join('\n  '))}`)
     return certs
   }
 
@@ -233,7 +233,7 @@ async function hasValidCerts ({domains, ...env}) {
     `${numInvalid} ${numInvalid === 1 ? 'domain does' : 'domains do'} not have `
     + (numInvalid === 1 ? 'a valid certificate' : 'valid certificates')
   )
-  console.log(certs.map((v, i) => v ? !v : flag(domains[i])).filter(Boolean).join('\n'))
+  console.log(' ', certs.map((v, i) => v ? !v : flag(domains[i])).filter(Boolean).join('\n  '))
   return certs
 }
 
@@ -379,18 +379,23 @@ function getConfig (serverless) {
   let config =
     serverless.service.custom && serverless.service.custom.certificateManager
       ? serverless.service.custom.certificateManager
-      : {}
-  // sets the AWS region for the certificates
-  const region = config?.region || serverless.service.provider?.region || process.env.AWS_REGION
-  // grabs the credentials
-  const credentials = {
-    profile: config?.credentials?.profile
-      || serverless.service.provider?.profile
-      || process.env.AWS_PROFILE,
-    ...config.credentials
-  }
+      : [{}]
 
-  return {...config, credentials, region}
+  // sets defaults for each search definition
+  return config.map(
+    cfg => {
+      // sets the AWS region for the certificates
+      const region = cfg?.region || serverless.service.provider?.region || process.env.AWS_REGION
+      // grabs the credentials
+      const credentials = {
+        profile: cfg?.credentials?.profile
+          || serverless.service.provider?.profile
+          || process.env.AWS_PROFILE,
+        ...cfg.credentials
+      }
+      return {...cfg, credentials, region}
+    }
+  )
 }
 
 module.exports = class ServerlessPlugin {
@@ -403,43 +408,17 @@ module.exports = class ServerlessPlugin {
           'hasValidCerts'
         ]
       },
-      'is-cert-valid': {
-        usage: 'Builds the client-side code for your web application',
-        lifecycleEvents: [
-          'isCertValid'
-        ],
-        options: {
-          arn: {
-            usage: '',
-            shortcut: 'a',
-            required: true,
-          },
-        },
-      },
       'wait-for-cert': {
         usage: 'Builds and deploys your client-side code to S3',
         lifecycleEvents: [
           'waitForCert',
-        ],
-        options: {
-          arn: {
-            usage: '',
-            shortcut: 'a',
-            required: true
-          },
-        },
+        ]
       },
       'get-cert': {
         usage: 'Uploads your client-side code to S3 without building it',
         lifecycleEvents: [
           'getCert'
-        ],
-        options: {
-          arn: {
-            usage: '',
-            shortcut: 'a',
-          },
-        },
+        ]
       },
       'create-cert': {
         usage: 'Uploads your client-side code to S3 without building it',
@@ -453,57 +432,70 @@ module.exports = class ServerlessPlugin {
           'removeCert'
         ]
       },
-      'remove-cert-dns': {
-        usage: 'Uploads your client-side code to S3 without building it',
-        lifecycleEvents: [
-          'removeDns'
-        ],
-        options: {
-          arn: {
-            usage: '',
-            shortcut: 'a',
-          },
-        },
-      },
     }
 
-    assertHasDomains(this.serverless.service.custom.certificateManager.domains)
+    const createCertsIfNecessary = () => {
+      const configs = getConfig(this.serverless)
 
-    const createCertsIfNecessary = async () => {
-      const config = getConfig(this.serverless)
-      const isValid = await hasValidCerts(config)
+      return Promise.all(
+        configs.map(
+          async config => {
+            const isValid = await hasValidCerts(config)
 
-      if (isValid.every(Boolean) === false) {
-        const needsCert = config.domains.filter((domain, i) => isValid[i] === false)
-        const arn = await createCert({...config, domains: needsCert})
-        await waitUntilCertIsValid(config, arn)
+            if (isValid.every(Boolean) === false) {
+              const needsCert = config.domains.filter((domain, i) => isValid[i] === false)
+              const arn = await createCert({...config, domains: needsCert})
+              await waitUntilCertIsValid(config, arn)
 
-        if (Array.isArray(config.refFor)) {
-          config.refFor.forEach(refFor => setIn(this.serverless.service, refFor, arn))
-        }
-      }
-      else {
-        if (Array.isArray(config.refFor)) {
-          config.refFor.forEach(refFor => setIn(this.serverless.service, refFor, isValid[0]))
-        }
-      }
+              if (Array.isArray(config.refFor)) {
+                config.refFor.forEach(refFor => setIn(this.serverless.service, refFor, arn))
+              }
+            }
+            else {
+              if (Array.isArray(config.refFor)) {
+                config.refFor.forEach(refFor => setIn(this.serverless.service, refFor, isValid[0]))
+              }
+            }
+          }
+        )
+      )
     }
 
     this.hooks = {
       // runs right away on 'deploy'
       'after:package:initialize': createCertsIfNecessary,
-      'has-valid-certs:hasValidCerts': () => hasValidCerts(getConfig(this.serverless)),
-      'is-cert-valid:isCertValid': () => isCertValid(getConfig(this.serverless), options.arn),
-      'wait-for-cert:waitForCert': () => waitUntilCertIsValid(getConfig(this.serverless), options.arn),
+      'has-valid-certs:hasValidCerts': () => Promise.all(
+        getConfig(this.serverless).map(hasValidCerts)
+      ),
+      'wait-for-cert:waitForCert': async () => {
+        for (let config of getConfig(this.serverless)) {
+          const certs = (await findCerts(config)).filter(Boolean).filter(
+            // makes sure ARNs are unique
+            (value, index, self) => self.indexOf(value) === index
+          )
+
+          await Promise.all(certs.map(arn => waitUntilCertIsValid(config, arn)))
+        }
+      },
       'get-cert:getCert': async () => {
-        const cert = await getCert(getConfig(this.serverless), options.arn)
-        console.log(JSON.stringify(cert, null, 2))
+        for (let config of getConfig(this.serverless)) {
+          const certs = (await findCerts(config)).filter(Boolean).filter(
+            // makes sure ARNs are unique
+            (value, index, self) => self.indexOf(value) === index
+          )
+
+          for (let cert of certs) {
+            console.log('\n-------------------------------------------------------------------\n')
+            console.log(flag(cert))
+            console.log('\n-------------------------------------------------------------------')
+            console.log(JSON.stringify(await getCert(config, cert), null, 2))
+          }
+        }
       },
       'create-cert:createCert': createCertsIfNecessary,
       // runs after `sls remove`
-      'after:remove:remove': () => removeCert(getConfig(this.serverless)),
-      'remove-cert:removeCert': () => removeCert(getConfig(this.serverless)),
-      'remove-cert-dns:removeDns': () => removeDNSValidationRecord(getConfig(this.serverless), options.arn),
+      'after:remove:remove': () => Promise.all(getConfig(this.serverless).map(removeCert)),
+      'remove-cert:removeCert': () => Promise.all(getConfig(this.serverless).map(removeCert))
     }
   }
 }
