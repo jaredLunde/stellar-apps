@@ -408,25 +408,25 @@ module.exports = class ServerlessPlugin {
           'hasValidCerts'
         ]
       },
-      'wait-for-cert': {
+      'wait-for-certs': {
         usage: 'Builds and deploys your client-side code to S3',
         lifecycleEvents: [
           'waitForCert',
         ]
       },
-      'get-cert': {
+      'get-certs': {
         usage: 'Uploads your client-side code to S3 without building it',
         lifecycleEvents: [
           'getCert'
         ]
       },
-      'create-cert': {
+      'create-certs': {
         usage: 'Uploads your client-side code to S3 without building it',
         lifecycleEvents: [
           'createCert'
         ]
       },
-      'remove-cert': {
+      'remove-certs': {
         usage: 'Uploads your client-side code to S3 without building it',
         lifecycleEvents: [
           'removeCert'
@@ -467,7 +467,7 @@ module.exports = class ServerlessPlugin {
       'has-valid-certs:hasValidCerts': () => Promise.all(
         getConfig(this.serverless).map(hasValidCerts)
       ),
-      'wait-for-cert:waitForCert': async () => {
+      'wait-for-certs:waitForCert': async () => {
         for (let config of getConfig(this.serverless)) {
           const certs = (await findCerts(config)).filter(Boolean).filter(
             // makes sure ARNs are unique
@@ -477,7 +477,7 @@ module.exports = class ServerlessPlugin {
           await Promise.all(certs.map(arn => waitUntilCertIsValid(config, arn)))
         }
       },
-      'get-cert:getCert': async () => {
+      'get-certs:getCert': async () => {
         for (let config of getConfig(this.serverless)) {
           const certs = (await findCerts(config)).filter(Boolean).filter(
             // makes sure ARNs are unique
@@ -492,10 +492,10 @@ module.exports = class ServerlessPlugin {
           }
         }
       },
-      'create-cert:createCert': createCertsIfNecessary,
+      'create-certs:createCert': createCertsIfNecessary,
       // runs after `sls remove`
       'after:remove:remove': () => Promise.all(getConfig(this.serverless).map(removeCert)),
-      'remove-cert:removeCert': () => Promise.all(getConfig(this.serverless).map(removeCert))
+      'remove-certs:removeCert': () => Promise.all(getConfig(this.serverless).map(removeCert))
     }
   }
 }

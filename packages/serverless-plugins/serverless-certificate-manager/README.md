@@ -41,7 +41,7 @@ custom:
  ```yaml
     certificateManager:
        - refFor:
-          - resources.Resources.CloudFrontDistribution.Properties.ViewerCertificate.AcmCertificateArn
+          - resources.Resources.CloudFrontDistribution.Properties.DistributionConfig.ViewerCertificate.AcmCertificateArn
  ```
 - `profile {string}`
     - **default** `provider.profile || process.env.AWS_PROFILE`
@@ -51,22 +51,21 @@ custom:
     - The region to create your certificate in
     
 ## Commands
-### `sls create-cert`
+### `sls create-certs`
 Creates certificates for the domains in your configuration if they are not already attached to
 other certificates. Also injects the `refFor` properties into your config.
 
 -----
 
-### `sls get-cert`
+### `sls get-certs`
 Gets the JSON object result of `describeCertificate` attached to the domains in your 
 configuration.
 
 -----
 
-### `sls remove-cert`
+### `sls remove-certs`
 Deletes the certificates defined in your configuration where the `retain` property is not `true`
 
-    
 -----
 
 ### `sls has-valid-certs`

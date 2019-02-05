@@ -185,7 +185,7 @@ custom:
   # Creates ACM certificates for the app domains
   certificateManager:
     - refFor:
-        - resources.Resources.CloudFrontDistribution.Properties.ViewerCertificate.AcmCertificateArn
+        - resources.Resources.CloudFrontDistribution.Properties.DistributionConfig.ViewerCertificate.AcmCertificateArn
       retain: false
       domains:
         - <:DOMAIN:>
