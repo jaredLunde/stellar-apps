@@ -1,13 +1,3 @@
-// NOTE: TODO
-// NOTE: TODO
-// NOTE: FOR THE LOVE OF GOD NOTICE ME
-// TODO
-// https://github.com/alansouzati/react-router-to-array
-//
-//
-//
-//
-//
 const {flag, required, trim} = require('@inst-pkg/template-utils')
 
 module.exports = {}

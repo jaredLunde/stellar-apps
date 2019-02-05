@@ -1,12 +1,12 @@
 {
-  "name": "@stellar-apps/env-config",
-  "version": "1.0.0",
+  "name": "@stellar-apps/inst-utils",
+  "version": "1.0.1",
   "main": "dist/cjs/index.js",
   "author": "Jared Lunde <jared@BeStellar.co> (https://BeStellar.co)",
   "license": "MIT",
   "sideEffects": false,
   "module": "dist/es/index.js",
-  "repository": "https://github.com/jaredLunde/stellar-apps/tree/master/packages/env-config",
+  "repository": "https://github.com/jaredLunde/stellar-apps/tree/master/packages/utils",
   "scripts": {
     "build": "yarn run build:es && yarn run build:cjs",
     "build:es": "rimraf dist/es && cross-env NODE_ENV=production BABEL_ENV=es babel src --out-dir dist/es && npm run prettier:es",
@@ -18,12 +18,14 @@
   },
   "devDependencies": {
     "@stellar-apps/babel-preset-es": "^1.0.1",
-    "prettier": "^1.16.1",
+    "prettier": "^1.16.4",
     "rimraf": "^2.6.3"
   },
   "dependencies": {
     "@babel/runtime": "^7.3.1",
     "@babel/runtime-corejs2": "^7.3.1",
-    "camel-case": "^3.0.0"
+    "fs-extra": "^7.0.1",
+    "ncp": "^2.0.0",
+    "pkg-up": "^2.0.0"
   }
 }

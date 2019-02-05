@@ -135,8 +135,21 @@ module.exports = function startRenderer (
     // starts the webpack compilers
     webpack([clientConfig, serverConfig]).run(
       (err, stats) => {
-        if (err) {
-          console.log('[Error]', err)
+        if (err || stats.hasErrors()) {
+          if (err) {
+            console.log(chalk.red('[SSR Error]'))
+            console.log(err)
+          }
+
+          if (stats.stats[0].compilation.errors.length) {
+            console.log(chalk.red('[Client Errors]'))
+            console.log(stats.stats[0].compilation.errors.join('\n\n'))
+          }
+
+          if (stats.stats[1].compilation.errors.length) {
+            console.log(chalk.red('[Server Errors]'))
+            console.log(stats.stats[1].compilation.errors.join('\n\n'))
+          }
         }
         else {
           const  [clientStats, _] = stats.toJson().children
