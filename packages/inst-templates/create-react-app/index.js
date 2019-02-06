@@ -19,7 +19,7 @@ module.exports.prompts = (
     // for valid prompts
     autocompleteIni(inquirer, CREDENTIALS_FILE, {
       name: 'AWS_PROFILE',
-      message: `AWS Profile              :`,
+      message: `AWS profile              :`,
       default: `${PKG_NAME}-dev`,
       filter: trim,
       validate: required,

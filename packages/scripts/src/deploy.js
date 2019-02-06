@@ -10,7 +10,7 @@ export default async function deploy ({stage = 'staging', stack = false}) {
   const envDefs = `
     NODE_ENV=production \
     BABEL_ENV=${process.env.BABEL_ENV || 'production'} \
-    STAGE=${stage}
+    STAGE=${stage} \
   `
 
   if (pkgJson.stellar.type.includes('serverless')) {

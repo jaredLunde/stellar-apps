@@ -12,7 +12,7 @@ yarn inst @stellar-apps/create-static-react-app
 ## Installation options
 - `Name`
     - The name of the package you're creating
-- `AWS Profile`
+- `AWS profile`
     - The name of the AWS profile in your `~/.aws/credentials` file that you'd like to use
       to deploy this application
 - `Domain name [production]`
