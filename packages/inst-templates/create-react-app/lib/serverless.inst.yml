@@ -57,6 +57,32 @@ resources:
                 - '*'
               AllowedMethods:
                 - GET
+    # Redirects WWW to naked domain
+    # StaticRedirectS3Bucket:
+    #   Type: AWS::S3::Bucket
+    #   # DeletionPolicy: Retain
+    #   Properties:
+    #     AccessControl: PublicRead
+    #     BucketName: www.${self:custom.domain}
+    #     WebsiteConfiguration:
+    #       HttpRedirectCode: 301
+    #       Protocol: https
+    #       HostName: ${self:custom.domain}
+    # Redirect DNS record
+    # StaticRedirectDnsRecord:
+    #   Type: AWS::Route53::RecordSet
+    #   DependsOn:
+    #     - StaticRedirectS3Bucket
+    #   Properties:
+    #     AliasTarget:
+    #       # These two values differ regionally, so make sure your values match your region
+    #       # See here: https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_website_region_endpoints
+    #       DNSName: s3-website-us-east-1.amazonaws.com. # us-east-1
+    #       HostedZoneId: Z3AQBSTGFYJSTF                 # us-east-1
+    #     HostedZoneName: ${self:custom.hostedZone}
+    #     Name:
+    #       Ref: StaticRedirectS3Bucket
+    #     Type: 'A'
 
 functions:
   app:
@@ -104,14 +130,16 @@ plugins:
   - serverless-plugin-lambda-warmup
 
 custom:
-  # Environment variables
-  dotenv:
-    exclude:
-      - 'SERVERLESS__*'
   # Defines the domain name being created in this template
   domain: ${env:DOMAIN}
   # Defines the S3 bucket for client resources: images, js, json, etc.
   S3Bucket: ${env:SERVERLESS__S3_BUCKET, ""}
+  # The hosted zone in Route 53 where the domain records reside
+  hostedZone: ${env:SERVERLESS__HOSTED_ZONE, ""}
+  # Environment variables
+  dotenv:
+    exclude:
+      - 'SERVERLESS__*'
   # Creates ACM certificates for the app domains
   certificateManager:
     # Make `false` to delete this certificate on teardown

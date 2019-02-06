@@ -6,9 +6,7 @@ import {getPkgJson, pwd} from '@inst-pkg/template-utils'
 export default async function teardown ({stage}) {
   const pkgJson = getPkgJson(pwd())
   const crossEnvBin = findBin('cross-env')
-  stage = process.env.STAGE || (
-    stage ? stage : pkgJson.stellar.type === 'serverless-static-app' ? 'production' : 'staging'
-  )
+  stage = process.env.STAGE || 'staging'
 
   if (pkgJson.stellar.type.includes('serverless')) {
     const serverlessBin = findBin('serverless')

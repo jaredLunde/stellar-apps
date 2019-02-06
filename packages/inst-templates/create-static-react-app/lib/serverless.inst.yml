@@ -205,7 +205,7 @@ resources:
     #       # See here: https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_website_region_endpoints
     #       DNSName: s3-website-us-east-1.amazonaws.com. # us-east-1
     #       HostedZoneId: Z3AQBSTGFYJSTF                 # us-east-1
-    #     HostedZoneName: ${self:hostedZone}
+    #     HostedZoneName: ${self:custom.hostedZone}
     #     Name:
     #       Ref: StaticRedirectS3Bucket
     #     Type: 'A'
