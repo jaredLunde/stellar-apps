@@ -58,6 +58,9 @@ to prevent encountering errors when you try to remove certificates that are stil
 other applications, e.g. wildcard certificates. To change this behavior, set `retain` to `false`
 in `custom.certificateManager.retain`
 
+4. Pay special attention to the `custom.certificateManager.domains` listed to be sure they are
+exactly the domains you need a certificate for and that they will use the exact same certificate.
+
 ## Managing the application
 ### Starting the app in the `development` stage and `development` NODE_ENV on a local server
 ```bash
@@ -95,6 +98,18 @@ yarn my-app deploy
 ```bash
 cd my-workspace
 yarn my-app deploy production
+```
+
+### Bundling the application without uploading the `staging` stage to S3
+```bash
+cd my-workspace
+yarn my-app bundle
+```
+
+### Bundling the application without uploading the `production` stage to S3
+```bash
+cd my-workspace
+yarn my-app bundle production
 ```
 
 ### Tearing down the `staging` CloudFormation stack
