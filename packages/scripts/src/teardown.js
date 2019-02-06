@@ -3,10 +3,10 @@ import {findBin} from './utils'
 import {getPkgJson, pwd} from '@inst-pkg/template-utils'
 
 
-export default async function teardown ({stage}) {
+export default async function teardown ({stage = 'staging'}) {
   const pkgJson = getPkgJson(pwd())
   const crossEnvBin = findBin('cross-env')
-  stage = process.env.STAGE || 'staging'
+  stage = process.env.STAGE || stage
 
   if (pkgJson.stellar.type.includes('serverless')) {
     const serverlessBin = findBin('serverless')

@@ -1,6 +1,6 @@
 {
   "name": "@stellar-apps/scripts",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "main": "dist/cjs/index.js",
   "bin": {
     "stellar-scripts": "dist/cjs/index.js"
