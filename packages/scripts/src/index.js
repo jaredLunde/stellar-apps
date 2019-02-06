@@ -3,7 +3,9 @@ import chalk from 'chalk'
 import yargs from 'yargs'
 import {log, flag} from './utils'
 import start from './start'
+import bundle from './bundle'
 import deploy from './deploy'
+import teardown from './teardown'
 
 
 yargs.scriptName('stellar-scripts')
@@ -51,10 +53,10 @@ yargs.command(
 
 yargs.command(
   'deploy [stage]',
-  'Deploys the nearest app or API with Serverless',
+  'Deploys the nearest app or API with Serverless/CloudFormation',
   yargs => {
     yargs.positional(
-      'env', {
+      'stage', {
         describe: (
           `The stage to deploy in Serverless. If not provided this will default to  `
           + `process.env.STAGE || "staging".`
@@ -63,15 +65,44 @@ yargs.command(
     )
 
     yargs.option(
-      'init', {
+      'stack', {
         type: 'boolean',
-        alias: 'i',
-        describe: `Initializes a complete deploy, not just the main function`
+        alias: 's',
+        describe: `Initializes a complete stack deployment, not just the main function`
       }
     )
   }
 )
 
+yargs.command(
+  'bundle [stage]',
+  'Bundles the nearest app or API with `sls bundle`',
+  yargs => {
+    yargs.positional(
+      'stage', {
+        describe: (
+          `The stage to deploy in Serverless. If not provided this will default to  `
+          + `process.env.STAGE || "production".`
+        )
+      }
+    )
+  }
+)
+
+yargs.command(
+  'teardown [stage]',
+  'Removes the nearest app or API with Serverless/CloudFormation',
+  yargs => {
+    yargs.positional(
+      'stage', {
+        describe: (
+          `The stage to teardown in Serverless. If not provided this will default to  `
+          + `process.env.STAGE || "staging".`
+        )
+      }
+    )
+  }
+)
 
 const args = yargs.argv
 
@@ -86,10 +117,16 @@ function logDone () {
 switch (cmd) {
   case 'start':
     start(args).then(logDone)
-    break;
+    break
   case 'deploy':
     deploy(args).then(logDone)
-    break;
+    break
+  case 'bundle':
+    bundle(args).then(logDone)
+    break
+  case 'teardown':
+    teardown(args).then(logDone)
+    break
   default:
     log(
       flag('Error', 'red'),

@@ -39,16 +39,19 @@ resources:
       # DeletionPolicy: Retain
       Properties:
         AccessControl: PublicRead
-        BucketName: ${env:SERVERLESS__SITE_S3_BUCKET, ""}
+        BucketName: ${self:custom.siteS3Bucket}
         WebsiteConfiguration:
           IndexDocument: index.html
+
     # Creates a bucket policy for the static site bucket
     StaticSiteS3BucketPolicy:
       Type: AWS::S3::BucketPolicy
+      # Waits for the bucket to be created before attaching its policy
       DependsOn:
         - StaticSiteS3Bucket
       Properties:
         Bucket:
+          # The Ref returned by StaticSiteS3Bucket is the name of the bucket
           Ref: StaticSiteS3Bucket
         PolicyDocument:
           Statement:
@@ -59,104 +62,138 @@ resources:
                 - s3:GetObject
               Resource:
                 Fn::Join: ["", ["arn:aws:s3:::", {"Ref": "StaticSiteS3Bucket"}, "/*"]]
+
     # Creates a bucket for public assets
-    # Comment out if using a shared or existing bucket
+    # DELETE if using a shared or existing bucket
     ClientS3Bucket:
       Type: AWS::S3::Bucket
       # DeletionPolicy: Retain
       Properties:
+        # The bucket itself should be private by default for security, objects can
+        # optionally be defined as public
         AccessControl: Private
-        BucketName: ${env:SERVERLESS__CLIENT_S3_BUCKET, ""}
+        BucketName: ${self:custom.clientS3Bucket}
         CorsConfiguration:
           CorsRules:
+            # By default, this only allows the static site's domain as an origin. You can
+            # add more allowed origins to your leisure.
             - AllowedOrigins:
-                - ${env:DOMAIN, ""}
+                - ${self:custom.domain}
               AllowedHeaders:
                 - '*'
               AllowedMethods:
                 - GET
-    # Sets up the CloudFront custom certificate
-    # StaticSiteCert:
-    #   Type: AWS::CertificateManager::Certificate
-    #   Properties:
-    #     DomainName: ${env:DOMAIN}
-    #     DomainValidationOptions:
-    #       - DomainName: ${env:DOMAIN}
-    #         ValidationDomain: ${env:DOMAIN}
+
     # Sets up the CloudFront distribution
-    CloudFrontDistribution:
+    # This is necessary to deliver the static website over HTTPS, as S3 only allows
+    # static sites of HTTP
+    StaticCloudFrontDistribution:
       Type: AWS::CloudFront::Distribution
+      # Waits for the static site bucket to be created before initiating
       DependsOn:
         - StaticSiteS3BucketPolicy
-        # - StaticSiteCert
       Properties:
         DistributionConfig:
           Origins:
             - DomainName:
+                # Gets the domain name returned by StaticSiteS3Bucket's creation e.g.
+                # <bucket-name>.s3-website-<AWS-region>.amazonaws.com
                 Fn::GetAtt:
                   - StaticSiteS3Bucket
                   - DomainName
               Id:
+                # Grabs the bucket name returned by StaticSiteS3Bucket's creation
                 Ref: StaticSiteS3Bucket
               CustomOriginConfig:
+                # These are the ports S3 websites listen on, though 443 actually won't be
+                # used due to the OriginProtocolPolicy below
                 HTTPPort: 80
                 HTTPSPort: 443
+                # Not sure this actually matters
                 OriginSSLProtocols:
                   - TLSv1.1
                   - TLSv1
+                # S3 websites only operate on HTTP, so this cannot be HTTPS, though that
+                # would be desired
                 OriginProtocolPolicy: http-only
+          # This distribution can be temporarily disabled by defining 'false' here
           Enabled: 'true'
+          # Delivers the distribution over HTTP/2 with a fallback to HTTP/1.1
           HttpVersion: http2
+          # Selects the regions to deploy the distribution to. By default we are just deploying
+          # to US, CAN, and EU.
           PriceClass: PriceClass_100  # US, CAN, EU
+          # Sets up a custom domain name for the distribution
           Aliases:
-            - ${env:DOMAIN, ""}
+            - ${self:custom.domain}
+          # Attaches a custom certificate so that this distribution can use a custom domain
+          ViewerCertificate:
+            # Will be populated with @stellar-apps/serverless-certificate-manager
+            AcmCertificateArn: ''
+            MinimumProtocolVersion: TLSv1.1_2016
+            SslSupportMethod: sni-only
           DefaultRootObject: index.html
           CustomErrorResponses:
             - ErrorCode: 404
+              # Can easily be changed to /error.html should you create a custom error page
+              # and proper 404 code if you wish
               ResponseCode: 200
               ResponsePagePath: /index.html
+          # Sets up the CF cache behaviors for objects retrieved from the origin
           DefaultCacheBehavior:
             AllowedMethods:
               - GET
               - HEAD
+            # Sets the StaticSiteS3Bucket name as its target origin ID
             TargetOriginId:
               Ref: StaticSiteS3Bucket
             ForwardedValues:
               QueryString: 'false'
+              # You can optionally forward cookies to the origin server here, not necessary
+              # with S3 static hosting, but could be useful if you had a lambda function
+              # intermediary
               Cookies:
                 Forward: none
+            # Redirects HTTP requests to HTTPS so this distribution is always delivered
+            # securely
             ViewerProtocolPolicy: redirect-to-https
-          ViewerCertificate:
-            AcmCertificateArn: ''
-              # Ref: StaticSiteCert
-            MinimumProtocolVersion: TLSv1.1_2016
-            SslSupportMethod: sni-only
-    # Sets up Route 53 for the S3 static site
+
+    # Sets up Route 53 for the S3 static site CF distribution
     CloudFrontDnsRecord:
       Type: AWS::Route53::RecordSet
+      # Waits for the CF distribution to finish before creating the record
       DependsOn:
-        CloudFrontDistribution
+        StaticCloudFrontDistribution
       Properties:
+        # Sets up CloudFront as an ALIAS
         AliasTarget:
           DNSName:
+            # Gets the domain name returned by StaticCloudFrontDistribution's creation
             Fn::GetAtt:
-              - CloudFrontDistribution
+              - StaticCloudFrontDistribution
               - DomainName
-          HostedZoneId: Z2FDTNDATAQYW2  # us-east-1
-        HostedZoneName: ${env:SERVERLESS__HOSTED_ZONE, ""}
-        Name: ${env:DOMAIN, ""}.
+          # The region where your Route 53 hosted zone exists.
+          # This is the only HostedZoneId for CloudFront
+          #
+          # See here: https://docs.aws.amazon.com/general/latest/gr/rande.html#cf_region
+          HostedZoneId: Z2FDTNDATAQYW2
+        # This is the name of the hosted zone, e.g. `foo.com.`
+        HostedZoneName: ${self:custom.hostedZone}
+        # This is the name of the A record, e.g. `www.foo.com.`
+        Name: ${self:custom.domain}.
         Type: 'A'
+
     # Redirects WWW to naked domain
     # StaticRedirectS3Bucket:
     #   Type: AWS::S3::Bucket
     #   # DeletionPolicy: Retain
     #   Properties:
     #     AccessControl: PublicRead
-    #     BucketName: www.<:DOMAIN:>
+    #     BucketName: www.${self:custom.domain}
     #     WebsiteConfiguration:
     #       HttpRedirectCode: 301
     #       Protocol: https
-    #       HostName: <:DOMAIN:>
+    #       HostName: ${self:custom.domain}
     # Redirect DNS record
     # StaticRedirectDnsRecord:
     #   Type: AWS::Route53::RecordSet
@@ -164,9 +201,11 @@ resources:
     #     - StaticRedirectS3Bucket
     #   Properties:
     #     AliasTarget:
+    #       # These two values differ regionally, so make sure your values match your region
+    #       # See here: https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_website_region_endpoints
     #       DNSName: s3-website-us-east-1.amazonaws.com. # us-east-1
-    #       HostedZoneId: Z2FDTNDATAQYW2                 # us-east-1
-    #     HostedZoneName: ${env:SERVERLESS__HOSTED_ZONE, ""}
+    #       HostedZoneId: Z3AQBSTGFYJSTF                 # us-east-1
+    #     HostedZoneName: ${self:hostedZone}
     #     Name:
     #       Ref: StaticRedirectS3Bucket
     #     Type: 'A'
@@ -176,45 +215,68 @@ plugins:
   - '@stellar-apps/serverless-dotenv'
   # Creates ACM certificates for the app domains
   - '@stellar-apps/serverless-certificate-manager'
-  # Runs the static site webpack bundler
+  # Used for running scripts on Serverless lifecycle hooks
   # - serverless-plugin-scripts
   # Deploys Webpack bundles to S3
   - '@stellar-apps/serverless-sync-bundle'
 
 custom:
+  # Defines the domain name being created in this template
+  domain: ${env:DOMAIN}
+  # Defines the S3 bucket for the static HTML site
+  siteS3Bucket: ${env:SERVERLESS__SITE_S3_BUCKET, ""}
+  # Defines the S3 bucket for client resources: images, js, json, etc.
+  clientS3Bucket: ${env:SERVERLESS__CLIENT_S3_BUCKET, ""}
+  # The hosted zone in Route 53 where the domain records reside
+  hostedZone: ${env:SERVERLESS__HOSTED_ZONE, ""}
   # Creates ACM certificates for the app domains
   certificateManager:
     - refFor:
-        - resources.Resources.CloudFrontDistribution.Properties.DistributionConfig.ViewerCertificate.AcmCertificateArn
+        - resources.Resources.StaticCloudFrontDistribution.Properties.DistributionConfig.ViewerCertificate.AcmCertificateArn
       retain: false
       domains:
-        - <:DOMAIN:>
-        - '*.<:DOMAIN:>'
-  # Defines settings for client-side bundle objects and the S3 bucket
+        - ${self:custom.domain}
+        - '*.${self:custom.domain}'
+  # Defines settings for the application bundles
   syncBundle:
+    # Client-side bundle for JS, images, etc.
+    # This must be executed before `server.config.js` because the 'server' code relies on it
     'webpack/client.config.js':
       bucket:
-        name: ${env:SERVERLESS__CLIENT_S3_BUCKET, ""}
+        # The name of the bucket where the client code will be deployed
+        name: ${self:custom.clientS3Bucket}
+        # Make `true` to retain this bucket on teardown
         retain: false
+      # Parameters passed to the AWS.S3() constructor in aws-sdk
       params:
         maxRetries: 5
       object:
-        '**/*/stats.json':
+        # Excludes the stats file generated with Webpack from being synced
+        'stats.json':
           exclude: true
         '*':
           params:
             ACL: 'public-read'
+            # Files should have hashes in their filenames based upon their content
+            # and therefore be immutable, making them safe to cache indefinitely
             cacheControl: 'public, immutable, max-age=31536000'
+    # 'Server-side' static website bundle, generates the static website (HTML) files
     'webpack/server.config.js':
+      bucket:
+        # The name of the bucket where the static website HTML will be deployed
+        name: ${self:custom.siteS3Bucket}
+        # Make `true` to retain this bucket on teardown
+        retain: false
+      # Parameters passed to the AWS.S3() constructor in aws-sdk
       params:
         maxRetries: 5
-      bucket:
-        name: ${env:SERVERLESS__SITE_S3_BUCKET, ""}
-        retain: false
       object:
+        # We don't need to push any JS files here, just HTML
         '**/*.js':
           exclude: true
         '**/*.html':
           params:
             ACL: 'public-read'
+            # This can hypothetically be changed to something cache friendly but my default
+            # preference is that the pages are always revalidated
             cacheControl: 'no-cache, must-revalidate, max-age=0'

@@ -177,6 +177,7 @@ module.exports = class ServerlessPlugin {
     this.servicePath = serverless.config.servicePath
     this.options = options
     this.spinner = ora({spinner: 'star2'})
+    this.bundles = []
     this.commands = {
       'bundle': {
         usage: 'Bundles code for your web application',
@@ -187,8 +188,7 @@ module.exports = class ServerlessPlugin {
       'sync-bundle': {
         usage: 'Builds and deploys your code to S3',
         lifecycleEvents: [
-          'build',
-          'upload',
+          'sync',
         ]
       },
       'empty-bundle-buckets': {
@@ -199,16 +199,19 @@ module.exports = class ServerlessPlugin {
       },
     }
 
+    // https://gist.github.com/HyperBrain/50d38027a8f57778d5b0f135d80ea406
     this.hooks = {
-      // runs before deploying on `sls deploy`
+      // runs before deploying
+      'after:package:setupProviderConfiguration': this.bundleAll,
+      // runs after deploying on `sls deploy`
       'before:deploy:finalize': this.syncAll,
       // runs before `sls deploy -f [func]`
-      'before:deploy:function:packageFunction': this.syncAll,
+      'after:deploy:function:initialize': this.bundleAndSyncAll,
       // runs before `sls remove`
       'before:remove:remove': this.emptyAll,
       // command hooks
       'bundle:build': this.bundleAll,
-      'sync-bundle:build': this.syncAll,
+      'sync-bundle:sync': this.bundleAndSyncAll,
       'empty-bundle-buckets:empty': this.emptyAll
     }
   }
@@ -230,15 +233,17 @@ module.exports = class ServerlessPlugin {
     this.serverless.cli.log(msg, this.name)
   }
 
+  bundleAndSyncAll = () => this.bundleAll().then(this.syncAll)
+
   syncAll = async () => {
-    for (let configFile in this.config) {
-      await this.bundle(configFile).then(this.sync)
-    }
+    await Promise.all(this.bundles.map(bundle => this.sync(bundle)))
   }
 
   bundleAll = async () => {
+    this.bundles = []
+
     for (let configFile in this.config) {
-      await this.bundle(configFile)
+      this.bundles.push(await this.bundle(configFile))
     }
   }
 

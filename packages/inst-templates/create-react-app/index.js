@@ -177,6 +177,7 @@ module.exports.editPackageJson = function editPackageJson (
     analyze: 'ANALYZE=true yarn start production',
     start: 'stellar-scripts start',
     deploy: 'stellar-scripts deploy',
+    bundle: 'stellar-scripts bundle',
     sls: 'serverless'
   }
   // this function must return a valid package.json object

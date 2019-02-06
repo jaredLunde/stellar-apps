@@ -35,6 +35,29 @@ provider:
         - "cloudformation:DescribeStackResource"
       Resource: "*"
 
+resources:
+  Resources:
+    # Creates a bucket for public assets
+    # DELETE if using a shared or existing bucket
+    ClientS3Bucket:
+      Type: AWS::S3::Bucket
+      # DeletionPolicy: Retain
+      Properties:
+        # The bucket itself should be private by default for security, objects can
+        # optionally be defined as public
+        AccessControl: Private
+        BucketName: ${self:custom.S3Bucket}
+        CorsConfiguration:
+          CorsRules:
+            # By default, this only allows the static site's domain as an origin. You can
+            # add more allowed origins to your leisure.
+            - AllowedOrigins:
+                - ${self:custom.domain}
+              AllowedHeaders:
+                - '*'
+              AllowedMethods:
+                - GET
+
 functions:
   app:
     # The file and module for this specific function.
@@ -73,6 +96,7 @@ plugins:
   # Allows API gateway to gzip
   - serverless-apigw-binary
   # Deploys the client-side bundle to S3
+  # This must be executed before `serverless-webpack` because the server code relies on it
   - '@stellar-apps/serverless-sync-bundle'
   # Packages the server-side bundle
   - serverless-webpack
@@ -84,36 +108,44 @@ custom:
   dotenv:
     exclude:
       - 'SERVERLESS__*'
+  # Defines the domain name being created in this template
+  domain: ${env:DOMAIN}
+  # Defines the S3 bucket for client resources: images, js, json, etc.
+  S3Bucket: ${env:SERVERLESS__S3_BUCKET, ""}
   # Creates ACM certificates for the app domains
   certificateManager:
-    name: <:DOMAIN_PRODUCTION:>
-    refFor: resources.Resources.CloudFrontDistribution.Properties.ViewerCertificate.AcmCertificateArn
-    domains:
-      - <:DOMAIN_PRODUCTION:>
-      - <:DOMAIN_STAGING:>
-      - '*.<:DOMAIN_PRODUCTION:>'
+    - refFor:
+        - resources.Resources.StaticCloudFrontDistribution.Properties.DistributionConfig.ViewerCertificate.AcmCertificateArn
+      retain: false
+      domains:
+        # If you change this, dont' forget to change 'certificateName' below in 'customDomain'
+        - ${self:custom.domain}
+        - '*.${self:custom.domain}'
   # Sets up the domain name in Route 53 an attaches API Gateway to the certificate
   customDomain:
-    domainName: ${env:DOMAIN}
+    domainName: ${self:custom.domain}
     stage: ${self:provider.stage}
     basePath: ''
     createRoute53Record: true
-    certificateName: ${self:custom.certificateManager.name}
-    endpointType: regional
-  # Automatically creates the domain name on complete deployments
+    certificateName: ${self:custom.domain}
+    endpointType: ${self:provider.endpointType}
   scripts:
     hooks:
-       'after:package:finalize': sls create_domain --stage ${self:provider.stage}
+      # Creates the domain name on complete deployments
+      'after:package:finalize': sls create_domain --stage ${self:provider.stage}
+      # Deletes the domain on teardown
+      'before:remove:remove': sls delete_domain --stage ${self:provider.stage}
   # Sets up binary media types in API Gateway -> Settings
   apigwBinary:
     types:
       - 'application/json'
       - 'text/html'
       - 'text/plain'
-  # prevents cold starts
+  # Prevents cold starts
   warmup:
     schedule: 'rate(5 minutes)'
     stages:
+      # only warms functions when in the production stage
       - production
   # Server bundle creation
   webpack:
@@ -122,16 +154,25 @@ custom:
     packager: 'yarn'
     packagerOptions:
       noFrozenLockFile: true
-  # Defines settings for client-side bundle objects and the S3 bucket
+  # Defines settings for the application bundles
   syncBundle:
+    # Client-side bundle for JS, images, etc.
     'webpack/client.config.js':
       bucket:
-        name: ${env:SERVERLESS__S3_BUCKET}
+        # The name of the bucket where the client code will be deployed
+        name: ${self:custom.S3Bucket}
+        # Make `true` to retain this bucket on teardown
+        retain: false
+      # Parameters passed to the AWS.S3() constructor in aws-sdk
       params:
         maxRetries: 5
       object:
+        # Excludes the stats file generated with Webpack from being synced
+        'stats.json':
+          exclude: true
         '*':
-          key: '[filename]'
           params:
             ACL: 'public-read'
+            # Files should have hashes in their filenames based upon their content
+            # and therefore be immutable, making them safe to cache indefinitely
             cacheControl: 'public, immutable, max-age=31536000'
