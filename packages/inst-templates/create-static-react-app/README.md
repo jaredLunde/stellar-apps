@@ -72,12 +72,14 @@ yarn my-app start production
 ```
 
 ### Deploying the CloudFormation stack to `staging` stage
+**Note:** You have to use this command before using `deploy` without a `--stack` flag
 ```bash
 cd my-workspace
 yarn my-app deploy --stack
 ```
 
 ### Deploying the CloudFormation stack to `production` stage
+**Note:** You have to use this command before using `deploy production` without a `--stack` flag
 ```bash
 cd my-workspace
 yarn my-app deploy production --stack
