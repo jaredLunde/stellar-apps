@@ -82,7 +82,7 @@ yargs.command(
       'stage', {
         describe: (
           `The stage to deploy in Serverless. If not provided this will default to  `
-          + `process.env.STAGE || "production".`
+          + `process.env.STAGE || "staging".`
         )
       }
     )

@@ -3,12 +3,10 @@ import {findBin} from './utils'
 import {getPkgJson, pwd} from '@inst-pkg/template-utils'
 
 
-export default async function deploy ({stage, stack = false}) {
+export default async function deploy ({stage = 'staging', stack = false}) {
   const pkgJson = getPkgJson(pwd())
   const crossEnvBin = findBin('cross-env')
-  stage = process.env.STAGE || (
-    stage ? stage : pkgJson.stellar.type === 'serverless-static-app' ? 'production' : 'staging'
-  )
+  stage = process.env.STAGE || stage
   const envDefs = `
     NODE_ENV=production \
     BABEL_ENV=${process.env.BABEL_ENV || 'production'} \

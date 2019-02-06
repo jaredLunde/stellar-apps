@@ -32,11 +32,10 @@ else {
         }
       }),
       new CompressionPlugin({
-        test: /\.(js|txt|html|json|md|svg|xml|yml)(\?.*)?$/i,
+        test: /\.(txt|html|json|md|xml|yml)(\?.*)?$/i,
         cache: true,
         algorithm: 'gzip',
         threshold: 1024,
-        minRatio: 0.67,
         filename: '[path]',
         compressionOptions: {
           level: zlib.Z_BEST_COMPRESSION,
@@ -68,7 +67,16 @@ module.exports = createConfig(
     module: {
       rules: [
         {
-          test: /\.html|\.txt|\.tpl/,
+          test: /robots(.disallow)?.txt$/,
+          use: [{
+            loader: 'file',
+            options: {
+              name: 'robots.txt'
+            }
+          }]
+        },
+        {
+          test: /\.html/,
           loaders: ['raw']
         }
       ]

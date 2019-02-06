@@ -25,6 +25,7 @@ export default async function start (
   switch (pkgJson.stellar.type) {
     case 'static-app':
     case 'serverless-app':
+    case 'serverless-static-app':
       startRenderer({
         // dev webpack client config
         clientConfig: require(clientConfig),

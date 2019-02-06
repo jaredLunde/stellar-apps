@@ -233,10 +233,12 @@ custom:
   certificateManager:
     - refFor:
         - resources.Resources.StaticCloudFrontDistribution.Properties.DistributionConfig.ViewerCertificate.AcmCertificateArn
-      retain: false
+      # Make `false` to delete this certificate on teardown
+      # This is `true` by default to avoid accidentally deleting a shared certificate
+      retain: true
       domains:
-        - ${self:custom.domain}
-        - '*.${self:custom.domain}'
+        - <:DOMAIN_PRODUCTION:>
+        - <:(value+=props.DOMAIN_PRODUCTION.split('.').length === 2 ? `'*.${props.DOMAIN_PRODUCTION}'` : props.DOMAIN_STAGING):>
   # Defines settings for the application bundles
   syncBundle:
     # Client-side bundle for JS, images, etc.
@@ -245,8 +247,9 @@ custom:
       bucket:
         # The name of the bucket where the client code will be deployed
         name: ${self:custom.clientS3Bucket}
-        # Make `true` to retain this bucket on teardown
-        retain: false
+        # Make `false` to empty this bucket on teardown
+        # This is `true` by default to avoid accidentally nuking a shared bucket
+        retain: true
       # Parameters passed to the AWS.S3() constructor in aws-sdk
       params:
         maxRetries: 5
@@ -274,6 +277,10 @@ custom:
         # We don't need to push any JS files here, just HTML
         '**/*.js':
           exclude: true
+        '**/robots.txt':
+          params:
+            ACL: 'public-read'
+            cacheControl: 'public, max-age=900'
         '**/*.html':
           params:
             ACL: 'public-read'

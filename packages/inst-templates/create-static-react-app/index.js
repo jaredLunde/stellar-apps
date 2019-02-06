@@ -21,30 +21,57 @@ module.exports.prompts = (
     // for valid prompts
     autocompleteIni(inquirer, CREDENTIALS_FILE, {
       name: 'AWS_PROFILE',
-      message: `AWS Profile        :`,
+      message: `AWS Profile                    :`,
       filter: trim,
       validate: required
     }),
 
     {
-      name: 'DOMAIN',
-      message: `Domain name        :`,
+      name: 'DOMAIN_PRODUCTION',
+      message: `Domain name        [${flag('production', 'green')}]:`,
       filter: trim,
       validate: required
     },
 
     {
-      name: 'SITE_S3_BUCKET',
-      message: `Website S3 bucket  :`,
-      default: a => a.DOMAIN,
+      name: 'SITE_S3_BUCKET_PRODUCTION',
+      message: `Website S3 bucket  [${flag('production', 'green')}]:`,
+      default: a => a.DOMAIN_PRODUCTION,
       filter: trim,
       validate: required
     },
 
     {
-      name: 'CLIENT_S3_BUCKET',
-      message: `Client S3 bucket   :`,
+      name: 'CLIENT_S3_BUCKET_PRODUCTION',
+      message: `Public S3 bucket   [${flag('production', 'green')}]:`,
       default: a => `${PKG_NAME}-public`,
+      filter: trim,
+      validate: required
+    },
+
+    {
+      name: 'DOMAIN_STAGING',
+      message: `Domain name           [${flag('staging', 'white')}]:`,
+      default: a =>
+        a.DOMAIN_PRODUCTION.split('.').length > 2
+          ? `staging-${a.DOMAIN_PRODUCTION}`
+          : `staging.${a.DOMAIN_PRODUCTION}`,
+      filter: trim,
+      validate: required
+    },
+
+    {
+      name: 'SITE_S3_BUCKET_STAGING',
+      message: `Website S3 bucket     [${flag('staging', 'white')}]:`,
+      default: a => a.DOMAIN_STAGING,
+      filter: trim,
+      validate: required
+    },
+
+    {
+      name: 'CLIENT_S3_BUCKET_STAGING',
+      message: `Client S3 bucket      [${flag('staging', 'white')}]:`,
+      default: a => `${a.CLIENT_S3_BUCKET_PRODUCTION.replace('-public', '-staging-public')}`,
       filter: trim,
       validate: required
     }
@@ -73,7 +100,7 @@ module.exports.copy = async function ({PKG_DIR}) {
     pkgLib,
     PKG_DIR,
     {
-      exclude: source => source.includes('.staging')
+      exclude: source => source.endsWith('lib/render.js')
     }
   )
 }

@@ -29,10 +29,10 @@
     inquirer-autocomplete-prompt "^1.0.1"
     inquirer-checkbox-plus-prompt "^1.0.1"
 
-"@stellar-apps/create-react-app@^1.0.4":
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/@stellar-apps/create-react-app/-/create-react-app-1.0.4.tgz#ec31e1281b747ba18e4cc36180ea43bf8bd6049b"
-  integrity sha512-otBVKAI+kKw/fg1Oduar3AXviVl9NZ7jRJw/3pxtcPRTRswxbgSBpxpe2wnOKoRhpd56f+jAhS2YKt7jXmVHYQ==
+"@stellar-apps/create-react-app@^1.0.5":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@stellar-apps/create-react-app/-/create-react-app-1.0.5.tgz#0b5f99835c3d0713e4420c3c45a2e21969bfb2d0"
+  integrity sha512-G5FFHssp7ND1RZnV0AmbbKx3B8bUMHNKjLrmWm1GNNftjZ1Ax3dirvsotSqH2GIgqItWPafmCrH1iHK4D2h8Qw==
   dependencies:
     "@inst-pkg/template-utils" "^1.0.5"
 

@@ -3,7 +3,7 @@ import {findBin} from './utils'
 import {getPkgJson, pwd} from '@inst-pkg/template-utils'
 
 
-export default async function bundle ({stage = 'production'}) {
+export default async function bundle ({stage = 'staging'}) {
   const pkgJson = getPkgJson(pwd())
   const crossEnvBin = findBin('cross-env')
   stage = process.env.STAGE || stage

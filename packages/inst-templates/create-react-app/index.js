@@ -17,57 +17,44 @@ module.exports.prompts = (
   const prompts = [
     // See https://github.com/SBoudrias/Inquirer.js#objects
     // for valid prompts
-    {
-      name: 'DOMAIN_STAGING',
-      message: `Domain name     ${flag('staging', 'white')}:`,
-      filter: trim,
-      validate: required
-    },
-
-    {
-      name: 'DOMAIN_PRODUCTION',
-      message: `Domain name  ${flag('production', 'green')}:`,
-      default: a => a.DOMAIN_STAGING.replace(/^staging[-.]?/, '').replace(/-staging/, ''),
-      filter: trim,
-      validate: required
-    },
-
     autocompleteIni(inquirer, CREDENTIALS_FILE, {
-      name: 'AWS_PROFILE_STAGING',
-      message: `AWS Profile     ${flag('staging', 'white')}:`,
+      name: 'AWS_PROFILE',
+      message: `AWS Profile              :`,
       default: `${PKG_NAME}-dev`,
       filter: trim,
       validate: required,
     }),
 
-    autocompleteIni(inquirer, CREDENTIALS_FILE, {
-      name: 'AWS_PROFILE_PRODUCTION',
-      message: `AWS Profile  ${flag('production', 'green')}:`,
-      filter: trim,
-      validate: required,
-      source: (file, answers, input) => {
-        input = input || ''
-        const guesses = Object.keys(file)
-        const guess = answers.AWS_PROFILE_STAGING.replace(/-dev$/, '-prod')
-        guesses.splice(prompts.indexOf(guess), 1)
-        guesses.unshift(guess)
-        const fuzzyResult = fuzzy.filter(input, guesses)
-        return new Promise(resolve => resolve(fuzzyResult.map(el => el.original)))
-      }
-    }),
-
     {
-      name: 'S3_BUCKET_STAGING',
-      message: `S3 bucket       ${flag('staging', 'white')}:`,
-      default: a => `${PKG_NAME}-staging-public`,
+      name: 'DOMAIN_PRODUCTION',
+      message: `Domain name  [${flag('production', 'green')}]:`,
       filter: trim,
       validate: required
     },
 
     {
       name: 'S3_BUCKET_PRODUCTION',
-      message: `S3 bucket    ${flag('production', 'green')}:`,
-      default: a => `${a.S3_BUCKET_STAGING.replace('staging-', '')}`,
+      message: `S3 bucket    [${flag('production', 'green')}]:`,
+      default: a => `${PKG_NAME}-public`,
+      filter: trim,
+      validate: required
+    },
+
+    {
+      name: 'DOMAIN_STAGING',
+      message: `Domain name     [${flag('staging', 'white')}]:`,
+      default: a =>
+        a.DOMAIN_PRODUCTION.split('.').length > 2
+          ? `staging-${a.DOMAIN_PRODUCTION}`
+          : `staging.${a.DOMAIN_PRODUCTION}`,
+      filter: trim,
+      validate: required
+    },
+
+    {
+      name: 'S3_BUCKET_STAGING',
+      message: `S3 bucket       [${flag('staging', 'white')}]:`,
+      default: a => `${a.S3_BUCKET_PRODUCTION.replace('-public', '-staging-public')}`,
       filter: trim,
       validate: required
     }
@@ -178,6 +165,7 @@ module.exports.editPackageJson = function editPackageJson (
     start: 'stellar-scripts start',
     deploy: 'stellar-scripts deploy',
     bundle: 'stellar-scripts bundle',
+    teardown: 'stellar-scripts teardown',
     sls: 'serverless'
   }
   // this function must return a valid package.json object

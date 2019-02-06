@@ -49,7 +49,6 @@ else {
         cache: true,
         algorithm: 'gzip',
         threshold: 1024,
-        minRatio: 0.67,
         filename: '[path]',
         compressionOptions: {
           level: zlib.Z_BEST_COMPRESSION,

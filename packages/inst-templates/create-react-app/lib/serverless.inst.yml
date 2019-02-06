@@ -114,21 +114,20 @@ custom:
   S3Bucket: ${env:SERVERLESS__S3_BUCKET, ""}
   # Creates ACM certificates for the app domains
   certificateManager:
-    - refFor:
-        - resources.Resources.StaticCloudFrontDistribution.Properties.DistributionConfig.ViewerCertificate.AcmCertificateArn
-      retain: false
+    # Make `false` to delete this certificate on teardown
+    # This is `true` by default to avoid accidentally deleting a shared certificate
+    - retain: true
       domains:
-        # If you change this, dont' forget to change 'certificateName' below in 'customDomain'
-        - ${self:custom.domain}
-        - '*.${self:custom.domain}'
+        - <:DOMAIN_PRODUCTION:>
+        - <:(value+=props.DOMAIN_PRODUCTION.split('.').length === 2 ? `'*.${props.DOMAIN_PRODUCTION}'`: props.DOMAIN_STAGING):>
   # Sets up the domain name in Route 53 an attaches API Gateway to the certificate
   customDomain:
     domainName: ${self:custom.domain}
     stage: ${self:provider.stage}
     basePath: ''
     createRoute53Record: true
-    certificateName: ${self:custom.domain}
     endpointType: ${self:provider.endpointType}
+    # certificateName: ${self:custom.domain}
   scripts:
     hooks:
       # Creates the domain name on complete deployments
@@ -161,8 +160,9 @@ custom:
       bucket:
         # The name of the bucket where the client code will be deployed
         name: ${self:custom.S3Bucket}
-        # Make `true` to retain this bucket on teardown
-        retain: false
+        # Make `false` to empty this bucket on teardown
+        # This is `true` by default to avoid accidentally nuking a shared bucket
+        retain: true
       # Parameters passed to the AWS.S3() constructor in aws-sdk
       params:
         maxRetries: 5

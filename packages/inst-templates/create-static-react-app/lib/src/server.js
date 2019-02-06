@@ -3,6 +3,13 @@ import ReactDOMServer from 'react-dom/server'
 import Broker from 'react-broker'
 import App from './index'
 
+if (process.env.STAGE && process.env.STAGE === 'production') {
+  require('./robots.txt')
+}
+
+if (process.env.STAGE && process.env.STAGE !== 'production') {
+  require('./robots.disallow.txt')
+}
 
 const beautifyConfig = {
   indent_size: 2,
