@@ -61,6 +61,9 @@ in `custom.certificateManager.retain`
 4. Pay special attention to the `custom.certificateManager.domains` listed to be sure they are
 exactly the domains you need a certificate for and that they will use the exact same certificate.
 
+5. You will want to glance at the `.env.[stage]` files to ensure the proper `PUBLIC_PATH` is defined
+if you're using a CloudFront distribution in front of your S3 bucket.
+
 ## Managing the application
 ### Starting the app in the `development` stage and `development` NODE_ENV on a local server
 ```bash
