@@ -35,8 +35,9 @@ yarn inst @stellar-apps/create-static-react-app
     - **default** `[value of production Client S3 bucket with '-public' replaced by '-staging-public']`
     - See `production` above for description
 - `Inherits code from`
-    - Select libraries already part of your Workspace to inherit code from, e.g. a `core` 
-      or `shared` directory    
+    - Use the spacebar and arrow keys to select libraries already part of your Workspace to inherit code from, 
+      e.g. a `core` or `shared` directory. You will then be able to import these libraries into your application
+      via the alias `~[library name]` e.g. `import {Header} from '~core'`   
 
 ## Managing the application
 ### Starting the app in the `development` stage and `development` NODE_ENV on a local server
@@ -92,7 +93,8 @@ yarn my-app teardown production
 ```
 
 ## Configuring CloudFormation
-You should pay attention to these values **every time** you create a new app from this template
+You should pay special attention to these values in `serverless.yml` ***EVERY TIME*** you create a new app 
+from this template
 
 1. The default template assumes you're using a unique bucket for the public client assets of 
 this application. If you're using a shared bucket that already exists, be sure to delete
