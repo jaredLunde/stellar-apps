@@ -67,7 +67,7 @@ resources:
     # DELETE if using a shared or existing bucket
     ClientS3Bucket:
       Type: AWS::S3::Bucket
-      # DeletionPolicy: Retain
+      DeletionPolicy: Retain
       Properties:
         # The bucket itself should be private by default for security, objects can
         # optionally be defined as public

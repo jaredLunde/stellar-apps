@@ -1,0 +1,17 @@
+import React from 'react'
+import Helmet from 'react-helmet-async'
+import {Hero, Type} from 'curls'
+
+
+const Home = props => (
+  <Hero bg='black'>
+    <Helmet>
+      <title><:PKG_NAME:></title>
+    </Helmet>
+    <Type xxl center ultraLight w='100%' d='block' color='white'>
+      Hello world
+    </Type>
+  </Hero>
+)
+
+export default Home

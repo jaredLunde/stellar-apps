@@ -1,0 +1,14 @@
+import React from 'react'
+import {Row, Type} from 'curls'
+
+
+const Footer = props => (
+  <Row p='t3 b6' justify='center'>
+    <Type>
+      &copy;{(new Date()).getFullYear()}{" "}
+      <:PKG_NAME:>
+    </Type>
+  </Row>
+)
+
+export default Footer
