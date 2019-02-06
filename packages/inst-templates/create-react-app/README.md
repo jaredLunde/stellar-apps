@@ -1,4 +1,4 @@
-# @stellar-apps/create-static-react-app
+# @stellar-apps/create-react-app
 This is an [`inst`](https://github.com/jaredLunde/inst-pkg) template for launching
 Lambda-hosted React SSR apps with API Gateway + CloudFront with custom domains.
 
@@ -20,11 +20,11 @@ yarn inst @stellar-apps/create-react-app
 - `S3 bucket [production]`
     - **default** `[Name]-public`
     - The name of the bucket to deploy your client JS, images, etc. into. These are resources
-      that are external to your static application.
+      that are external to your application.
 - `Domain name [staging]`
     - **default** `staging-[Domain name]` if `[Domain name]` is a subdomain, otherwise 
       `staging.[Domain name]`
-    - The domain name to launch the `staging` version of your static app on
+    - The domain name to launch the `staging` version of your app on
 - `S3 bucket [staging]`
     - **default** `[value of staging Domain name]`
     - See `production` above for description
