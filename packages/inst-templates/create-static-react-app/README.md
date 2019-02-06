@@ -39,6 +39,25 @@ yarn inst @stellar-apps/create-static-react-app
       e.g. a `core` or `shared` directory. You will then be able to import these libraries into your application
       via the alias `~[library name]` e.g. `import {Header} from '~core'`   
 
+## Configuring CloudFormation
+You should pay special attention to these values in `serverless.yml` ***EVERY TIME*** you create a new app 
+from this template. This should be the ***FIRST THING*** you do after you create an app.
+
+1. The default template assumes you're using a unique bucket for the public client assets of 
+this application. If you're using a shared bucket that already exists, be sure to delete
+the `resources.Resources.ClientS3Bucket` section of the `serverless.yml` that gets generated.
+
+2. The default behavior for client buckets is to `retain` them on `teardown` so as not to 
+accidentally empty a bucket that is in use by other applications. To change this behavior,
+assuming your bucket is unique, you can change the option for `retain` to `false` in 
+`custom.syncBundle['webpack/client.config.js'].bucket` and comment out 
+`resources.Resources.ClientS3Bucket.DeletionPolicy`.
+
+3. The default behavior for managing ACM certificates is to `retain` them on `teardown`. This is
+to prevent encountering errors when you try to remove certificates that are still in use by
+other applications, e.g. wildcard certificates. To change this behavior, set `retain` to `false`
+in `custom.certificateManager.retain`
+
 ## Managing the application
 ### Starting the app in the `development` stage and `development` NODE_ENV on a local server
 ```bash
@@ -91,22 +110,3 @@ This removes your CloudFormation stack and all the resources defined within it.
 cd my-workspace
 yarn my-app teardown production
 ```
-
-## Configuring CloudFormation
-You should pay special attention to these values in `serverless.yml` ***EVERY TIME*** you create a new app 
-from this template
-
-1. The default template assumes you're using a unique bucket for the public client assets of 
-this application. If you're using a shared bucket that already exists, be sure to delete
-the `resources.Resources.ClientS3Bucket` section of the `serverless.yml` that gets generated.
-
-2. The default behavior for client buckets is to `retain` them on `teardown` so as not to 
-accidentally empty a bucket that is in use by other applications. To change this behavior,
-assuming your bucket is unique, you can change the option for `retain` to `false` in 
-`custom.syncBundle['webpack/client.config.js'].bucket` and comment out 
-`resources.Resources.ClientS3Bucket.DeletionPolicy`.
-
-3. The default behavior for managing ACM certificates is to `retain` them on `teardown`. This is
-to prevent encountering errors when you try to remove certificates that are still in use by
-other applications, e.g. wildcard certificates. To change this behavior, set `retain` to `false`
-in `custom.certificateManager.retain`
