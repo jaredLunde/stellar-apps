@@ -9,7 +9,7 @@ import Hero from '@stellar-apps/min-height-hero'
 import * as urls from './urls'
 
 
-const Loading = <Hero align='center' children={<DelayedSpinner size={32} color='black'/>}/>
+const Loading = <Hero align='center' bg='black' children={<DelayedSpinner size={32} color='white'/>}/>
 const lazyProps = {loading: () => Loading}
 // this is here so there's no issues with forgetting to add a `key` property
 const route = props => <Route key={props.path} {...props}/>
@@ -22,4 +22,8 @@ const route = props => <Route key={props.path} {...props}/>
 //
 // It is imperative you keep this in mind, which is why this comment is so logn and different
 // from other comments here
-export const Home = route({path: urls.home(), exact: true, component: lazy('./Home', lazyProps)})
+export const Home = route({
+  path: urls.home(),
+  exact: true,
+  component: lazy('./Home', lazyProps)
+})

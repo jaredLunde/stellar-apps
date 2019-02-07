@@ -98,9 +98,11 @@ resources:
             - DomainName:
                 # Gets the domain name returned by StaticSiteS3Bucket's creation e.g.
                 # <bucket-name>.s3-website-<AWS-region>.amazonaws.com
-                Fn::GetAtt:
-                  - StaticSiteS3Bucket
-                  - DomainName
+                Fn::Join: ["", [{"Ref": "StaticSiteS3Bucket"}, ".s3-website-", {"Ref": "AWS::Region"}, ".amazonaws.com"]]
+                # Fn::GetAtt:
+                #   - StaticSiteS3Bucket
+                #   - WebsiteURL
+
               Id:
                 # Grabs the bucket name returned by StaticSiteS3Bucket's creation
                 Ref: StaticSiteS3Bucket
