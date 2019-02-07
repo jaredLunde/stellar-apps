@@ -113,9 +113,6 @@ delete module.exports.dependencies['serverless-http']
 // package.json dev dependencies
 const devDependencies = {
   ...reactApp.devDependencies,
-  "@stellar-apps/html-minifier": "^3.5.23",
-  "js-beautify": "^1.8.9",
-  "serverless-s3-sync": "^1.7.2",
   "static-site-generator-webpack-plugin": "^3.4.2"
 }
 // these deps aren't needed for static sites

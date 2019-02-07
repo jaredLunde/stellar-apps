@@ -59,7 +59,7 @@ export const noFavicon = next => (req, res) => {
   }
 }
 
-function defaultRenderError ({res, req, err}) {
+export function defaultRenderError ({res, req, err}) {
   const strErr = err.toString()
   const statusText = httpStatus[res.statusCode]
   return `
@@ -134,7 +134,7 @@ function getDevice (headers) {
   return 'desktop'
 }
 
-const defaultBeautifyConfig = {
+export const defaultBeautifyConfig = {
   indent_size: 2,
   html: {
     end_with_newline: true,
@@ -150,7 +150,7 @@ const defaultBeautifyConfig = {
   }
 }
 
-const defaultMinifyConfig = {
+export const defaultMinifyConfig = {
   collapseWhitespace: true,
   collapseBooleanAttributes: true,
   // conservativeCollapse: true,

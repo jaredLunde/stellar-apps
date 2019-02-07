@@ -1,5 +1,5 @@
 {
-  "name": "create-express-api",
+  "name": "@stellar-apps/create-express-api",
   "version": "1.0.0",
   "main": "index.js",
   "author": "Jared Lunde <jared@BeStellar.co> (https://BeStellar.co)",

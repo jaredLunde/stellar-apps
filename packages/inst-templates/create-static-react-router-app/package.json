@@ -1,6 +1,6 @@
 {
   "name": "@stellar-apps/create-static-react-router-app",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "main": "index.js",
   "author": "Jared Lunde <jared@BeStellar.co> (https://BeStellar.co)",
   "license": "MIT",

@@ -1,6 +1,6 @@
 {
   "name": "@stellar-apps/ssr",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "main": "dist/cjs/index.js",
   "author": "Jared Lunde <jared@BeStellar.co> (https://BeStellar.co)",
   "license": "MIT",
@@ -8,9 +8,11 @@
   "module": "dist/es/index.js",
   "repository": "https://github.com/jaredLunde/stellar-apps/tree/master/packages/ssr",
   "scripts": {
-    "build": "yarn build:createRenderer && yarn build:startRenderer",
+    "build": "yarn build:createRenderer && yarn build:createStaticRenderer && yarn build:startRenderer",
     "build:createRenderer": "rimraf createRenderer && cross-env NODE_ENV=production cross-env BABEL_ENV=production babel src/createRenderer --out-dir createRenderer && yarn prettier createRenderer/*",
     "watch:createRenderer": "rimraf createRenderer && cross-env NODE_ENV=production cross-env BABEL_ENV=production babel src/createRenderer --out-dir createRenderer -w",
+    "build:createStaticRenderer": "rimraf createStaticRenderer && cross-env NODE_ENV=production cross-env BABEL_ENV=production babel src/createStaticRenderer --out-dir createStaticRenderer && yarn prettier createStaticRenderer/*",
+    "watch:createStaticRenderer": "rimraf createStaticRenderer && cross-env NODE_ENV=production cross-env BABEL_ENV=production babel src/createStaticRenderer --out-dir createStaticRenderer -w",
     "build:startRenderer": "rimraf startRenderer && cross-env NODE_ENV=production cross-env BABEL_ENV=production babel src/startRenderer --out-dir startRenderer && yarn prettier startRenderer/*",
     "watch:startRenderer": "rimraf startRenderer && cross-env NODE_ENV=production cross-env BABEL_ENV=production babel src/startRenderer --out-dir startRenderer -w",
     "prettier": "prettier --single-quote --no-semi --no-bracket-spacing --trailing-comma es5 --write"

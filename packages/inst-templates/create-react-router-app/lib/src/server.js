@@ -84,7 +84,7 @@ const middleware = pipe(
   noFavicon,
   // Sets up robots.txt middleware for micro
   withRobots(
-    process.env.STAGE && process.env.STAGE === 'production'
+    process.env.STAGE === 'production'
       ? require('./robots.txt')
       : require('./robots.disallow.txt')
   ),
@@ -97,7 +97,7 @@ const serverRenderer = clientStats => middleware(createRenderer(renderApp({clien
 
 // sets up options for the Serverless lambda function
 let clientStats, mainServerless
-if (process.env.STAGE && process.env.STAGE !== 'development') {
+if (process.env.STAGE !== 'development') {
   clientStats = require(`../dist/${process.env.STAGE}/client/stats.json`)
   mainServerless = require('serverless-http')(serverRenderer(clientStats))
 }

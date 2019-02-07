@@ -1,7 +1,7 @@
 const {flag, required, trim, getPkgJson, autocompleteIni} = require('@inst-pkg/template-utils')
 const os = require('os')
 const path = require('path')
-const fuzzy = require('fuzzy')
+
 
 module.exports = {}
 const CREDENTIALS_FILE = path.join(os.homedir(), '.aws/credentials')
@@ -114,7 +114,7 @@ module.exports.devDependencies = {
   "imagemin-webpack": "^4.1.0",
   "raw-loader": "^1.0.0",
   "responsive-loader": "^1.2.0",
-  "serverless": "^1.36.3",
+  "serverless": "^1.37.0",
   "serverless-apigw-binary": "^0.4.4",
   "serverless-domain-manager": "^2.6.13",
   "serverless-plugin-lambda-warmup": "^1.0.1",

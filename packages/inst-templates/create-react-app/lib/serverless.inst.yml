@@ -85,7 +85,7 @@ resources:
     #     Type: 'A'
 
 functions:
-  app:
+  main:
     # The file and module for this specific function.
     handler: render.main
     # memorySize for this specific function

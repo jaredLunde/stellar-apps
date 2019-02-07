@@ -30,6 +30,7 @@ module.exports.dependencies = {
   ...staticReactApp.dependencies,
   ...reactApp.dependencies
 }
+delete module.exports.dependencies['serverless-http']
 
 // package.json dev dependencies
 module.exports.devDependencies = staticReactApp.devDependencies

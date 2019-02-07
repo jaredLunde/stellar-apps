@@ -1,6 +1,7 @@
 import path from 'path'
 import startRenderer from '@stellar-apps/ssr/startRenderer'
 import {cmd, pwd, getPkgJson} from '@inst-pkg/template-utils'
+import childProc from 'child_process'
 import {findBin} from './utils'
 
 
@@ -9,7 +10,7 @@ export default async function start (
     env,
     stage = 'development',
     host = '::',
-    port = 3000,
+    port,
     assets,
     clientConfig,
     serverConfig
@@ -26,7 +27,7 @@ export default async function start (
     case 'static-app':
     case 'serverless-app':
     case 'serverless-static-app':
-      startRenderer({
+      return startRenderer({
         // dev webpack client config
         clientConfig: require(clientConfig),
         // dev webpack server config
@@ -36,23 +37,31 @@ export default async function start (
         // micro-dev options
         silent: false,
         host,
-        port
+        port: port || 3000
       })
-      break;
-    case 'api':
+    case 'serverless-api':
       const crossEnvBin = findBin('cross-env')
       const serverlessBin = findBin('serverless')
+      const proc = childProc.spawn(
+        `
+          ${crossEnvBin} \
+            NODE_ENV=${process.env.NODE_ENV} \
+            BABEL_ENV=${process.env.BABEL_ENV} \
+            STAGE=development \
+          ${serverlessBin} \
+            offline \
+            start \
+            --host ${host} \
+            --port ${port || 4000} \
+            --stage development \
+            --aws-s3-accelerate \
+            --watch \
+            --color
+        `,
+        [],
+        {stdio: 'inherit', shell: true}
+      )
 
-      await cmd.get(`
-        ${crossEnvBin} \
-          NODE_ENV=${process.env.NODE_ENV} \
-          BABEL_ENV=${process.env.BABEL_ENV} \
-          STAGE=${process.env.STAGE} \
-        ${serverlessBin} offline start \
-          --aws-s3-accelerate \
-          --watch \
-          --color
-      `)
-      break;
+      return new Promise(resolve => proc.on('close', resolve))
   }
 }
