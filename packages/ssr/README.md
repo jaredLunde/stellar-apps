@@ -106,7 +106,7 @@ Middleware for injecting a `robots.txt` file at `/robots.txt`
 -----
 
 ### `withCookies(keygrip)`
-Middleware for injecting parsed cookies into the `req` object at `req.cookies
+Middleware for injecting parsed cookies into the `req` object at `req.cookies`
 ### Arguments
 - `keygrip` `{array|object}`
     - [An array of keys or Keygrip object](https://www.npmjs.com/package/keygrip)
