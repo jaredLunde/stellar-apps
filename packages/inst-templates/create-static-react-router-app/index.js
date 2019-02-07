@@ -1,6 +1,6 @@
 const {flag, required, trim} = require('@inst-pkg/template-utils')
 const staticReactApp = require('@stellar-apps/create-static-react-app')
-const reactApp = require('@stellar-apps/create-static-react-app')
+const reactApp = require('@stellar-apps/create-react-router-app')
 const instUtils = require('@stellar-apps/inst-utils')
 
 module.exports = {}

@@ -1,5 +1,6 @@
 import {send, sendError} from 'micro'
 import httpStatus from 'http-status'
+import Cookies from 'cookies'
 
 
 export function redirect (res, location, statusCode) {
@@ -20,7 +21,10 @@ export function pipe () {
   }
 }
 
-export withCookies from 'micro-cookie'
+export const withCookies = keys => handler => (req, res) => {
+  req.cookies = res.cookies = new Cookies(req, res, {keys})
+  return handler(req, res)
+}
 
 const robotsCache = {}
 export function withRobots (robots) {

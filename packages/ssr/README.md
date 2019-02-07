@@ -81,22 +81,18 @@ startRenderer({
 ### Arguments
 - `render(<options>)`
   - `options {object}`
-    - `req {object}`
+    - `req` `{object}`
         - Node HTTP server request object
-    - `res {object}`
+    - `res` `{object}`
         - Node HTTP server response object
-    - `device {string}`
+    - `device` `{string}`
         - **default** `desktop`
         - Device type based on Cloudfront headers when this is rendered in AWS Lambda
         - One of `desktop`, `tablet`, `mobile`, `desktop`
-    - `env {string}`
-        - The value of `process.env.NODE_ENV`
-    - `stage {string}`
-        - The value of `process.env.STAGE`
 - `renderError(<options>)`
-   - `options {object}`
+   - `options` `{object}`
     - Takes all of the above options and:
-    - `err {object}`
+    - `err` `{object}`
         - The error object that was caught when the error was thrown
 
 -----
@@ -104,38 +100,40 @@ startRenderer({
 ### `withRobots(robots <string>)`
 Middleware for injecting a `robots.txt` file at `/robots.txt`
 ### Arguments
-- `robots {string}`
+- `robots` `{string}`
     - A string containing your `robots.txt` content
 
 -----
 
-### `withCookies()`
+### `withCookies(keygrip)`
 Middleware for injecting parsed cookies into the `req` object at `req.cookies
-
+### Arguments
+- `keygrip` `{array|object}`
+    - [An array of keys or Keygrip object](https://www.npmjs.com/package/keygrip)
 -----
 
 ### `startRenderer(options <object>)`
 Starts a server side renderer using `micro` and `webpack-dev-server` in `development` mode.
 
 ### Arguments
-- `options {object}`
-    - `clientConfig {object}`
+- `options` `{object}`
+    - `clientConfig` `{object}`
         - Webpack client configuration object
-    - `serverConfig {object}`
+    - `serverConfig` `{object}`
         - Webpack server configuration object
-    - `publicAssets {string}`
+    - `publicAssets` `{string}`
         - Path to local public assets that are otherwise not defined in your
           Webpack emitted assets
-    - `silent {bool}`
+    - `silent` `{bool}`
         - **default** `false`
         - Silences `micro` from emitting outputs
-    - `limit {string}`
+    - `limit` `{string}`
         - **default** `1mb`
         - Size limit for emitted outputs
-    - `host {string}`
+    - `host` `{string}`
         - **default** `::`
         - The host name to bind the `micro` server too
-    - `port {number}`
+    - `port` `{number}`
         - **default** `3000`
         - If the port is already in use, a unique one will be assigned.
  

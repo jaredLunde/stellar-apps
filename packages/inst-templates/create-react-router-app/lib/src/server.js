@@ -89,7 +89,7 @@ const middleware = pipe(
       : require('./robots.disallow.txt')
   ),
   // sets up cookies
-  withCookies
+  withCookies()
 )
 
 // this is the server renderer that will handle all requests
