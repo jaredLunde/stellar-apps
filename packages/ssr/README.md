@@ -80,7 +80,7 @@ startRenderer({
 ### `createRenderer(render <func>, renderError <func>)`
 ### Arguments
 - `render(<options>)`
-  - `options {object}`
+  - `options` `{object}`
     - `req` `{object}`
         - Node HTTP server request object
     - `res` `{object}`
