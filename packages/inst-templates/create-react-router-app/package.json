@@ -1,10 +1,11 @@
 {
-  "name": "create-react-router-app",
+  "name": "@stellar-apps/create-react-router-app",
   "version": "1.0.0",
   "main": "index.js",
   "author": "Jared Lunde <jared@BeStellar.co> (https://BeStellar.co)",
   "license": "MIT",
   "dependencies": {
-    "@inst-pkg/template-utils": "^1.0.1"
+    "@inst-pkg/template-utils": "^1.0.1",
+    "@stellar-apps/create-react-app": "^1.0.7"
   }
 }

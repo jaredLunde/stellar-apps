@@ -102,17 +102,6 @@ else {
             maxInitialRequests: 5,
             priority: -10,
             reuseExistingChunk: true,
-          },
-
-          icons: {
-            name: 'icons',
-            chunks: 'all',
-            enforce: true,
-            priority: 10,
-            reuseExistingChunk: true,
-            test: function(module) {
-              return module.resource && module.resource.includes('\/icons\/')
-            },
           }
         },
       }

@@ -2,6 +2,12 @@ import {send, sendError} from 'micro'
 import httpStatus from 'http-status'
 
 
+export function redirect (res, location, statusCode) {
+  res.setHeader('Location', location)
+  res.statusCode = statusCode
+  throw 'Redirect'
+}
+
 export function pipe () {
   let x, val, fns = [].slice.call(arguments)
 
@@ -199,10 +205,16 @@ export default function createRenderer(
       res.statusCode = res.statusCode || 200
     }
     catch (err) {
-      // gets rendered error
-      res.statusCode =
-        res.statusCode === 200 || res.statusCode === void 0 ? 500 : res.statusCode
-      html = renderError ? (await renderError({req, res, err, device, env, stage})) : err
+      if (res.statusCode >= 300 && res.statusCode < 400) {
+        // handles redirections
+        return res.end()
+      }
+      else {
+        // gets rendered error
+        res.statusCode =
+          res.statusCode === 200 || res.statusCode === void 0 ? 500 : res.statusCode
+        html = renderError ? (await renderError({req, res, err, device, env, stage})) : err
+      }
     }
 
     // prettifies the output in dev for better debugging
