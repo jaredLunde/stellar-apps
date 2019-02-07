@@ -45,10 +45,13 @@ module.exports.dependencies = {
   "apollo-boost": "^0.1.27",
   "apollo-link-context": "^1.0.14",
   "apollo-link-logger": "^1.2.3",
+  "@stellar-apps/env-config": "^1.0.0",
   "graphql": "^14.1.1",
   "graphql-tag.macro": "^2.1.0",
+  "node-fetch": "^2.3.0",
   "react-apollo": "^2.4.1",
-  "set-cookie-parser": "^2.3.5"
+  "set-cookie-parser": "^2.3.5",
+  "unfetch": "^4.0.1"
 }
 
 // package.json dev dependencies

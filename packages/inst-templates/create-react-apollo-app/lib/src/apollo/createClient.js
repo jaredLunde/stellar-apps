@@ -5,11 +5,13 @@ import {createHttpLink} from "apollo-link-http"
 import {setContext} from 'apollo-link-context'
 import {ApolloLink, from as linkFrom} from 'apollo-link'
 import getCSRFHeaders from './getCSRFHeaders'
+import getEnvConfig from '@stellar-apps/env-config'
 
+
+const config = getEnvConfig().apollo
 
 export default function createApolloClient ({
   res,
-  config,
   fetch,
   forwardResponseHeaders,
   headers = emptyObj,
@@ -23,7 +25,7 @@ export default function createApolloClient ({
         Object.assign(nextContext.headers, await getCSRFHeaders(
           fetch, {
             res,
-            uri: config.csrfURI,
+            uri: config.csrfUri,
             cookie: nextContext.headers.cookie
           }
         ))
@@ -38,7 +40,7 @@ export default function createApolloClient ({
           const {response: {headers}} = operation.getContext()
 
           if (headers) {
-            forwardResponseHeaders(headers, res)
+            forwardResponseHeaders(headers)
           }
 
           return response

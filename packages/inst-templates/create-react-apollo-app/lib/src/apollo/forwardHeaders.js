@@ -1,12 +1,11 @@
-import emptyArr from 'empty/array'
 import cookieParser from 'set-cookie-parser'
 
 
 export function getCookies (req) {
   const out = []
 
-  for (let name in req.cookies) {
-    out.push(`${name}=${req.cookies[name]}`)
+  for (let cookie of req.getHeader('Cookie')) {
+    out.push(cookie)
   }
 
   return out.join(';')
@@ -17,7 +16,7 @@ export const responseHeaders = [
   'server-timing'
 ]
 
-export function forwardRequestHeaders (req, ignore = emptyArr) {
+export function forwardRequestHeaders (req, ignore = []) {
   if (req === void 0) return;
 
   const output = {
@@ -45,11 +44,7 @@ export function forwardRequestHeaders (req, ignore = emptyArr) {
 }
 
 
-export function forwardResponseHeaders (
-  inputHeaders,
-  res,
-  acceptHeaders = responseHeaders
-) {
+export const forwardResponseHeaders = res => (inputHeaders, acceptHeaders = responseHeaders) => {
   return inputHeaders && inputHeaders.forEach(
     (value, name) => {
       name = name.toLowerCase()
@@ -67,12 +62,12 @@ export function forwardResponseHeaders (
                 options.maxAge = maxAge * 1000
               }
 
-              res.cookie(name, value, options)
+              res.cookies.set(name, value, options)
             }
           )
         }
         else {
-          res.set(name, value)
+          res.setHeader(name, value)
         }
       }
     }

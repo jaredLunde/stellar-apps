@@ -1,0 +1,32 @@
+import React from 'react'
+import Helmet from 'react-helmet'
+import {Type, Hero} from 'curls'
+import {Query} from 'react-apollo'
+import gql from 'graphql-tag'
+
+const Home = props => (
+  <Hero bg='black'>
+    <Helmet>
+      <title><:PKG_NAME:></title>
+    </Helmet>
+
+    <Type xxl center ultraLight w='100%' d='block' color='white'>
+      Hello world
+    </Type>
+
+    <Query query={gql`{hello}`}>
+      {({loading, error, data}) => {
+        if (loading) return 'Loading...'
+        if (error) return `Error! ${error.message}`
+
+        return (
+          <Type lg semiBold center w='100%' d='block' color='white>
+            {JSON.stringify(data.hello)}
+          </Type>
+        )
+      }}
+    </Query>
+  </Hero>
+)
+
+export default Home
