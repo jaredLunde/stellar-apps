@@ -105,7 +105,7 @@ Middleware for injecting a `robots.txt` file at `/robots.txt`
 
 -----
 
-### `withCookies(keygrip)`
+### `withCookies(keygrip <array|object>)`
 Middleware for injecting cookie get/set into the `req` object at `req.cookies`.
 See [`cookies`](https://github.com/pillarjs/cookies) for further documentation.
 
