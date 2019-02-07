@@ -111,7 +111,7 @@ See [`cookies`](https://github.com/pillarjs/cookies) for further documentation.
 
 ### Arguments
 - `keygrip` `{array|object}`
-    - [An array of keys or Keygrip object](https://www.npmjs.com/package/keygrip)
+    - [An array of keys or Keygrip object](https://www.npmjs.com/package/keygrip)  for signing and verifying cookies
 -----
 
 ### `startRenderer(options <object>)`
