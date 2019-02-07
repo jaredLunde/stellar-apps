@@ -2,7 +2,7 @@
 # yarn lockfile v1
 
 
-"@inst-pkg/template-utils@^1.0.1":
+"@inst-pkg/template-utils@^1.0.5":
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/@inst-pkg/template-utils/-/template-utils-1.0.5.tgz#10f0f6879573b3b7a01f4155ec2764ceb31d3abd"
   integrity sha512-bGX2XFEN+tfSJRmuTNjWe19v3bOgTeZfRFWN5pPEq0J+OVcCLflHMsWjUDlxKLmd6IMtyBYyTkL7BltKxKS64w==

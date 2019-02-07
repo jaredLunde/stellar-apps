@@ -17,7 +17,7 @@
   dependencies:
     regenerator-runtime "^0.12.0"
 
-"@inst-pkg/template-utils@^1.0.1", "@inst-pkg/template-utils@^1.0.5":
+"@inst-pkg/template-utils@^1.0.5":
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/@inst-pkg/template-utils/-/template-utils-1.0.5.tgz#10f0f6879573b3b7a01f4155ec2764ceb31d3abd"
   integrity sha512-bGX2XFEN+tfSJRmuTNjWe19v3bOgTeZfRFWN5pPEq0J+OVcCLflHMsWjUDlxKLmd6IMtyBYyTkL7BltKxKS64w==
@@ -29,28 +29,28 @@
     inquirer-autocomplete-prompt "^1.0.1"
     inquirer-checkbox-plus-prompt "^1.0.1"
 
-"@stellar-apps/create-react-app@^1.0.5", "@stellar-apps/create-react-app@^1.0.7":
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/@stellar-apps/create-react-app/-/create-react-app-1.0.7.tgz#74c2e2c1247c171b2ec933826e57f12979c18d1b"
-  integrity sha512-krjgPzaNyFrIER72j1bGGf+dB712udeoNJthp5eEnLZP2sKQIVmMbyPuc2I8sjTyv3pzE1LLGunII6lp1wprvQ==
+"@stellar-apps/create-react-app@^1.0.11":
+  version "1.0.11"
+  resolved "https://registry.yarnpkg.com/@stellar-apps/create-react-app/-/create-react-app-1.0.11.tgz#97d6ea2960d105cef5d104caf65be349b0cf5592"
+  integrity sha512-8elVxbHLeRJ+AFhuBgOF+M20WPLZxw47x+i9BjnB0wMS10brd1npu4TqhmXhVwOE2vdzUnBQ9Bir1Vpi4s7ehQ==
   dependencies:
     "@inst-pkg/template-utils" "^1.0.5"
 
-"@stellar-apps/create-react-router-app@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@stellar-apps/create-react-router-app/-/create-react-router-app-1.0.0.tgz#4489bf1d0df6f30ade60d6b0767b6fc9349778d1"
-  integrity sha512-8YGPv77BiwxiSmqUYMTveiihkav7qfIYpLySmlr+GzEpxg3R2GawmTpAiAaEOuTkvKqCW1VzZwi9wEDD6rlk9g==
-  dependencies:
-    "@inst-pkg/template-utils" "^1.0.1"
-    "@stellar-apps/create-react-app" "^1.0.7"
-
-"@stellar-apps/create-static-react-app@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@stellar-apps/create-static-react-app/-/create-static-react-app-1.0.1.tgz#75feb6de41ddd36ae98fb736ba77c9902b685ef4"
-  integrity sha512-e+mEy8RIapYQTblfuqtxJhV5ui8O71ofi8hDib7pR2S/42Dh2q513rIPuG7slak8n1ejE+2H9xU3N4k55vOFaA==
+"@stellar-apps/create-react-router-app@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@stellar-apps/create-react-router-app/-/create-react-router-app-1.0.4.tgz#f3694ec4d21202534e60503b8d013548c69e3b11"
+  integrity sha512-Fgeej2VygXUJNqpdNsN5Mq30nFMLRhiPln8Mm4IESvXkWz/oadq3hz3lsy1zkId0UYmjadhA0uABg3dgwQpFJA==
   dependencies:
     "@inst-pkg/template-utils" "^1.0.5"
-    "@stellar-apps/create-react-app" "^1.0.5"
+    "@stellar-apps/create-react-app" "^1.0.11"
+
+"@stellar-apps/create-static-react-app@^1.0.5":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@stellar-apps/create-static-react-app/-/create-static-react-app-1.0.5.tgz#91e0e5fe94e2999a63e507380155249961a24114"
+  integrity sha512-bR11T8cwfmyHcv9g61+KZTtY2y4x2NJLKSaO1rX4chfWFZT5qaw53N7PolHpqusKUy+y0TWCYtrOVHisIfYnPg==
+  dependencies:
+    "@inst-pkg/template-utils" "^1.0.5"
+    "@stellar-apps/create-react-app" "^1.0.11"
     "@stellar-apps/inst-utils" "^1.0.1"
 
 "@stellar-apps/inst-utils@^1.0.1":

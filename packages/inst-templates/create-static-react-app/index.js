@@ -123,6 +123,7 @@ module.exports.devDependencies = devDependencies
 
 // package.json peer dependencies
 module.exports.peerDependencies = {}
+module.exports.rename = reactApp.rename
 
 // runs after the package.json is created and deps are installed,
 // used for adding scripts and whatnot

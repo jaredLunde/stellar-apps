@@ -1,5 +1,4 @@
 import path from 'path'
-import startRenderer from '@stellar-apps/ssr/startRenderer'
 import {cmd, pwd, getPkgJson} from '@inst-pkg/template-utils'
 import childProc from 'child_process'
 import {findBin} from './utils'
@@ -17,7 +16,7 @@ export default async function start (
   }
 ) {
   const pkgJson = getPkgJson(pwd())
-  process.env.NODE_ENV = env || process.env.NODE_ENV
+  process.env.NODE_ENV = env || process.env.NODE_ENV || 'development'
   process.env.BABEL_ENV = process.env.BABEL_ENV || process.env.NODE_ENV
   process.env.STAGE = process.env.STAGE || stage
   clientConfig = clientConfig || path.join(path.dirname(pkgJson.__path), 'webpack/client.config.js')
@@ -27,7 +26,7 @@ export default async function start (
     case 'static-app':
     case 'serverless-app':
     case 'serverless-static-app':
-      return startRenderer({
+      return require('@stellar-apps/ssr/startRenderer')({
         // dev webpack client config
         clientConfig: require(clientConfig),
         // dev webpack server config

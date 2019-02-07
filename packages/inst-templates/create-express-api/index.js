@@ -76,6 +76,7 @@ module.exports.devDependencies = {
   "@stellar-apps/babel-preset-react-app": "^1.0.4",
   "@stellar-apps/serverless-certificate-manager": "^1.0.5",
   "@stellar-apps/serverless-dotenv": "^1.0.2",
+  "@stellar-apps/scripts": "^1.0.18",
   "@stellar-apps/webpack": "^1.0.9",
   "@stellar-apps/webpack-rimraf-plugin": "^1.0.3",
   "babel-loader": "^8.0.5",
@@ -94,6 +95,12 @@ module.exports.devDependencies = {
 
 // package.json peer dependencies
 module.exports.peerDependencies = {
+}
+
+module.exports.rename = function rename (filename) {
+  return filename.endsWith('gitignore') && !filename.endsWith('.gitignore')
+    ? filename.replace('gitignore', '.gitignore')
+    : filename
 }
 
 // runs after the package.json is created and deps are installed,

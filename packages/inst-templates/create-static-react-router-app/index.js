@@ -37,6 +37,7 @@ module.exports.devDependencies = staticReactApp.devDependencies
 
 // package.json peer dependencies
 module.exports.peerDependencies = staticReactApp.peerDependencies
+module.exports.rename = staticReactApp.rename
 
 // runs after the package.json is created and deps are installed,
 // used for adding scripts and whatnot

@@ -1,11 +1,12 @@
 {
   "name": "@stellar-apps/create-apollo-api",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "main": "index.js",
   "author": "Jared Lunde <jared@BeStellar.co> (https://BeStellar.co)",
   "license": "MIT",
   "dependencies": {
-    "@inst-pkg/template-utils": "^1.0.1",
-    "@stellar-apps/create-express-api": "^1.0.0"
+    "@inst-pkg/template-utils": "^1.0.5",
+    "@stellar-apps/create-express-api": "^1.0.2",
+    "@stellar-apps/inst-utils": "^1.0.1"
   }
 }

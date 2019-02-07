@@ -2,7 +2,7 @@
 # yarn lockfile v1
 
 
-"@inst-pkg/template-utils@^1.0.1", "@inst-pkg/template-utils@^1.0.5":
+"@inst-pkg/template-utils@^1.0.5":
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/@inst-pkg/template-utils/-/template-utils-1.0.5.tgz#10f0f6879573b3b7a01f4155ec2764ceb31d3abd"
   integrity sha512-bGX2XFEN+tfSJRmuTNjWe19v3bOgTeZfRFWN5pPEq0J+OVcCLflHMsWjUDlxKLmd6IMtyBYyTkL7BltKxKS64w==
@@ -14,10 +14,10 @@
     inquirer-autocomplete-prompt "^1.0.1"
     inquirer-checkbox-plus-prompt "^1.0.1"
 
-"@stellar-apps/create-react-app@^1.0.7":
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/@stellar-apps/create-react-app/-/create-react-app-1.0.7.tgz#74c2e2c1247c171b2ec933826e57f12979c18d1b"
-  integrity sha512-krjgPzaNyFrIER72j1bGGf+dB712udeoNJthp5eEnLZP2sKQIVmMbyPuc2I8sjTyv3pzE1LLGunII6lp1wprvQ==
+"@stellar-apps/create-react-app@^1.0.11":
+  version "1.0.11"
+  resolved "https://registry.yarnpkg.com/@stellar-apps/create-react-app/-/create-react-app-1.0.11.tgz#97d6ea2960d105cef5d104caf65be349b0cf5592"
+  integrity sha512-8elVxbHLeRJ+AFhuBgOF+M20WPLZxw47x+i9BjnB0wMS10brd1npu4TqhmXhVwOE2vdzUnBQ9Bir1Vpi4s7ehQ==
   dependencies:
     "@inst-pkg/template-utils" "^1.0.5"
 

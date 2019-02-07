@@ -29,6 +29,7 @@ module.exports.devDependencies = {
 
 // package.json peer dependencies
 module.exports.peerDependencies = expressApi.peerDependencies
+module.exports.rename = expressApi.rename
 
 // runs after the package.json is created and deps are installed,
 // used for adding scripts and whatnot
