@@ -219,6 +219,10 @@ export default function createRenderer(
           res.statusCode === 200 || res.statusCode === void 0 ? 500 : res.statusCode
         html = renderError ? (await renderError({req, res, err, device, env, stage})) : err
       }
+
+      if (process.env.NODE_ENV !== 'production') {
+        console.log(err)
+      }
     }
 
     // prettifies the output in dev for better debugging

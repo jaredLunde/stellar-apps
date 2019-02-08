@@ -1,5 +1,5 @@
 {
-  "name": "create-react-apollo-app",
+  "name": "@stellar-apps/create-react-apollo-app",
   "version": "1.0.0",
   "main": "index.js",
   "author": "Jared Lunde <jared@BeStellar.co> (https://BeStellar.co)",

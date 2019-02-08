@@ -95,8 +95,8 @@ else {
           default: {
             name: 'default',
             chunks: 'initial',
-            minSize: 96 * 1000,
-            maxSize: 156 * 1000,
+            minSize: 128 * 1000,
+            maxSize: 196 * 1000,
             minChunks: 1,
             maxAsyncRequests: 5,
             maxInitialRequests: 5,
