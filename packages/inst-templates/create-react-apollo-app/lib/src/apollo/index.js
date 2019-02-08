@@ -1,11 +1,5 @@
-import createClient from './createClient'
-import {forwardRequestHeaders, forwardResponseHeaders} from './forwardHeaders'
-import getCSRFHeaders from './getCSRFHeaders'
+export createApolloClient from './createApolloClient'
+export getCsrfHeaders from './getCsrfHeaders'
+export createRequestHeadersLink from './createRequestHeadersLink'
+export createResponseHeadersLink from './createResponseHeadersLink'
 
-
-export default {
-  createClient,
-  forwardRequestHeaders,
-  forwardResponseHeaders,
-  getCSRFHeaders
-}

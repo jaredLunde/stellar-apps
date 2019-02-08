@@ -5,13 +5,27 @@ import {Router} from 'react-router-dom'
 import createHistory from 'history/createBrowserHistory'
 import Broker from 'react-broker'
 import {ApolloProvider} from 'react-apollo'
-import apollo from './apollo'
+import {createHttpLink} from 'apollo-link-http'
+import {createApolloClient, createRequestHeadersLink, getCsrfHeaders} from './apollo'
 import App from './index'
 
 
-const history = createHistory()
-const apolloClient = apollo.createClient({fetch})
 const root = document.getElementById('⚛️')
+const history = createHistory()
+const httpLink = createHttpLink({fetch, uri: process.env.APOLLO_URI, credentials: 'include'})
+const requestHeadersLink = createRequestHeadersLink({
+  assign: async currentHeaders => Object.assign(
+    currentHeaders,
+    await getCsrfHeaders(
+      {
+        fetch,
+        uri: process.env.APOLLO_CSRF_URI,
+        cookie: currentHeaders.cookie,
+      }
+    )
+  )
+})
+const apolloClient = createApolloClient(requestHeadersLink, httpLink)
 
 async function render (App) {
   const app = (

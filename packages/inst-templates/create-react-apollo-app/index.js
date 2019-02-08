@@ -12,8 +12,21 @@ module.exports.prompts = (
   args,
   inquirer
 ) => {
+  const initialPrompts =
+    reactApp.prompts(
+      {
+        ROOT_NAME,
+        ROOT_DIR,
+        PKG_NAME,
+        PKG_DIR
+      },
+      packageJson,
+      args,
+      inquirer
+    )
+
   return [
-    ...reactApp.prompts({ROOT_NAME, ROOT_DIR, PKG_NAME, PKG_DIR}, packageJson, args, inquirer),
+    ...initialPrompts.slice(0, -1),
     {
       name: 'APOLLO_DOMAIN_PRODUCTION',
       message: `Apollo domain [${flag('production', 'green')}]:`,
@@ -22,10 +35,15 @@ module.exports.prompts = (
     },
     {
       name: 'APOLLO_DOMAIN_STAGING',
-      message: `Apollo domain [${flag('staging', 'white')}]:`,
+      message: `Apollo domain    [${flag('staging', 'white')}]:`,
       filter: trim,
+      default: a =>
+        a.APOLLO_DOMAIN_PRODUCTION.split('.').length > 2
+          ? `staging-${a.APOLLO_DOMAIN_PRODUCTION}`
+          : `staging.${a.APOLLO_DOMAIN_PRODUCTION}`,
       validate: required
     },
+    ...initialPrompts.slice(-1)
   ]
 }
 
@@ -45,9 +63,9 @@ module.exports.dependencies = {
   "apollo-boost": "^0.1.27",
   "apollo-link-context": "^1.0.14",
   "apollo-link-logger": "^1.2.3",
-  "@stellar-apps/env-config": "^1.0.0",
   "graphql": "^14.1.1",
   "graphql-tag.macro": "^2.1.0",
+  "js-cookie": "^2.2.0",
   "node-fetch": "^2.3.0",
   "react-apollo": "^2.4.1",
   "set-cookie-parser": "^2.3.5",

@@ -35,7 +35,8 @@ module.exports = createConfig(
 
     externals: [
       // nodeExternals({modulesDir: '../../../node_modules', whitelist: [/web/,]})
-      /js-beautify/
+      'js-beautify',
+      'encoding'
     ],
 
     module: {

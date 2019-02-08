@@ -5,7 +5,7 @@
   "author": "Jared Lunde <jared@BeStellar.co> (https://BeStellar.co)",
   "license": "MIT",
   "dependencies": {
-    "@inst-pkg/template-utils": "^1.0.1",
-    "@stellar-apps/create-react-router-app": "^1.0.2"
+    "@inst-pkg/template-utils": "^1.0.10",
+    "@stellar-apps/create-react-router-app": "^1.0.4"
   }
 }

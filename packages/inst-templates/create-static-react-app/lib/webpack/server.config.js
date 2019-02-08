@@ -61,7 +61,8 @@ module.exports = createConfig(
     },
 
     externals: [
-      /js-beautify/
+      'js-beautify',
+      'encoding'
     ],
 
     module: {

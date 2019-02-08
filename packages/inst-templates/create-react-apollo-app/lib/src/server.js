@@ -10,8 +10,14 @@ import ReactDOMServer from 'react-dom/server'
 import Broker from 'react-broker'
 import {StaticRouter} from 'react-router-dom'
 import {ApolloProvider, getDataFromTree} from 'react-apollo'
+import {createHttpLink} from 'apollo-link-http'
 import fetch from 'node-fetch'
-import apollo from './apollo'
+import {
+  createApolloClient,
+  createRequestHeadersLink,
+  createResponseHeadersLink,
+  getCsrfHeaders
+} from './apollo'
 import App from './index'
 
 
@@ -30,13 +36,26 @@ export const renderApp = ({clientStats}) => async function render (
   const helmetContext = {}
   // tracks redirections and status changes in the Router
   const routerContext = {}
+
   // creates the Apollo client
-  const apolloClient = apollo.createClient({
-    res,
-    fetch,
-    headers: apollo.forwardRequestHeaders(req),
-    forwardResponseHeaders: apollo.forwardResponseHeaders(res)
-  })
+  const apolloClient = createApolloClient(
+    createRequestHeadersLink({
+      req,
+      assign: async currentHeaders => Object.assign(
+        currentHeaders,
+        await getCsrfHeaders(
+          {
+            res,
+            fetch,
+            uri: process.env.APOLLO_CSRF_URI,
+            cookie: currentHeaders.cookie,
+          }
+        )
+      )
+    }),
+    createResponseHeadersLink({res}),
+    createHttpLink({uri: process.env.APOLLO_URI, credentials: 'include', fetch}),
+  )
   // creates the App in React
   const app = (
     <ApolloProvider client={apolloClient}>
@@ -82,8 +101,8 @@ export const renderApp = ({clientStats}) => async function render (
         <!-- Initial Apollo state -->
         <script>
           window.__APOLLO_STATE__ = ${
-            JSON.stringify(apolloClient.extract()).replace(/</g, '\\\u003c')
-          }
+    JSON.stringify(apolloClient.extract()).replace(/</g, '\\\u003c')
+    }
         </script>
       </head>
       <body ${helmet.bodyAttributes}>
