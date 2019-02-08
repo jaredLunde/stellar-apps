@@ -1,11 +1,12 @@
 {
   "name": "@stellar-apps/create-react-apollo-app",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "index.js",
   "author": "Jared Lunde <jared@BeStellar.co> (https://BeStellar.co)",
   "license": "MIT",
   "dependencies": {
     "@inst-pkg/template-utils": "^1.0.10",
-    "@stellar-apps/create-react-router-app": "^1.0.4"
+    "@stellar-apps/create-react-router-app": "^1.0.4",
+    "@stellar-apps/inst-utils": "^1.0.1"
   }
 }
