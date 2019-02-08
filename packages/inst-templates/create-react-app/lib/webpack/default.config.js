@@ -9,7 +9,6 @@ const WebpackRimrafPlugin = require('@stellar-apps/webpack-rimraf-plugin')
 
 const isDev = process.env.NODE_ENV === 'development' || !process.env.NODE_ENV
 const stage = process.env.STAGE || 'development'
-
 const createAliases = ps =>
   ps.reduce((a, p) => ({...a, [`~${path.basename(path.dirname(p))}`]: p}), {})
 

@@ -196,7 +196,7 @@ resources:
     #       HttpRedirectCode: 301
     #       Protocol: https
     #       HostName: ${self:custom.domain}
-    # Redirect DNS record
+    # DNS record for apex redirect
     # StaticRedirectDnsRecord:
     #   Type: AWS::Route53::RecordSet
     #   DependsOn:

@@ -6,7 +6,7 @@ import * as middleware from '~/middleware'
 import {config as corsConfig} from '~/middleware/cors'
 import * as resolvers from '~/resolvers'
 
-// initializes Apollo Server
+// Apollo Server
 const server = new ApolloServer({
   // typeDefs is an array of graphql type definitions
   typeDefs: gql`
@@ -30,7 +30,8 @@ const server = new ApolloServer({
     ]
   }
 })
-// initializes express
+
+// Express
 const app = express()
 // disables x-powered-by: express header for security reasons
 app.disable('x-powered-by')

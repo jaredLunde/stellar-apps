@@ -5,12 +5,11 @@ const {createDevelopment, createProduction} = require('@stellar-apps/webpack')
 const WebpackRimrafPlugin = require('@stellar-apps/webpack-rimraf-plugin')
 // const nodeExternals = require('webpack-node-externals')
 
-
-const createAliases = ps =>
-  ps.reduce((a, p) => ({...a, [`~${path.basename(path.dirname(p))}`]: p}), {})
 const isDev = process.env.NODE_ENV === 'development' || !process.env.NODE_ENV
 const stage = process.env.STAGE || 'development'
 const createConfig = isDev ? createDevelopment : createProduction
+const createAliases = ps =>
+  ps.reduce((a, p) => ({...a, [`~${path.basename(path.dirname(p))}`]: p}), {})
 let envConfig
 
 if (isDev || stage === 'development') {
