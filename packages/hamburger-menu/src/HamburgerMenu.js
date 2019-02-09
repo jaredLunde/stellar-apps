@@ -1,3 +1,5 @@
+/** @jsx jsx */
+import {jsx} from '@emotion/core'
 import React from 'react'
 import {Drawer, DrawerBox} from 'curls'
 import createHamburger from './createHamburger'

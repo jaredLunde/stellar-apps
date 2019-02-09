@@ -23,7 +23,7 @@ async function render (locals) {
   const helmetContext = {}
   // creates the App in React
   const app = (
-    <StaticRouter location={locals.path}>
+    <StaticRouter location={locals.path} context={{}}>
       <App helmetContext={helmetContext} chunkCache={chunkCache} {...locals}/>
     </StaticRouter>
   )

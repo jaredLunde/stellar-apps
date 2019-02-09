@@ -15,7 +15,7 @@ let envConfig
 if (isDev) {
   // Development mode config
   envConfig = {
-    devtool: 'cheap-module-eval-source-map',
+    devtool: 'eval',
     output: {
       globalObject: 'this',
       pathinfo: false

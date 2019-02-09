@@ -20,7 +20,7 @@ export default function createStaticRenderer(
       html = await render(locals)
     }
     catch (err) {
-      html = renderError ? (await renderError(locals)) : err
+      html = renderError ? await renderError({...locals, err}) : err
 
       if (process.env.NODE_ENV !== 'production') {
         console.log(err)

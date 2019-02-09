@@ -53,8 +53,8 @@ module.exports = createConfig(
       new webpack.optimize.LimitChunkCountPlugin({maxChunks: 1}),
       new webpack.DefinePlugin({
         __DEV__: JSON.stringify(isDev),
-        __SERVER__: JSON.stringify(false),
-        __CLIENT__: JSON.stringify(true),
+        __SERVER__: JSON.stringify(true),
+        __CLIENT__: JSON.stringify(false),
       })
     ]
   },

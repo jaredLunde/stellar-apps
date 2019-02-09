@@ -9,7 +9,7 @@ module.exports = {
   dist: join('dist'),
   modules: join('node_modules'),
   inherits: [<:(
-    value += props.INHERITS ? props.INHERITS.map(src => `\n    join('${src}')`).join(',') : ''
+    value += props.INHERITS ? props.INHERITS.map(src => `\n    join('${src}/src')`).join(',') : ''
   ):>
   ]
 }

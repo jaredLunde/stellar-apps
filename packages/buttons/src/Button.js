@@ -1,6 +1,6 @@
 import React from 'react'
 import {Button, ThemeConsumer, createComponent} from 'curls'
-import * as buttonDefaults from 'curls/dist/cjs/Button/defaultTheme'
+import * as buttonDefaults from 'curls/dist/es/Button/defaultTheme'
 
 
 export const defaultTheme = {

@@ -61,7 +61,7 @@ export const noFavicon = next => (req, res) => {
 
 export function defaultRenderError ({res, req, err}) {
   const strErr = err.toString()
-  const statusText = httpStatus[res.statusCode]
+  const statusText = httpStatus[res ? res.statusCode : 500]
   return `
     <!DOCTYPE html>
     <html>
@@ -107,7 +107,7 @@ export function defaultRenderError ({res, req, err}) {
       </head>
       <body>
         <div>
-          <h1>Error <span>${res.statusCode} ${statusText}</span></h1>
+          <h1>Error <span>${res ? res.statusCode : 500} ${statusText}</span></h1>
           <code>${strErr.split('\n')[0]}</code>
           <pre>${strErr.split('\n').slice(1).join('\n')}</pre>
         </div>

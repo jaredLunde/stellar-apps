@@ -1,4 +1,4 @@
-import * as icons from '~/ui/icons'
+import * as icons from '../../ui/icons'
 
 
 export default {

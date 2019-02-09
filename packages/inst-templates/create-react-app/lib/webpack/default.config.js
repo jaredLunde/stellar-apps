@@ -64,11 +64,11 @@ module.exports = {
       bail: false,
       cache: true,
       loader: false,
-      maxConcurrency: 4,
+      maxConcurrency: 8,
       imageminOptions: {
         plugins: [
-          imageminMozJpeg({quality: 90, progressive: true}),
-          imageminOptipng({optimizationLevel: 7})
+          imageminMozJpeg({quality: isDev ? 70 : 90, progressive: true}),
+          imageminOptipng({optimizationLevel: isDev ? 1 : 7})
         ]
       }
     })

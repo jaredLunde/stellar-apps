@@ -11,30 +11,6 @@ import * as pages from '~/pages'
 // injects global CSS into the document
 const globalStyles = css`
   ${browserResets};
-
-  body {
-    quotes: "“" "”";
-  }
-
-  svg:not(:root) {
-    display: inline-block;
-  }
-
-  [data-strict=true] {
-    contain: strict;
-  }
-
-  [data-autosize=true] {
-    contain: content;
-  }
-
-  [data-autopaint=true] {
-    contain: layout style;
-  }
-  
-  [hidden] {
-    display: none !important;
-  }
 `
 
 function Document ({location}) {
