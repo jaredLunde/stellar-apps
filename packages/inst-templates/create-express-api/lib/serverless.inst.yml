@@ -24,7 +24,7 @@ provider:
     # Compress response when larger than specified size in bytes (must be between 0 and 10485760)
     minimumCompressionSize: 2048
   # Optional endpoint configuration for API Gateway REST API. Other option is 'edge'
-  endpointType: regional
+  endpointType: ${env:SERVERLESS__ENDPOINT_TYPE}
   iamRoleStatements:
     - Effect: "Allow"
       Action:
@@ -50,6 +50,8 @@ plugins:
   - '@stellar-apps/serverless-dotenv'
   # Creates ACM certificates for the app domains
   - '@stellar-apps/serverless-certificate-manager'
+  # Allows custom scripts to be executed on Serverless Lifecycle Hooks
+  - serverless-plugin-scripts
   # Creates the domain record in Route 53 and provides custom domain names
   - serverless-domain-manager
   # Allows API gateway to gzip
@@ -76,6 +78,7 @@ functions:
     # Function level environment variables
     environment:
       STAGE: ${self:provider.stage}
+      SSM_CONFIG: ${self:custom.ssmConfig}
     # Function specific tags
     tags:
       STAGE: ${self:provider.stage}
@@ -85,10 +88,16 @@ custom:
   domain: ${env:DOMAIN}
   # The hosted zone in Route 53 where the domain records reside
   hostedZone: ${env:SERVERLESS__HOSTED_ZONE, ""}
+  # Configuration path for SSM if using
+  ssmConfig: ${env:SERVERLESS__SSM_CONFIG_PATH}
+  # Environment variables attached to each function
+  dotenv:
+    exclude:
+      - 'SERVERLESS__*'
   # Local offline development settings
   serverless-offline:
     host: ${opt:host, '127.0.0.1'}
-    port: ${opt:port, 4000}
+    port: ${opt:port, '4000'}
   # Creates ACM certificates for the app domains
   certificateManager:
     # Make `false` to delete this certificate on teardown
@@ -97,6 +106,12 @@ custom:
       domains:
         - <:DOMAIN_PRODUCTION:>
         - <:(value+=props.DOMAIN_PRODUCTION.split('.').length === 2 ? `'*.${props.DOMAIN_PRODUCTION}'`: props.DOMAIN_STAGING):>
+  scripts:
+    hooks:
+      # Creates the domain name on complete deployments
+      'after:package:finalize': sls create_domain --stage ${self:provider.stage}
+      # Deletes the domain on teardown
+      'before:remove:remove': sls delete_domain --stage ${self:provider.stage}
   # Sets up the domain name in Route 53 an attaches API Gateway to the certificate
   customDomain:
     domainName: ${self:custom.domain}

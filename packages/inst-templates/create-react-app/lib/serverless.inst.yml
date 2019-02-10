@@ -27,7 +27,7 @@ provider:
     # Compress response when larger than specified size in bytes (must be between 0 and 10485760)
     minimumCompressionSize: 2048
   # Optional endpoint configuration for API Gateway REST API. Other option is 'edge'
-  endpointType: regional
+  endpointType: ${env:SERVERLES__ENDPOINT_TYPE}
   # IAM role statements so that services can be accessed in the AWS account
   iamRoleStatements:
     - Effect: "Allow"
@@ -136,7 +136,7 @@ custom:
   S3Bucket: ${env:SERVERLESS__S3_BUCKET, ""}
   # The hosted zone in Route 53 where the domain records reside
   hostedZone: ${env:SERVERLESS__HOSTED_ZONE, ""}
-  # Environment variables
+  # Environment variables attached to each function
   dotenv:
     exclude:
       - 'SERVERLESS__*'

@@ -15,6 +15,7 @@ export default class FetchForm extends React.Component {
   static propTypes = {
     config: PropTypes.func,
     onSubmit: PropTypes.func,
+    credentials: PropTypes.string,
     endpoint: PropTypes.string.isRequired,
     getRequestBody: PropTypes.func.isRequired,
     getRequestHeaders: PropTypes.func.isRequired,
@@ -29,6 +30,7 @@ export default class FetchForm extends React.Component {
         this.props.endpoint,
         {
           method: 'POST',
+          credentials: this.props.credentials,
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
@@ -47,6 +49,7 @@ export default class FetchForm extends React.Component {
     const {
       onSubmit,
       endpoint,
+      credentials,
       getRequestBody,
       getRequestHeaders,
       children,

@@ -1,6 +1,6 @@
 {
   "name": "@stellar-apps/serverless-certificate-manager",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "main": "dist/cjs/serverless-certificate-manager.js",
   "author": "Jared Lunde <jared@BeStellar.co> (https://BeStellar.co)",
   "license": "MIT",

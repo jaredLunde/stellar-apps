@@ -149,11 +149,11 @@ function doesDomainMatch (domain, certDomain) {
   if (domain === certDomain) {
     return true
   }
-  else if (domain.endsWith(certDomain.replace('*.'))) {
+  else if (domain.endsWith(certDomain.replace('*.', ''))) {
     const certDepth = certDomain.split('.')
     const domainDepth = domain.split('.')
     // wildcard domains should only match on depth
-    if (certDomain.startsWith('*') && domainDepth === certDepth) {
+    if (certDomain.startsWith('*') && domainDepth.length === certDepth.length) {
       return true
     }
   }

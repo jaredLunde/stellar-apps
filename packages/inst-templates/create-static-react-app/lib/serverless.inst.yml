@@ -21,8 +21,6 @@ provider:
     serverSideEncryption: AES256
   # The S3 prefix under which deployed artifacts should be stored
   deploymentPrefix: artifacts
-  # Optional endpoint configuration for API Gateway REST API. Other option is 'edge'
-  endpointType: regional
   # IAM role statements so that services can be accessed in the AWS account
   iamRoleStatements:
     - Effect: Allow

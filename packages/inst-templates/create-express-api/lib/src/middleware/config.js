@@ -40,21 +40,31 @@ export function mergeEnvConfig (config) {
 }
 
 export let config = mergeEnvConfig({})
+let SSM_CREDENTIALS
+
+if (__DEV__) {
+  SSM_CREDENTIALS = new aws.SharedIniFileCredentials({profile: 'stellar-dev'})
+}
 
 export function loadConfig (ssmTtl, WithDecryption = true) {
   return function loadSSMParams (req, res, next) {
     req.config = config
+    const ssmConfig = process.env.SSM_CONFIG && JSON.parse(process.env.SSM_CONFIG)
 
-    if (process.env.SSM_CONFIG !== void 0) {
+    if (ssmConfig) {
       maybeInvalidateCache(ssmTtl)
 
-      let Names = JSON.parse(process.env.SSM_CONFIG).filter(
+      let Names = ssmConfig.filter(
         name => cache.items.has(name) === false
       )
 
       if (Names.length > 0) {
         let promises = []
-        const ssm = new aws.SSM({region: config.aws.region})
+        const params =
+          __DEV__
+            ? {credentials: SSM_CREDENTIALS, region: 'us-east-1'}
+            : {region: 'us-east-1'}
+        const ssm = new aws.SSM(params)
         const paths = Names.filter(name => name.startsWith('path:') === true)
 
         if (paths.length > 0) {
