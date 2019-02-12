@@ -1,37 +1,40 @@
-import emptyObj from 'empty/object'
-import walkTree from '@jaredlunde/react-tree-walker'
+import React from 'react'
+import {renderToStaticMarkup} from 'react-dom/server'
 
 
-export default function load (app, visitor, context = emptyObj) {
-  let stop = false
+// preloads all of the queries used in the current react tree
+export class RenderPromises {
+  // Map from Query component instances to pending promises.
+  chunkPromises = []
 
-  function loadVisitor (element, instance) {
-    if (stop === true) {
-      return false
+  load () {
+    return Promise.all(this.chunkPromises).then(() => this.chunkPromises = [])
+  }
+}
+
+export default function load (app, render = renderToStaticMarkup) {
+  const renderPromises = new RenderPromises()
+
+  class RenderPromisesProvider extends React.Component {
+    static childContextTypes = {
+      renderPromises: PropTypes.object,
     }
 
-    if (instance && instance.isFetcher === true) {
-      if (instance.props.stopIteration === true) {
-        stop = true
-      }
+    getChildContext () {
+      return {renderPromises}
+    }
 
-      return instance.prefetch(context)
+    render () {
+      return app
     }
   }
 
-  let visitors = loadVisitor
-
-  if (visitor) {
-    visitors = function composedVisitor (element, instance) {
-      const promise = loadVisitor(element, instance)
-
-      if (promise !== void 0) {
-        return promise
-      }
-
-      return visitor(element, instance, context)
-    }
+  function process () {
+    const html = render(<RenderPromisesProvider/>)
+    return renderPromises.chunkPromises.length > 0
+      ? renderPromises.load().then(process)
+      : html
   }
 
-  return walkTree(app, visitors, context)
+  return Promise.resolve().then(process)
 }

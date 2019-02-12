@@ -34,25 +34,30 @@ export default withFetcher(
   class Fetcher extends React.Component {
     isFetcher = true
 
+    static contextTypes = {
+      // for react-broker preloading
+      renderPromises: PropTypes.object
+    }
+
     static propTypes = {
-      stopIteration: PropTypes.bool.isRequired,
       url: PropTypes.string.isRequired,
       method: PropTypes.string.isRequired,
       mode: PropTypes.string,
       credentials: PropTypes.string,
-      headers: PropTypes.object,
+      headers: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
       input: PropTypes.any,
       timeout: PropTypes.number,
+      ssr: PropTypes.bool,
       getSignature: PropTypes.func.isRequired
     }
 
     static defaultProps = {
-      stopIteration: false,
       method: 'GET',
       mode: 'cors',
       credentials: 'include',
       headers: {},
       timeout: 10 * 1000,
+      ssr: true,
       getSignature
     }
 
@@ -66,23 +71,28 @@ export default withFetcher(
         reload: this.reload,
         response: response || null,
       }
+      const isSsr = typeof window === 'undefined'
 
       if (this.state.status === WAITING) {
-        this.fetch(props, props.fetcher)
+        if (isSsr === false || props.ssr === true) {
+          const fetchPromise = this.fetch(props, props.fetcher)
+          // for preloading with react-broker
+          if (context.renderPromises) {
+            context.renderPromises.chunkPromises.push(fetchPromise)
+          }
+        }
       }
 
       props.fetcher.cache.subscribe(this.signature, this)
     }
 
-    fetch = async (props, context, visitorContext) => {
-      const {setHeaders} = visitorContext || emptyObj
-
+    fetch = async (props, context) => {
       context.cache.setStatus(this.signature, LOADING)
       let response, result, headers = {}
 
       try {
         this.commit = new Promise(
-          resolve => {
+          async resolve => {
             context.fetch(
               props.url,
               {
@@ -91,8 +101,7 @@ export default withFetcher(
                 credentials: props.credentials,
                 headers: {
                   'Content-Type': 'application/json',
-                  ...props.headers,
-                  ...(setHeaders ? setHeaders(props.headers) : emptyObj)
+                  ...(typeof props.headers === 'function' ? await props.headers() : props.headers)
                 },
                 body: props.input
               }
@@ -115,6 +124,7 @@ export default withFetcher(
             )
           }
         )
+
         context.cache.setCommit(this.signature, this.commit)
         response = await this.commit
         clearTimeout(this.timeout)
@@ -135,7 +145,6 @@ export default withFetcher(
         context.cache.set(this.signature, {status: DONE, response: result})
       }
       catch (errorMsg) {
-        console.log('FUCKING ERROR', errorMsg)
         clearTimeout(this.timeout)
         // with CORS requests you cannot get the response object evidently
         // so this error mitigates that
@@ -154,7 +163,7 @@ export default withFetcher(
       return response
     }
 
-    prefetch = visitorContext => this.fetch(this.props, this.props.fetcher, visitorContext)
+    prefetch = () => this.fetch(this.props, this.props.fetcher)
 
     update = ({response, status}) => this.setState({response, status})
 
@@ -171,7 +180,7 @@ export default withFetcher(
       const nextSignature = this.props.getSignature(this.props)
       if (nextSignature !== this.signature) {
         this.props.fetcher.cache.unsubscribe(this.signature, this)
-        this.fetch(this.props, this.props.fetcher)
+        this.fetch(this.props, {...this.context, ...this.props.fetcher})
         this.props.fetcher.cache.subscribe(this.signature, this)
       }
     }

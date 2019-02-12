@@ -1,6 +1,6 @@
 {
   "name": "@stellar-apps/fetcher",
-  "version": "2.0.0",
+  "version": "2.0.4",
   "main": "dist/cjs/index.js",
   "author": "Jared Lunde <jared@BeStellar.co> (https://BeStellar.co)",
   "license": "MIT",
@@ -24,7 +24,6 @@
   "dependencies": {
     "@babel/runtime": "^7.3.1",
     "@babel/runtime-corejs2": "^7.3.1",
-    "@jaredlunde/react-tree-walker": "^4.3.7",
     "cancelable-promise": "^2.4.1",
     "cdll-memoize": "^0.1.8",
     "empty": "^0.10.1"
