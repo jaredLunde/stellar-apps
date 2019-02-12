@@ -9,8 +9,9 @@ import React from 'react'
 import ReactDOMServer from 'react-dom/server'
 import Broker from 'react-broker'
 import {StaticRouter} from 'react-router-dom'
-import {ApolloProvider, getMarkupFromTree} from 'react-apollo'
+import {ApolloProvider} from 'react-apollo'
 import {createHttpLink} from 'apollo-link-http'
+import {getMarkupFromTree} from '@stellar-apps/apollo'
 import fetch from 'node-fetch'
 import {
   createApolloClient,
@@ -56,19 +57,16 @@ export const renderApp = ({clientStats}) => async function render (
     createResponseHeadersLink({res}),
     createHttpLink({uri: process.env.APOLLO_URI, credentials: 'include', fetch}),
   )
-  // creates the App in React
-  const app = (
-    <ApolloProvider client={apolloClient}>
-      <StaticRouter location={req.url} context={routerContext}>
-        <App helmetContext={helmetContext} chunkCache={chunkCache} device={device}/>
-      </StaticRouter>
-    </ApolloProvider>
-  )
-  // preloads the async components and when done renders the app string
-  await Broker.loadAll(app)
-  // waits for Apollo to execute Queries and retrieve responses
+  // preloads the async components from react-broker and waits for Apollo to execute
+  // Queries and retrieve responses
   const page = await getMarkupFromTree({
-    tree: app,
+    tree: (
+      <ApolloProvider client={apolloClient}>
+        <StaticRouter location={req.url} context={routerContext}>
+          <App helmetContext={helmetContext} chunkCache={chunkCache} device={device}/>
+        </StaticRouter>
+      </ApolloProvider>
+    ),
     context: {},
     renderFunction: ReactDOMServer.renderToString
   })
@@ -103,8 +101,8 @@ export const renderApp = ({clientStats}) => async function render (
         <!-- Initial Apollo state -->
         <script>
           window.__APOLLO_STATE__ = ${
-    JSON.stringify(apolloClient.extract()).replace(/</g, '\\\u003c')
-    }
+           JSON.stringify(apolloClient.extract()).replace(/</g, '\\\u003c')
+          }
         </script>
       </head>
       <body ${helmet.bodyAttributes}>

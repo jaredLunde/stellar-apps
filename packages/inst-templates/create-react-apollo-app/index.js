@@ -60,6 +60,7 @@ module.exports.copy = async function ({PKG_DIR}) {
 // package.json dependencies
 module.exports.dependencies = {
   ...reactApp.dependencies,
+  "@stellar-apps/apollo": "^2.0.1",
   "apollo-boost": "^0.1.27",
   "apollo-link-context": "^1.0.14",
   "apollo-link-logger": "^1.2.3",
