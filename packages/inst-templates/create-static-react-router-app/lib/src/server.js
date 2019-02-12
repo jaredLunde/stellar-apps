@@ -27,10 +27,8 @@ async function render (locals) {
       <App helmetContext={helmetContext} chunkCache={chunkCache} {...locals}/>
     </StaticRouter>
   )
-  // preloads the async components and when done renders the app string
-  await Broker.loadAll(app)
   // the string-rendered application
-  const page = ReactDOMServer.renderToString(app)
+  const page = await Broker.loadAll(app, ReactDOMServer.renderToString)
   // renders the Helmet attributes
   const {helmet} = helmetContext
   // returns the document

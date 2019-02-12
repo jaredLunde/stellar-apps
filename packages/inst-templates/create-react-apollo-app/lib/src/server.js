@@ -9,7 +9,7 @@ import React from 'react'
 import ReactDOMServer from 'react-dom/server'
 import Broker from 'react-broker'
 import {StaticRouter} from 'react-router-dom'
-import {ApolloProvider, getDataFromTree} from 'react-apollo'
+import {ApolloProvider, getMarkupFromTree} from 'react-apollo'
 import {createHttpLink} from 'apollo-link-http'
 import fetch from 'node-fetch'
 import {
@@ -67,9 +67,11 @@ export const renderApp = ({clientStats}) => async function render (
   // preloads the async components and when done renders the app string
   await Broker.loadAll(app)
   // waits for Apollo to execute Queries and retrieve responses
-  await getDataFromTree(app)
-  // the string-rendered application
-  const page = ReactDOMServer.renderToString(app)
+  const page = await getMarkupFromTree({
+    tree: app,
+    context: {},
+    renderFunction: ReactDOMServer.renderToString
+  })
   // sets the status from the router context to the response
   if (routerContext.status) {
     res.statusCode = routerContext.status

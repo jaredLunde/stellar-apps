@@ -88,7 +88,7 @@ module.exports.dependencies = {
   "prop-types": "^15.6.2",
   "react": "^16.8.1",
   "react-dom": "^16.8.1",
-  "react-broker": "^1.0.16",
+  "react-broker": "^1.1.2",
   "react-helmet-async": "^0.2.0",
   "serverless-http": "^1.9.0",
 }

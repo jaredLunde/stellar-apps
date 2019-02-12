@@ -33,10 +33,8 @@ export const renderApp = ({clientStats}) => async function render (
       <App helmetContext={helmetContext} chunkCache={chunkCache} device={device}/>
     </StaticRouter>
   )
-  // preloads the async components and when done renders the app string
-  await Broker.loadAll(app)
   // the string-rendered application
-  const page = ReactDOMServer.renderToString(app)
+  const page = await Broker.loadAll(app, ReactDOMServer.renderToString)
   // sets the status from the router context to the response
   if (routerContext.status) {
     res.statusCode = routerContext.status

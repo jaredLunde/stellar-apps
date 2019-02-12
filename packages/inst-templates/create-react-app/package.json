@@ -1,6 +1,6 @@
 {
   "name": "@stellar-apps/create-react-app",
-  "version": "1.0.24",
+  "version": "1.0.26",
   "main": "index.js",
   "author": "Jared Lunde <jared@BeStellar.co> (https://BeStellar.co)",
   "license": "MIT",
