@@ -18,7 +18,7 @@ if (isDev || stage === 'development') {
   }
 }
 else {
-  const StaticSiteGeneratorPlugin = require('static-site-generator-webpack-plugin')
+  const StaticSiteGeneratorPlugin = require('@stellar-apps/static-site-generator-plugin')
   const CompressionPlugin = require('compression-webpack-plugin')
   const zlib = require('zlib')
 

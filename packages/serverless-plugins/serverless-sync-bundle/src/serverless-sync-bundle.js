@@ -236,7 +236,9 @@ module.exports = class ServerlessPlugin {
   bundleAndSyncAll = () => this.bundleAll().then(this.syncAll)
 
   syncAll = async () => {
-    await Promise.all(this.bundles.map(bundle => this.sync(bundle)))
+    for (let bundle of this.bundles) {
+      await this.sync(bundle)
+    }
   }
 
   bundleAll = async () => {
