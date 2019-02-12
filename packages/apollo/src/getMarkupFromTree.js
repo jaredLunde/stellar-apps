@@ -1,5 +1,5 @@
 // Lifted from https://github.com/apollographql/react-apollo/blob/master/src/getDataFromTree.ts
-// and adapted for seemless use with react-broker
+// and adapted for seamless use with react-broker
 import React from 'react'
 import PropTypes from 'prop-types'
 
