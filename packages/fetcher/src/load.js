@@ -3,7 +3,7 @@ import {renderToStaticMarkup} from 'react-dom/server'
 
 
 // preloads all of the queries used in the current react tree
-export class RenderPromises {
+export class WaitForPromises {
   // Map from Query component instances to pending promises.
   chunkPromises = []
 
@@ -13,15 +13,15 @@ export class RenderPromises {
 }
 
 export default function load (app, render = renderToStaticMarkup) {
-  const renderPromises = new RenderPromises()
+  const waitForPromises = new WaitForPromises()
 
-  class RenderPromisesProvider extends React.Component {
+  class WaitForPromisesProvider extends React.Component {
     static childContextTypes = {
-      renderPromises: PropTypes.object,
+      waitForPromises: PropTypes.object,
     }
 
     getChildContext () {
-      return {renderPromises}
+      return {waitForPromises}
     }
 
     render () {
@@ -30,9 +30,9 @@ export default function load (app, render = renderToStaticMarkup) {
   }
 
   function process () {
-    const html = render(<RenderPromisesProvider/>)
-    return renderPromises.chunkPromises.length > 0
-      ? renderPromises.load().then(process)
+    const html = render(<WaitForPromisesProvider/>)
+    return waitForPromises.chunkPromises.length > 0
+      ? waitForPromises.load().then(process)
       : html
   }
 

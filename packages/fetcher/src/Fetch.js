@@ -36,7 +36,7 @@ export default withFetcher(
 
     static contextTypes = {
       // for react-broker preloading
-      renderPromises: PropTypes.object
+      waitForPromises: PropTypes.object
     }
 
     static propTypes = {
@@ -77,8 +77,8 @@ export default withFetcher(
         if (isSsr === false || props.ssr === true) {
           const fetchPromise = this.fetch(props, props.fetcher)
           // for preloading with react-broker
-          if (context.renderPromises) {
-            context.renderPromises.chunkPromises.push(fetchPromise)
+          if (context.waitForPromises) {
+            context.waitForPromises.chunkPromises.push(fetchPromise)
           }
         }
       }
