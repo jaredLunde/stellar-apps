@@ -77,11 +77,12 @@ export const renderApp = ({clientStats}) => async function render (
   // somewhere a `<Redirect>` was rendered
   if (routerContext.url) {
     // redirect(res, routerContext.status || 301, routerContext.url)
-    redirect(res, routerContext.url, routerContext.status || 301)
+    redirect(res, routerContext.url, routerContext.location?.state?.status || 301)
   }
   // renders the Helmet attributes
   const {helmet} = helmetContext
   res.write(`
+    <!DOCTYPE html>
     <html ${helmet.htmlAttributes}>
       <head>
         <!-- Page Title -->

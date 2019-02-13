@@ -30,6 +30,7 @@ export const renderApp = ({clientStats}) => async function render (
   // renders the Helmet attributes
   const {helmet} = helmetContext
   res.write(`
+    <!DOCTYPE html>
     <html ${helmet.htmlAttributes}>
       <head>
         <!-- Page Title -->
