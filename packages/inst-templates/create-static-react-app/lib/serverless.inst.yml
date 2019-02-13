@@ -191,9 +191,9 @@ resources:
     #     AccessControl: PublicRead
     #     BucketName: www.${self:custom.domain}
     #     WebsiteConfiguration:
-    #       HttpRedirectCode: 301
-    #       Protocol: https
-    #       HostName: ${self:custom.domain}
+    #       RedirectAllRequestsTo:
+    #         Protocol: https
+    #         HostName: ${self:custom.domain}
     # DNS record for apex redirect
     # StaticRedirectDnsRecord:
     #   Type: AWS::Route53::RecordSet

@@ -27,7 +27,7 @@ provider:
     # Compress response when larger than specified size in bytes (must be between 0 and 10485760)
     minimumCompressionSize: 2048
   # Optional endpoint configuration for API Gateway REST API. Other option is 'edge'
-  endpointType: ${env:SERVERLES__ENDPOINT_TYPE}
+  endpointType: ${env:SERVERLESS__ENDPOINT_TYPE}
   # IAM role statements so that services can be accessed in the AWS account
   iamRoleStatements:
     - Effect: "Allow"
@@ -65,9 +65,9 @@ resources:
     #     AccessControl: PublicRead
     #     BucketName: www.${self:custom.domain}
     #     WebsiteConfiguration:
-    #       HttpRedirectCode: 301
-    #       Protocol: https
-    #       HostName: ${self:custom.domain}
+    #       RedirectAllRequestsTo:
+    #         Protocol: https
+    #         HostName: ${self:custom.domain}
     # DNS record for apex redirect
     # StaticRedirectDnsRecord:
     #   Type: AWS::Route53::RecordSet

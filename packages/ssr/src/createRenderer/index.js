@@ -117,7 +117,7 @@ export function defaultRenderError ({res, req, err}) {
 }
 
 // guesses the device type from Cloudfront hints
-function getDevice (headers) {
+export function getDevice (headers) {
   if (headers['cloudfront-is-smarttv-viewer'] === 'true') {
     return 'desktop'
   }

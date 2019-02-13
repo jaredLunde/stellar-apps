@@ -4,7 +4,7 @@ import createRenderer, {
   withRobots,
   withCookies,
   pipe
-} from '@stellar-apps/ssr/createRenderer'
+} from '@stellar-apps/ssr/createStreamRenderer'
 import React from 'react'
 import ReactDOMServer from 'react-dom/server'
 import Broker from 'react-broker'
@@ -59,7 +59,7 @@ export const renderApp = ({clientStats}) => async function render (
   )
   // preloads the async components from react-broker and waits for Apollo to execute
   // Queries and retrieve responses
-  const page = await getMarkupFromTree({
+  const app = await getMarkupFromTree({
     tree: (
       <ApolloProvider client={apolloClient}>
         <StaticRouter location={req.url} context={routerContext}>
@@ -68,7 +68,7 @@ export const renderApp = ({clientStats}) => async function render (
       </ApolloProvider>
     ),
     context: {},
-    renderFunction: ReactDOMServer.renderToString
+    renderFunction: ReactDOMServer.renderToStaticMarkup
   })
   // sets the status from the router context to the response
   if (routerContext.status) {
@@ -81,9 +81,7 @@ export const renderApp = ({clientStats}) => async function render (
   }
   // renders the Helmet attributes
   const {helmet} = helmetContext
-  // returns the document
-  return `
-    <!DOCTYPE html>
+  res.write(`
     <html ${helmet.htmlAttributes}>
       <head>
         <!-- Page Title -->
@@ -101,7 +99,7 @@ export const renderApp = ({clientStats}) => async function render (
         <!-- Initial Apollo state -->
         <script>
           window.__APOLLO_STATE__ = ${
-           JSON.stringify(apolloClient.extract()).replace(/</g, '\\\u003c')
+            JSON.stringify(apolloClient.extract()).replace(/</g, '\\\u003c')
           }
         </script>
       </head>
@@ -111,10 +109,16 @@ export const renderApp = ({clientStats}) => async function render (
             Javascript must be enabled in order to view this website
           </div>
         </noscript>
-        <div id="⚛️">${page}</div>
-      </body>
-    </html>
-  `.trim()
+        <div id="⚛️">
+  `)
+  // renders the app as a stream for HTTP streaming and reducing TTFB on services that
+  // allow such things (not API Gateway as of this writing)
+  const stream = ReactDOMServer.renderToNodeStream(app)
+  stream.pipe(res, {end: 'false'})
+  // when React finishes rendering this sends the rest of the closing tags to the browser
+  stream.on('end', () => {
+    res.end('</div></body></html>')
+  })
 }
 
 // creates a middleware pipe for micro

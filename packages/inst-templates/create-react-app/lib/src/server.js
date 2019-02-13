@@ -1,4 +1,9 @@
-import createRenderer, {noFavicon, withRobots, withCookies, pipe} from '@stellar-apps/ssr/createRenderer'
+import createRenderer, {
+  noFavicon,
+  withRobots,
+  withCookies,
+  pipe
+} from '@stellar-apps/ssr/createStreamRenderer'
 import React from 'react'
 import ReactDOMServer from 'react-dom/server'
 import Broker from 'react-broker'
@@ -20,13 +25,11 @@ export const renderApp = ({clientStats}) => async function render (
   const helmetContext = {}
   // creates the App in React
   const app = React.createElement(App, {helmetContext, chunkCache, device})
-  // the string-rendered application
-  const page = await Broker.loadAll(app, ReactDOMServer.renderToString)
+  // preloads all async components and fetcher queries
+  await Broker.loadAll(app, ReactDOMServer.renderToStaticMarkup)
   // renders the Helmet attributes
   const {helmet} = helmetContext
-  // returns the document
-  return `
-    <!DOCTYPE html>
+  res.write(`
     <html ${helmet.htmlAttributes}>
       <head>
         <!-- Page Title -->
@@ -48,10 +51,16 @@ export const renderApp = ({clientStats}) => async function render (
             Javascript must be enabled in order to view this website
           </div>
         </noscript>
-        <div id="⚛️">${page}</div>
-      </body>
-    </html>
-  `.trim()
+        <div id="⚛️">
+  `)
+  // renders the app as a stream for HTTP streaming and reducing TTFB on services that
+  // allow such things (not API Gateway as of this writing)
+  const stream = ReactDOMServer.renderToNodeStream(app)
+  stream.pipe(res, {end: 'false'})
+  // when React finishes rendering this sends the rest of the closing tags to the browser
+  stream.on('end', () => {
+    res.end('</div></body></html>')
+  })
 }
 
 // creates a middleware pipe for micro
