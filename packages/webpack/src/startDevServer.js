@@ -4,7 +4,7 @@ import Jarvis from 'webpack-jarvis'
 import WriteFilePlugin from 'write-file-webpack-plugin'
 
 
-export default function startDevServer ({config, port = 3000, ...opt}) {
+export default function startDevServer ({config, host = '::', port = 3000, ...opt}) {
   config = {
     ...config,
     plugins: [
@@ -19,7 +19,7 @@ export default function startDevServer ({config, port = 3000, ...opt}) {
     compress: true,
     historyApiFallback: true,
     disableHostCheck: true,
-    host: '0.0.0.0',
+    host,
     quiet: true,
     hot: true,
     ...opt
@@ -31,9 +31,9 @@ export default function startDevServer ({config, port = 3000, ...opt}) {
 
   server.listen(
     port,
-    '0.0.0.0',
-    function (err, result) {
-      console.log(`[Inst FastDev®] http://0.0.0.0:${port} `)
+    host,
+    function () {
+      console.log(`[Inst FastDev®] http://${host}:${port} `)
     }
   )
 
