@@ -59,7 +59,7 @@ export const renderApp = ({clientStats}) => async function render (
         <!-- Helmet styles -->
         ${helmet.style}
         <!-- Bundle scripts -->
-        ${chunkCache.getChunkScripts(clientStats)}
+        ${chunkCache.getChunkScripts(clientStats, {preload: true})}
         <!-- Helmet scripts -->
         ${helmet.script}
       </head>

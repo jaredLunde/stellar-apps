@@ -40,7 +40,7 @@ async function render (locals) {
         <!-- Helmet styles -->
         ${helmet.style}
         <!-- Bundle scripts -->
-        ${chunkCache.getChunkScripts(locals.clientStats)}
+        ${chunkCache.getChunkScripts(locals.clientStats, {preload: true})}
         <!-- Helmet scripts -->
         ${helmet.script}
       </head>
