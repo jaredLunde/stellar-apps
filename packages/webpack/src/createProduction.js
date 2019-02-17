@@ -1,3 +1,4 @@
+import webpack from 'webpack'
 import createConfig from './createConfig'
 
 
