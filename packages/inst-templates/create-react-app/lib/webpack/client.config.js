@@ -24,7 +24,7 @@ if (isDev) {
       querystring: true,
     },
     plugins: [
-      new webpack.LoaderOptionsPlugin({minimize: false, debug: false})
+      new webpack.LoaderOptionsPlugin({minimize: false, debug: true})
     ],
     optimization: {
       removeAvailableModules: false,
@@ -95,11 +95,10 @@ else {
           default: {
             name: 'default',
             chunks: 'initial',
-            minSize: 128 * 1000,
-            maxSize: 196 * 1000,
+            maxSize: 600 * 1000,
             minChunks: 1,
-            maxAsyncRequests: 5,
-            maxInitialRequests: 5,
+            maxAsyncRequests: 3,
+            maxInitialRequests: 3,
             priority: -10,
             reuseExistingChunk: true,
           }

@@ -11,7 +11,7 @@ const root = document.getElementById('⚛️')
 
 async function render (App) {
   const app = <Router history={history} children={<App/>}/>
-  await Broker.loadAll(app)
+  await Broker.loadInitial()
   return ReactDOM.render(app, root)
 }
 

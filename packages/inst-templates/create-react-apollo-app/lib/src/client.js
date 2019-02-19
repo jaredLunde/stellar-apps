@@ -35,7 +35,7 @@ async function render (App) {
       </Router>
     </ApolloProvider>
   )
-  await Broker.loadAll(app)
+  await Broker.loadInitial()
   return ReactDOM.render(app, root)
 }
 

@@ -35,6 +35,7 @@
     "micro": "^9.3.3",
     "micro-dev": "https://github.com/zeit/micro-dev",
     "mime": "^2.4.0",
+    "openssl-self-signed-certificate": "^1.1.6",
     "rimraf": "^2.6.3",
     "webpack-dev-middleware": "^3.5.1",
     "webpack-hot-middleware": "^2.24.3",

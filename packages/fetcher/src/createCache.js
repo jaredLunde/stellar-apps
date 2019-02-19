@@ -104,10 +104,10 @@ export default function createCache (
   Object.defineProperty(cache, 'size', {get: () => map.size})
 
   if (initialData && typeof initialData === 'object') {
-    const textContent = initialData.textContent
+    const textContent = initialData.firstChild.data
 
     if (textContent) {
-      cache.fromJSON(initialData.textContent)
+      cache.fromJSON(textContent)
       while (initialData.firstChild) {
         initialData.removeChild(initialData.firstChild)
       }

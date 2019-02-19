@@ -35,7 +35,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(jpe?g|png)$/i,
+        test: /\.(jpe?g|png|webp)$/i,
         loader: 'responsive-loader',
         options: {
           name: '[folder]/[hash]/[name]-[width]x[height].[ext]',

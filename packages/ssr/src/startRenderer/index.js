@@ -7,14 +7,22 @@ import mime from 'mime'
 import isGzip from 'is-gzip'
 import chalk from 'chalk'
 import rimraf from 'rimraf'
-import micro, {send} from 'micro'
-import microDev from 'micro-dev'
+import micro, {run, send} from 'micro'
+import https from 'https'
+import {key, cert, passphrase} from 'openssl-self-signed-certificate'
 import webpack from 'webpack'
 import webpackDevMiddleware from 'webpack-dev-middleware'
 import webpackHotMiddleware from 'webpack-hot-middleware'
 import webpackHotServerMiddleware from 'webpack-hot-server-middleware'
 import {pipe} from '../createRenderer'
 
+
+// TODO: HTTPS
+// See https://github.com/gagle/node-ssl-self-signed-certificate/blob/master/lib/index.js
+const microHttps = fn => https.createServer(
+  {key, cert, passphrase},
+  (req, res) => run(req, res, fn)
+)
 
 function serveStatic (route, localPath) {
   return next => (req, res) => {
