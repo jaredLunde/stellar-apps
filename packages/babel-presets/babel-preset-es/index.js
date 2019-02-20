@@ -1,4 +1,4 @@
-// v1.0.2 // 1/27/2019 //
+// v1.0.3 // 2/19/2019 //
 
 function req(plugin) {
   var module = require(plugin)
@@ -77,9 +77,13 @@ module.exports = function(api, opt) {
         [req('@babel/plugin-proposal-optional-chaining'), {}],
         [req('@babel/plugin-syntax-dynamic-import'), {}],
         [req('@babel/plugin-syntax-import-meta'), {}],
-        [req('babel-plugin-closure-elimination'), {}],
+        opt.closureElimination === false
+          ? {}
+          : [req('babel-plugin-closure-elimination'), {}],
         opt.macros === false ? {} : [req('babel-plugin-macros'), {}],
-        [req('babel-plugin-dev-expression'), {}],
+        opt.devExpression === false
+          ? {}
+          : [req('babel-plugin-dev-expression'), {}],
       ],
     }
   } else {
@@ -121,9 +125,13 @@ module.exports = function(api, opt) {
         [req('@babel/plugin-proposal-optional-chaining'), {}],
         [req('@babel/plugin-syntax-dynamic-import'), {}],
         [req('@babel/plugin-syntax-import-meta'), {}],
-        [req('babel-plugin-closure-elimination'), {}],
+        opt.closureElimination === false
+          ? {}
+          : [req('babel-plugin-closure-elimination'), {}],
         opt.macros === false ? {} : [req('babel-plugin-macros'), {}],
-        [req('babel-plugin-dev-expression'), {}],
+        opt.devExpression === false
+          ? {}
+          : [req('babel-plugin-dev-expression'), {}],
       ],
     }
   }

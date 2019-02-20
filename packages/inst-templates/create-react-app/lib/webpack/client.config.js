@@ -118,7 +118,7 @@ module.exports = createConfig(
     output: {
       path: path.join(paths.dist, stage, 'client'),
       filename: `js/[hash].js`,
-      chunkFilename: `js/[chunkhash].js`
+      chunkFilename: `js/[contenthash].js`
     },
 
     plugins: [

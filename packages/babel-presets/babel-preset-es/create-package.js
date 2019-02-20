@@ -73,6 +73,7 @@ dependencies.development = {
   },
   "babel-plugin-closure-elimination": {
     version: "^1.3.0",
+    isOptional: 'closureElimination',
     isBabelPlugin: true
   },
   "babel-plugin-macros": {
@@ -82,6 +83,7 @@ dependencies.development = {
   },
   "babel-plugin-dev-expression": {
     "version": "^0.2.1",
+    isOptional: 'devExpression',
     isBabelPlugin: true
   },
   "cross-env": {

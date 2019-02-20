@@ -1,4 +1,5 @@
 import merge from 'webpack-merge'
+import babelMerge from 'babel-merge'
 import path from 'path'
 
 
@@ -6,37 +7,75 @@ const absoluteRuntime = path.dirname(
   require.resolve('@babel/runtime-corejs2/package.json')
 )
 
-function getBabelDefaultsWithPresets (presets, {include, exclude}) {
-  const isProd = process.env.NODE_ENV === 'production'
-
-  return [
-    // Internal dependencies
-    {
-      test: /(\.js|\.jsx)$/,
-      use: {
-        loader: 'babel',
-        options: {
-          presets,
-          cacheCompression: isProd,
-          compact: isProd,
-          cacheDirectory: true,
-          babelrc: false,
-          configFile: false
-        }
-      },
-      include: include,
-      exclude: (
-        include && include.length
-          ? void 0
-          : (exclude || /(node_modules|bower_components)/)
-      )
-    }
-  ]
+function mergeBabelConfig (base, {presets, plugins}) {
+  return babelMerge(base, {presets, plugins})
 }
 
-function getBabelForWeb (target, babelOverride) {
+function createBabelLoader ({test, presets, plugins, include, exclude, options}) {
   const isProd = process.env.NODE_ENV === 'production'
-  const presets = [
+  
+  return {
+    test: test || /(\.js|\.jsx|\.mjs)$/,
+    use: {
+      loader: 'babel',
+      options: {
+        presets,
+        plugins,
+        // only caches compressed files in prod
+        cacheCompression: isProd,
+        // only minifies in prod
+        compact: isProd,
+        // caches for better rebuild performance
+        cacheDirectory: true,
+        // ignores .babelrc in directories
+        babelrc: false,
+        // ignores config files in directories
+        configFile: false,
+        ...options
+      }
+    },
+    include,
+    exclude
+  }
+}
+
+// Internal dependencies
+function getInternalBabelLoader(defaultPresets, babelOverride = {}) {
+  const {test, presets, plugins, include, exclude, options} = babelOverride
+
+  return createBabelLoader({
+    test,
+    ...mergeBabelConfig({presets: defaultPresets}, {presets, plugins}),
+    include,
+    exclude: include ? void 0 : (exclude || /node_modules|bower_components/),
+    options
+  })
+}
+
+// External dependencies
+function getExternalBabelLoader(defaultPresets, babelOverride = {}) {
+  const {test, presets, plugins, include, exclude, options} = babelOverride
+
+  return createBabelLoader({
+    test,
+    ...mergeBabelConfig({presets: defaultPresets}, {presets, plugins}),
+    include,
+    exclude: include ? void 0 : (exclude || /@babel(?:\/|\\{1,2})runtime|core-js|warning/),
+    options: {
+      ...options,
+      // considers the file a "module" if import/export statements are present, or else
+      // considers it a "script"
+      sourceType: 'unambiguous',
+      // doesn't generate source maps for perf reasons
+      sourceMaps: false,
+      // doesn't minify for perf reasons
+      compact: false,
+    }
+  })
+}
+
+function getBabelLoadersForWeb (target, babelOverride) {
+  const defaultPresets = [
     [
       '@stellar-apps/react-app',
       {
@@ -48,29 +87,13 @@ function getBabelForWeb (target, babelOverride) {
   ]
 
   return [
-    ...getBabelDefaultsWithPresets(presets, babelOverride),
-    // External dependencies
-    {
-      test: /\.(js|mjs)$/,
-      exclude: /@babel(?:\/|\\{1,2})runtime|core-js|warning/,
-      loader: 'babel',
-      options: {
-        presets,
-        sourceType: 'unambiguous',
-        cacheCompression: isProd,
-        cacheDirectory: true,
-        sourceMaps: false,
-        compact: false,
-        babelrc: false,
-        configFile: false
-      }
-    }
+    getInternalBabelLoader(defaultPresets, babelOverride.internal),
+    getExternalBabelLoader(defaultPresets, babelOverride.external)
   ]
 }
 
-function getBabelForNode (target, babelOverride) {
-  const isProd = process.env.NODE_ENV === 'production'
-  const presets = [
+function getBabelLoadersForNode (target, babelOverride) {
+  const defaultPresets = [
     [
       '@stellar-apps/react-app',
       {
@@ -90,30 +113,40 @@ function getBabelForNode (target, babelOverride) {
       include: /node_modules/,
       type: 'javascript/auto',
     },
-    ...getBabelDefaultsWithPresets(presets, {babelOverride}),
-    // External dependencies
-    {
-      test: /\.(js|mjs)$/,
-      exclude: /@babel(?:\/|\\{1,2})runtime|core-js|warning/,
-      loader: 'babel',
-      options: {
-        presets,
-        sourceType: 'unambiguous',
-        cacheCompression: isProd,
-        cacheDirectory: true,
-        sourceMaps: false,
-        compact: false,
-        babelrc: false,
-        configFile: false
-      }
-    }
+    getInternalBabelLoader(defaultPresets, babelOverride.internal),
+    getExternalBabelLoader(defaultPresets, babelOverride.external)
   ]
 }
 
-function defaultGetBabelRules (target, babelOverride) {
+function getBabelLoaders (target, babelOverride) {
   return target === 'node' || target === 'lambda'
-    ? getBabelForNode(target, babelOverride)
-    : getBabelForWeb(target, babelOverride)
+    ? getBabelLoadersForNode(target, babelOverride)
+    : getBabelLoadersForWeb(target, babelOverride)
+}
+
+// sets up loader public files in /public/ directories
+function getPublicLoader (publicLoader) {
+  if (publicLoader === false) {
+    return {}
+  }
+
+  const {
+    // We expect these image types to be handled specially
+    test = /public\/.*\.(?!(jpe?g|png|webm)$)([^.]+$)$/,
+    use = [
+      {
+        loader: 'file',
+        options: {
+          regExp: /public\/(.*)\.([^.]+)$/,
+          name: '[1]/[md4:hash:base62:12].[ext]'
+        }
+      }
+    ],
+    include,
+    exclude = /node_modules|bower_components/,
+  } = publicLoader || {}
+
+  return {test, use, include, exclude: include ? void 0 : exclude,}
 }
 
 export default function createConfig (...configs) {
@@ -121,7 +154,7 @@ export default function createConfig (...configs) {
     target = 'web',
     rootImportSrc,
     babelOverride = {},
-    getBabelRules = defaultGetBabelRules,
+    publicLoader,
     ...config
   } = merge.smartStrategy({'module.rules': 'prepend'})(...configs)
 
@@ -135,7 +168,7 @@ export default function createConfig (...configs) {
     : ['module', 'jsnext', 'esnext', 'jsnext:main', 'main']
 
   return merge.smartStrategy({
-    'module.rules': 'prepend',
+    'module.rules': 'append',
     'resolve.mainFields': 'replace'
   })(
     {
@@ -169,34 +202,8 @@ export default function createConfig (...configs) {
 
       module: {
         rules: [
-          {
-            type: 'javascript/auto',
-            test: /public\/.*\.(json|js)$/,
-            use: [
-              {
-                loader: 'file',
-                options: {
-                  regExp: /public\/([\w\/\-\.]+)\.(json|js)$/,
-                  name: '[1].[hash].[ext]'
-                }
-              }
-            ],
-            exclude: /(node_modules|bower_components)/
-          },
-          {
-            test: /public(?:(?!\/json\/))\/.*$/,
-            use: [
-              {
-                loader: 'file',
-                options: {
-                  regExp: /public\/(.*)\.([^.]+)$/,
-                  name: '[1].[hash].[ext]'
-                }
-              }
-            ],
-            exclude: /(node_modules|bower_components)/
-          },
-          ...getBabelRules(target, babelOverride)
+          getPublicLoader(publicLoader),
+          ...getBabelLoaders(target, babelOverride)
         ]
       },
 

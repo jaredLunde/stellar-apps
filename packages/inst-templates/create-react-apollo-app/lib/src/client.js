@@ -35,7 +35,11 @@ async function render (App) {
       </Router>
     </ApolloProvider>
   )
-  await Broker.loadInitial()
+
+  if (process.env.NODE_ENV === 'production') {
+    await Broker.loadInitial()
+  }
+
   return ReactDOM.render(app, root)
 }
 

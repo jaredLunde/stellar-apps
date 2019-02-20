@@ -11,7 +11,11 @@ const root = document.getElementById('⚛️')
 
 async function render (App) {
   const app = <Router history={history} children={<App/>}/>
-  await Broker.loadInitial()
+
+  if (process.env.NODE_ENV === 'production') {
+    await Broker.loadInitial()
+  }
+
   return ReactDOM.render(app, root)
 }
 

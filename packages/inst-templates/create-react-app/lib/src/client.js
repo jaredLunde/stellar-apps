@@ -7,7 +7,10 @@ import App from './index'
 const root = document.getElementById('⚛️')
 
 async function render (App) {
-  await Broker.loadInitial()
+  if (process.env.NODE_ENV === 'production') {
+    await Broker.loadInitial()
+  }
+
   return ReactDOM.render(<App/>, root)
 }
 
