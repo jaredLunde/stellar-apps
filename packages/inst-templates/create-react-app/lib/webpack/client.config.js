@@ -28,8 +28,7 @@ if (isDev) {
     ],
     optimization: {
       removeAvailableModules: false,
-      removeEmptyChunks: false,
-      splitChunks: false,
+      removeEmptyChunks: true,
     }
   }
 }
