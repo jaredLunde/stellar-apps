@@ -8,6 +8,7 @@ import isGzip from 'is-gzip'
 import chalk from 'chalk'
 import rimraf from 'rimraf'
 import micro, {run, send} from 'micro'
+import microDev from 'micro-dev'
 import https from 'https'
 import {key, cert, passphrase} from 'openssl-self-signed-certificate'
 import webpack from 'webpack'
@@ -25,6 +26,10 @@ const microHttps = fn => https.createServer(
 )
 
 function serveStatic (route, localPath) {
+  if (!localPath) {
+    return next => (...args) => next(...args)
+  }
+
   return next => (req, res) => {
     let filename = url.parse(req.url).pathname
 
@@ -36,25 +41,30 @@ function serveStatic (route, localPath) {
 
     if (fs.existsSync(filename)) {
       if (fs.statSync(filename).isDirectory()) {
-        filename += '/index.html'
+        filename = path.join(filename, 'index.html')
       }
 
-      fs.readFile(
-        filename,
-        (err, data) => {
-          if (err) {
-            send(res, 500)
-          } else {
-            res.setHeader('Content-Type', mime.getType(filename))
-
-            if (isGzip(data)) {
-              res.setHeader('Content-Encoding', 'gzip')
-            }
-
-            send(res, 200, data)
+      let readStream = fs.createReadStream(filename)
+      // handles any errors while reading
+      readStream.on('error', () => res.end())
+      // listens for data
+      let streaming = false
+      readStream.on('data', chunk => {
+        if (streaming === false) {
+          // sets the content-type header
+          res.setHeader('Content-Type', mime.getType(filename))
+          // sets a gzip encoding header if it is compressed content
+          if (isGzip(chunk)) {
+            res.setHeader('Content-Encoding', 'gzip')
           }
+          res.statusCode = 200
+          streaming = true
         }
-      )
+        // writes the chunk to the http response
+        res.write(chunk)
+      })
+      // done being read
+      readStream.on('close', () => res.end())
     }
     else {
       return next(req, res)
@@ -92,10 +102,7 @@ module.exports = function startRenderer (
   rimraf.sync(serverConfig.output.path)
 
   // defines static asset locations and inits middleware
-  let middleware = [
-    serveStatic(publicPath, publicAssets),
-    serveStatic(publicPath, publicPath)
-  ]
+  let middleware = []
 
   // micro listener which is run after the compiler is done
   function startListening (handler) {
@@ -138,7 +145,10 @@ module.exports = function startRenderer (
   }
 
   if (process.env.NODE_ENV === 'production') {
-    middleware.push(serveStatic(publicPath, clientConfig.output.path))
+    middleware.push(
+      serveStatic(publicPath, publicAssets),
+      serveStatic(publicPath, clientConfig.output.path)
+    )
 
     // starts the webpack compilers
     webpack([clientConfig, serverConfig]).run(
@@ -211,7 +221,7 @@ module.exports = function startRenderer (
     )
     // taps into the webpack hook to start the micro app once it has finished
     // compiling
-    middleware = [...middleware, devMiddleware, hotMiddleware]
+    middleware.push(devMiddleware, hotMiddleware)
     instance.waitUntilValid(
       // pipes the middleware to create a handler
       startListening(pipe.apply(null, middleware)(hotServerMiddleware))

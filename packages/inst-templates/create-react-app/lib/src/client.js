@@ -11,7 +11,7 @@ async function render (App) {
     await Broker.loadInitial()
   }
 
-  return ReactDOM.render(<App/>, root)
+  return ReactDOM.hydrate(<App/>, root)
 }
 
 if (__DEV__) {
