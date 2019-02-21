@@ -26,11 +26,14 @@ async function render (locals) {
   const page = await Broker.loadAll(app, ReactDOMServer.renderToString)
   // renders the Helmet attributes
   const {helmet} = helmetContext
+  const chunks = chunkCache.getChunkScripts(clientStats, {preload: true})
   // returns the document
   return `
     <!DOCTYPE html>
     <html ${helmet.htmlAttributes}>
       <head>
+        <!-- Preloads bundle scripts -->
+        ${chunks.preload}
         <!-- Page Title -->
         ${helmet.title}
         <!-- Helmet meta -->
@@ -39,8 +42,6 @@ async function render (locals) {
         ${helmet.link}
         <!-- Helmet styles -->
         ${helmet.style}
-        <!-- Bundle scripts -->
-        ${chunkCache.getChunkScripts(locals.clientStats, {preload: true})}
         <!-- Helmet scripts -->
         ${helmet.script}
       </head>
@@ -51,6 +52,8 @@ async function render (locals) {
           </div>
         </noscript>
         <div id="⚛️">${page}</div>
+        <!-- Bundle scripts -->
+        ${chunks.scripts}
       </body>
     </html>
   `.trim()

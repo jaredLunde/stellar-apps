@@ -29,10 +29,13 @@ export const renderApp = ({clientStats}) => async function render (
   await Broker.loadAll(app, ReactDOMServer.renderToStaticMarkup)
   // renders the Helmet attributes
   const {helmet} = helmetContext
+  const chunks = chunkCache.getChunkScripts(clientStats, {preload: true})
   res.write(`
     <!DOCTYPE html>
     <html ${helmet.htmlAttributes}>
       <head>
+        <!-- Preloads bundle scripts -->
+        ${chunks.preload}
         <!-- Page Title -->
         ${helmet.title}
         <!-- Helmet meta -->
@@ -41,8 +44,6 @@ export const renderApp = ({clientStats}) => async function render (
         ${helmet.link}
         <!-- Helmet styles -->
         ${helmet.style}
-        <!-- Bundle scripts -->
-        ${chunkCache.getChunkScripts(clientStats, {preload: true})}
         <!-- Helmet scripts -->
         ${helmet.script}
       </head>
@@ -57,10 +58,16 @@ export const renderApp = ({clientStats}) => async function render (
   // renders the app as a stream for HTTP streaming and reducing TTFB on services that
   // allow such things (not API Gateway as of this writing)
   const stream = ReactDOMServer.renderToNodeStream(app)
-  stream.pipe(res, {end: 'false'})
+  stream.pipe(res, {end: false})
   // when React finishes rendering this sends the rest of the closing tags to the browser
   stream.on('end', () => {
-    res.end('</div></body></html>')
+    res.end(`
+        </div>
+        <!-- Bundle scripts -->
+        ${chunks.scripts}
+      </body>
+    </html>
+    `)
   })
 }
 

@@ -25,11 +25,7 @@ if (isDev) {
     },
     plugins: [
       new webpack.LoaderOptionsPlugin({minimize: false, debug: true})
-    ],
-    optimization: {
-      removeAvailableModules: false,
-      removeEmptyChunks: true,
-    }
+    ]
   }
 }
 else {
