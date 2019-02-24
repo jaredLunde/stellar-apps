@@ -3,8 +3,8 @@ import {Row, Type} from 'curls'
 
 
 const Footer = props => (
-  <Row p='t3 b6' justify='center'>
-    <Type>
+  <Row p='t3 b6' justify='center' bg='darkestGrey'>
+    <Type color='white'>
       &copy;{(new Date()).getFullYear()}{" "}
       <:PKG_NAME:>
     </Type>

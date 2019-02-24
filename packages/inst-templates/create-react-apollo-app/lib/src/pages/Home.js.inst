@@ -12,7 +12,7 @@ const Home = props => (
       <title><:PKG_NAME:></title>
     </Helmet>
 
-    <Type xxl center ultraLight w='100%' d='block' color='white'>
+    <Type center ultraLight w='100%' d='block' color='white' size='xxl@desktop lg@phone'>
       Hello world
     </Type>
 
@@ -22,7 +22,7 @@ const Home = props => (
         if (error) throw  error
 
         return (
-          <Type light md center w='100%' d='block' color='white' m='t3'>
+          <Type light center w='100%' d='block' color='white' m='t3' size='md'>
             SSR
             <Type as='pre'>
               {JSON.stringify(data.hello)}
@@ -38,7 +38,7 @@ const Home = props => (
         if (error) throw  error
 
         return (
-          <Type light md center w='100%' d='block' color='white' m='t3'>
+          <Type light center w='100%' d='block' color='white' m='t3' size='md'>
             Lazy
             <Type as='pre'>
               {JSON.stringify(data.hello)}

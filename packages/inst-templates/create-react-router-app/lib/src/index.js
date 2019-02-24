@@ -8,10 +8,6 @@ import theme from '~/theme'
 import {Header, Footer} from '~/ui'
 import * as pages from '~/pages'
 
-// injects global CSS into the document
-const globalStyles = css`
-  ${browserResets};
-`
 
 function Document ({location}) {
   return (
@@ -34,7 +30,7 @@ function Document ({location}) {
         <link rel="dns-prefetch preconnect" href={process.env.PUBLIC_PATH} crossOrigin/>}
       </Helmet>
 
-      <Global styles={globalStyles}/>
+      <Global styles={browserResets}/>
       <Header/>
 
       <Switch location={location}>
@@ -47,26 +43,18 @@ function Document ({location}) {
   )
 }
 
-export default function App ({helmetContext = {}, chunkCache, device}) {
-  const curlsTheme = {grid: {}, ...theme}
-
-  if (device) {
-    curlsTheme.grid.device = device
-  }
-
-  return (
-    <HelmetProvider context={helmetContext}>
+export default ({helmetContext = {}, chunkCache, device}) => (
+  <HelmetProvider context={helmetContext}>
+    <ThemeProvider theme={{locals: {device}, ...theme}}>
       <Broker.Provider chunkCache={chunkCache}>
-        <ThemeProvider theme={curlsTheme}>
-          <Route children={({location}) => {
-            if (typeof window !== 'undefined') {
-              window.scrollTo(0, 0)
-            }
+        <Route children={({location}) => {
+          if (typeof window !== 'undefined') {
+            window.scrollTo(0, 0)
+          }
 
-            return <Document location={location}/>
-          }}/>
-        </ThemeProvider>
+          return <Document location={location}/>
+        }}/>
       </Broker.Provider>
-    </HelmetProvider>
-  )
-}
+    </ThemeProvider>
+  </HelmetProvider>
+)

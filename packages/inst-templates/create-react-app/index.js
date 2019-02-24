@@ -82,7 +82,7 @@ module.exports.dependencies = {
   "@babel/runtime-corejs2": "^7.3.1",
   "@emotion/core": "^10.0.6",
   "@stellar-apps/ssr": "^2.0.0",
-  "curls": "^2.0.3",
+  "curls": "^3.0.0",
   "invariant": "2.2.4",
   "polished": "^2.3.1",
   "prop-types": "^15.6.2",

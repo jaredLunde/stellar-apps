@@ -3,8 +3,8 @@ import {NavBar, Type} from 'curls'
 
 
 const Header = props => (
-  <NavBar justify='center'>
-    <Type light lg p='3' color='black'>
+  <NavBar justify='center' bg='darkestGrey'>
+    <Type light p='3' color='white' size='md'>
       <:PKG_NAME:>
     </Type>
   </NavBar>

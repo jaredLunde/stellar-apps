@@ -8,7 +8,7 @@ const Home = props => (
     <Helmet>
       <title><:PKG_NAME:></title>
     </Helmet>
-    <Type xxl center ultraLight w='100%' d='block' color='white'>
+    <Type center ultraLight w='100%' d='block' color='white' size='xl@desktop lg@phone'>
       Hello world
     </Type>
   </Hero>

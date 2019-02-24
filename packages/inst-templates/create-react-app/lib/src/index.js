@@ -7,10 +7,6 @@ import theme from '~/theme'
 import {Home} from '~/pages'
 import {Header, Footer} from '~/ui'
 
-// injects global CSS into the document
-const globalStyles = css`
-  ${browserResets};
-`
 
 function Document () {
   return (
@@ -33,7 +29,7 @@ function Document () {
           <link rel="dns-prefetch preconnect" href={process.env.PUBLIC_PATH} crossOrigin/>}
       </Helmet>
 
-      <Global styles={globalStyles}/>
+      <Global styles={browserResets}/>
 
       <Header/>
       <Home/>
@@ -44,20 +40,12 @@ function Document () {
   )
 }
 
-export default function App ({helmetContext = {}, chunkCache, device}) {
-  const curlsTheme = {grid: {}, ...theme}
-
-  if (device) {
-    curlsTheme.grid.device = device
-  }
-
-  return (
-    <HelmetProvider context={helmetContext}>
+export default ({helmetContext = {}, chunkCache, device}) => (
+  <HelmetProvider context={helmetContext}>
+    <ThemeProvider theme={{locals: {device}, ...theme}}>
       <Broker.Provider chunkCache={chunkCache}>
-        <ThemeProvider theme={curlsTheme}>
-          <Document/>
-        </ThemeProvider>
+        <Document/>
       </Broker.Provider>
-    </HelmetProvider>
-  )
-}
+    </ThemeProvider>
+  </HelmetProvider>
+)
