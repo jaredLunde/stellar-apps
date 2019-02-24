@@ -55,7 +55,7 @@ export class RenderPromises {
       this.chunkPromises.push(promise)
     })
     
-    return Promise.all(promises).then(() => {
+    return Promise.all(this.chunkPromises).then(() => {
       this.queryPromises.clear()
       this.chunkPromises = []
     })

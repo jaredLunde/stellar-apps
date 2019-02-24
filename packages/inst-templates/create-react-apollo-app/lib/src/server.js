@@ -57,9 +57,16 @@ export const renderApp = ({clientStats}) => async function render (
     createResponseHeadersLink({res}),
     createHttpLink({uri: process.env.APOLLO_URI, credentials: 'include', fetch}),
   )
+  const app = (
+    <ApolloProvider client={apolloClient}>
+      <StaticRouter location={req.url} context={routerContext}>
+        <App helmetContext={helmetContext} chunkCache={chunkCache} device={device}/>
+      </StaticRouter>
+    </ApolloProvider>
+  )
   // preloads the async components from react-broker and waits for Apollo to execute
   // Queries and retrieve responses
-  const app = await getMarkupFromTree({
+  await getMarkupFromTree({
     tree: (
       <ApolloProvider client={apolloClient}>
         <StaticRouter location={req.url} context={routerContext}>
@@ -101,8 +108,8 @@ export const renderApp = ({clientStats}) => async function render (
         <!-- Initial Apollo state -->
         <script>
           window.__APOLLO_STATE__ = ${
-            JSON.stringify(apolloClient.extract()).replace(/</g, '\\\u003c')
-          }
+    JSON.stringify(apolloClient.extract()).replace(/</g, '\\\u003c')
+    }
         </script>
       </head>
       <body ${helmet.bodyAttributes}>

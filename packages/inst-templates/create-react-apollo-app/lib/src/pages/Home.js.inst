@@ -12,7 +12,7 @@ const Home = props => (
       <title><:PKG_NAME:></title>
     </Helmet>
 
-    <Type center ultraLight w='100%' d='block' color='white' size='xxl@desktop lg@phone'>
+    <Type center ultraLight w='100%' d='block' color='white' size='xl@desktop lg@phone'>
       Hello world
     </Type>
 
