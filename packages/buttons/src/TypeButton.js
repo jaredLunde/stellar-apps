@@ -8,7 +8,7 @@ export const defaultTheme = {
   type: {
     flex: true,
     row: true,
-    sm: true,
+    size: 'sm',
     align: 'center',
     weight: 'ultraHeavy',
     face: 'primary',
@@ -38,7 +38,7 @@ export default React.forwardRef(
           )
 
           if (typeSize) {
-            typeProps[typeSize] = true
+            typeProps.size = typeSize
           }
 
           if (typeWeight) {

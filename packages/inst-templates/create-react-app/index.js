@@ -80,9 +80,8 @@ module.exports.prompts = (
 module.exports.dependencies = {
   "@babel/runtime": "^7.3.1",
   "@babel/runtime-corejs2": "^7.3.1",
-  "@emotion/core": "^10.0.6",
   "@stellar-apps/ssr": "^2.0.0",
-  "curls": "^3.0.0",
+  "curls": "^3.0.10",
   "invariant": "2.2.4",
   "polished": "^2.3.1",
   "prop-types": "^15.6.2",

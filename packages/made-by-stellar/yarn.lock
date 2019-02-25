@@ -951,10 +951,10 @@
     "@render-props/throttle" "^0.1.5"
     "@render-props/utils" "^0.2.1"
 
-"@stellar-apps/babel-preset-es@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@stellar-apps/babel-preset-es/-/babel-preset-es-1.0.1.tgz#c3ad5739d644246be8a9eedd31e079cd81048784"
-  integrity sha512-pul7LtHvJUCpLutEVS5gFUoAwiEuF8l6aWk2AHmUKyJnJvep+KB4cKUGcrLKTSmNnOcKXYmJkWfuwxHf8uGP2w==
+"@stellar-apps/babel-preset-es@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@stellar-apps/babel-preset-es/-/babel-preset-es-1.0.3.tgz#4227886e1b68f2f5cabf5ac2601453b7e0844846"
+  integrity sha512-ZiY4ZRZuu8BCgNaeQdy3Ox3UJMG/Ux6thXho3IQo0RPkx8llFhQrP8wWSgv0iUf80wGqYT4kBHdh++6+d/CdJw==
   dependencies:
     "@babel/cli" "^7.2.3"
     "@babel/core" "^7.2.2"

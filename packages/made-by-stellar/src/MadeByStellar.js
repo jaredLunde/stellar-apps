@@ -16,13 +16,13 @@ export default React.memo(
     function MadeByStellar ({iconSize = 16, ...props}, ref) {
       return (
         <A
-          xs
           bold
           ref={ref}
           d='inline'
           href='https://BeStellar.co/'
           target='_blank'
           rel='noopener noreferrer'
+          size='xs'
           {...props}
         >
           Made with{" "}

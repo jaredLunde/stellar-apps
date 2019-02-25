@@ -3,10 +3,10 @@ import PropTypes from 'prop-types'
 import {A} from 'curls'
 import BezierEasing from 'bezier-easing'
 import {callIfExists} from '@render-props/utils'
-import {ViewportConsumer} from '@render-props/viewport'
+import {ViewportScroll} from '@render-props/viewport'
 
 
-export class ScrollToLink_ extends React.Component {
+export class ScrollToLink_ extends React.PureComponent {
   static defaultProps = {
     as: A,
     duration: 400,
@@ -61,7 +61,7 @@ export class ScrollToLink_ extends React.Component {
 
 export default React.forwardRef(
   function ScrollToLink (props, ref) {
-    return <ViewportConsumer observe='scrollY' children={
+    return <ViewportScroll children={
       ({scrollTo}) => <ScrollToLink_ innerRef={ref} scrollTo={scrollTo} {...props}/>
     }/>
   }

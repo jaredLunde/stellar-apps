@@ -1,6 +1,6 @@
 {
   "name": "@stellar-apps/made-by-stellar",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "main": "dist/cjs/index.js",
   "author": "Jared Lunde <jared@BeStellar.co> (https://BeStellar.co)",
   "license": "MIT",
@@ -18,7 +18,7 @@
   },
   "devDependencies": {
     "@emotion/babel-preset-css-prop": "^10.0.6",
-    "@stellar-apps/babel-preset-es": "^1.0.1",
+    "@stellar-apps/babel-preset-es": "^1.0.3",
     "@stellar-apps/babel-preset-react": "^1.0.0",
     "prettier": "^1.15.3"
   },

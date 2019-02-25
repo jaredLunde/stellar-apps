@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {Box} from 'curls'
-import {ViewportConsumer} from '@render-props/viewport'
+import {ViewportSize} from '@render-props/viewport'
 
 
 export default class Hero extends React.Component {
@@ -45,7 +45,7 @@ export default class Hero extends React.Component {
     }
 
     return (
-      <ViewportConsumer observe='height'>
+      <ViewportSize>
         {({height}) => (
           <Box
             key={`hero-${this.didMount}`}
@@ -56,7 +56,7 @@ export default class Hero extends React.Component {
             {...props}
           />
         )}
-      </ViewportConsumer>
+      </ViewportSize>
     )
   }
 }

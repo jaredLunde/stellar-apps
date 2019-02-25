@@ -28,7 +28,7 @@
     "formik": "^1.4.2"
   },
   "peerDependencies": {
-    "curls": "^1.1.5",
+    "curls": "^3.0.0",
     "prop-types": "^15.6.0",
     "react": "^16.7.0"
   }
