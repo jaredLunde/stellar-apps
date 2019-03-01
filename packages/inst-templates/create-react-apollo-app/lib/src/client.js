@@ -26,25 +26,17 @@ const requestHeadersLink = createRequestHeadersLink({
   )
 })
 const apolloClient = createApolloClient(requestHeadersLink, httpLink)
-
-async function render (App) {
-  const app = (
-    <ApolloProvider client={apolloClient}>
-      <Router history={history}>
-        <App/>
-      </Router>
-    </ApolloProvider>
-  )
-
-  if (process.env.NODE_ENV === 'production') {
-    await Broker.loadInitial()
-  }
-
-  return ReactDOM.hydrate(app, root)
-}
+const hydrate = App => ReactDOM.hydrate(
+  <ApolloProvider client={apolloClient}>
+    <Router history={history}>
+      <App/>
+    </Router>
+  </ApolloProvider>,
+  root
+)
 
 if (__DEV__) {
-  module.hot && module.hot.accept('./index', () => render(require('./index').default))
+  module.hot && module.hot.accept('./index', () => hydrate(require('./index').default))
 }
 
-render(App)
+Broker.loadInitial().then(() => hydrate(App))

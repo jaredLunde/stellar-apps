@@ -19,7 +19,7 @@ export const defaultTheme = {
 export default React.forwardRef(
   function TypeButton ({typeSize, typeWeight, typeFace, typeColor, ...props}, ref) {
     return (
-      <ThemeConsumer path='button' defaultTheme={defaultTheme}>
+      <ThemeConsumer name='button' defaultTheme={defaultTheme}>
         {({theme}) => {
           if (props.outline === true) {
             typeColor = typeColor || props.bg || theme.defaultProps.bg

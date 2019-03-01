@@ -1,11 +1,11 @@
 import React from 'react'
 import {withRouter} from 'react-router-dom'
-import memoize from 'memoize-two-args'
+import memoize from 'trie-memoize'
 import TypeButton from './TypeButton'
 
 
 // necessary for keeping TypeButton purity
-const getOnClick = memoize((to, push) => () => push(to), Map)
+const getOnClick = memoize([Map, WeakMap], (to, push) => () => push(to))
 
 export default React.forwardRef(
   function LinkButton (props, ref) {

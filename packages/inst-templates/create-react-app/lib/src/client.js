@@ -5,17 +5,10 @@ import App from './index'
 
 
 const root = document.getElementById('⚛️')
-
-async function render (App) {
-  if (process.env.NODE_ENV === 'production') {
-    await Broker.loadInitial()
-  }
-
-  return ReactDOM.hydrate(<App/>, root)
-}
+const hydrate = App => ReactDOM.hydrate(<App/>, root)
 
 if (__DEV__) {
-  module.hot && module.hot.accept('./index', () => render(require('./index').default))
+  module.hot && module.hot.accept('./index', () => hydrate(require('./index').default))
 }
 
-render(App)
+Broker.loadInitial().then(() => hydrate(App))

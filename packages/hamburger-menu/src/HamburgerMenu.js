@@ -22,7 +22,7 @@ const containerPropNames = [
   'verySlow'
 ]
 
-export default React.memo(
+const HamburgerMenu = React.memo(
   React.forwardRef(
     function HamburgerMenu (
       {
@@ -58,3 +58,5 @@ export default React.memo(
     }
   )
 )
+
+export default HamburgerMenu

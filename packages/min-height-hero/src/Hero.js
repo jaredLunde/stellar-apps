@@ -37,7 +37,7 @@ export default class Hero extends React.Component {
   }
 
   render () {
-    let {headerID, footerID, maxHeight, ...props} = this.props
+    let {headerID, footerID, maxHeight, innerRef, ...props} = this.props
 
     if (typeof document !== 'undefined') {
       this.headerEl = document.getElementById(headerID)
@@ -53,6 +53,7 @@ export default class Hero extends React.Component {
             wrap
             w='100%'
             minH={this.getHeight(height)}
+            ref={innerRef}
             {...props}
           />
         )}

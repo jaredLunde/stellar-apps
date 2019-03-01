@@ -25,7 +25,7 @@ export default React.forwardRef(
     ref
   ) {
     return (
-      <ThemeConsumer path='button' defaultTheme={defaultTheme}>
+      <ThemeConsumer name='button' defaultTheme={defaultTheme}>
         {({theme}) => {
           const spinnerProps = {...theme.spinner}
 

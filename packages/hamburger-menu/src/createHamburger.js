@@ -19,19 +19,14 @@ const defaultTheme = {
     contain: strict;
   `
 }
-const themePath = 'hamburger'
+
 const SFC = createComponent({
-  name: 'Hamburger',
-  propTypes: {
-    color: PropTypes.string,
-    lineNo: PropTypes.number
-  },
-  CSS: {
+  name: 'hamburger',
+  styles: {
     lineNo: (n, theme) => theme.getLine(n, theme),
     color: (val, theme) => val && colorize('background-color', val, theme)
   },
-  defaultTheme,
-  themePath: 'hamburger'
+  defaultTheme
 })
 
 export default function createHamburger (
@@ -55,7 +50,7 @@ export default function createHamburger (
     lines.push(<SFC {...sfcProps}/>)
   }
 
-  return function Hamburger ({show, hide, toggle, isVisible}) {
+  const Hamburger = ({show, hide, toggle, isVisible}) => {
     return closeButton !== void 0 && isVisible === true
       ? closeButton({show, hide, toggle, isVisible, lines, ref})
       : <Button
@@ -74,4 +69,11 @@ export default function createHamburger (
           children={lines}
         />
   }
+
+  Hamburger.propTypes /* remove-proptypes */ = {
+    color: PropTypes.string,
+      lineNo: PropTypes.number
+  }
+
+  return Hamburger
 }

@@ -15,7 +15,7 @@ export default class Hero extends React.Component {
   }
 
   render () {
-    let {children, headerID, footerID, trimFrom, ...props} = this.props
+    let {children, headerID, footerID, trimFrom, innerRef, ...props} = this.props
 
     if (typeof document !== 'undefined') {
       this.headerEl = document.getElementById(this.props.headerID)
@@ -32,6 +32,7 @@ export default class Hero extends React.Component {
       CurlsHero, {
         key: `hero-${this.didMount}`,
         trimHeight,
+        ref: innerRef,
         ...props,
         children
       }

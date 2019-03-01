@@ -1,5 +1,5 @@
 import React from 'react'
-import {Button, ThemeConsumer, createComponent} from 'curls'
+import {Button, ThemeConsumer} from 'curls'
 import * as buttonDefaults from 'curls/dist/es/Button/defaultTheme'
 
 
@@ -13,7 +13,7 @@ export const defaultTheme = {
 export default React.forwardRef(
   function Button ({outline = false, ...props}, ref) {
     return (
-      <ThemeConsumer path='button' defaultTheme={defaultTheme}>
+      <ThemeConsumer name='button' defaultTheme={defaultTheme}>
         {({theme}) => {
           props = {...theme.defaultProps, ...props}
 

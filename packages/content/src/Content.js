@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {createComponent, renderNode, FlexBox} from 'curls'
+import {createComponent, renderNode, FlexBox, memoThemeValue} from 'curls'
 import {css} from '@emotion/core'
 
 
@@ -17,22 +17,17 @@ const defaultTheme = {
 }
 
 const SFC = createComponent({
-  name: 'Content',
-  propTypes: {
-    slim: PropTypes.bool
-  },
-  CSS: {
-    __base: (val, theme) => css`max-width: ${theme.width}px;`,
-    slim: (val, theme) => val === true && (
+  name: 'content',
+  styles: {
+    __base: memoThemeValue((val, theme) => css`max-width: ${theme.width}px;`),
+    slim: memoThemeValue((val, theme) => val === true && (
       css`max-width: ${theme.slimWidth || theme.width * 0.61803398875}px;`
-    )
+    ))
   },
-  defaultTheme,
-  themePath: 'content'
+  defaultTheme
 })
 
-
-export default React.forwardRef(
+const Content = React.forwardRef(
   function Content (props, innerRef) {
     return SFC({
       __base: true,
@@ -52,3 +47,6 @@ export default React.forwardRef(
     })
   }
 )
+
+export default Content
+Content.propTypes /* remove-proptypes */ = {slim: PropTypes.bool}

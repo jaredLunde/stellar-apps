@@ -8,19 +8,10 @@ import App from './index'
 
 const history = createHistory()
 const root = document.getElementById('⚛️')
-
-async function render (App) {
-  const app = <Router history={history} children={<App/>}/>
-
-  if (process.env.NODE_ENV === 'production') {
-    await Broker.loadInitial()
-  }
-
-  return ReactDOM.hydrate(app, root)
-}
+const hydrate = App => ReactDOM.hydrate(<Router history={history} children={<App/>}/>, root)
 
 if (__DEV__) {
-  module.hot && module.hot.accept('./index', () => render(require('./index').default))
+  module.hot && module.hot.accept('./index', () => hydrate(require('./index').default))
 }
 
-render(App)
+Broker.loadInitial().then(() => hydrate(App))
