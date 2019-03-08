@@ -5,7 +5,7 @@ This package contains helpful wrapper `Button` types around `curls/Button`
 `yarn add @stellar-apps/buttons`
 
 ## Usage
-```js
+```jsx
 import {Button, TypeButton, SubmitButton} from '@stellar-apps/buttons'
 
 <Button outline>
