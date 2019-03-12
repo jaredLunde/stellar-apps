@@ -16,24 +16,27 @@ function createBabelLoader ({test, presets, plugins, include, exclude, options})
   
   return {
     test: test || /(\.js|\.jsx|\.mjs)$/,
-    use: {
-      loader: 'babel',
-      options: {
-        presets,
-        plugins,
-        // only caches compressed files in prod
-        cacheCompression: isProd,
-        // only minifies in prod
-        compact: isProd,
-        // caches for better rebuild performance
-        cacheDirectory: true,
-        // ignores .babelrc in directories
-        babelrc: false,
-        // ignores config files in directories
-        configFile: false,
-        ...options
+    use: [
+      'cache',
+      {
+        loader: 'babel',
+        options: {
+          presets,
+          plugins,
+          // only caches compressed files in prod
+          cacheCompression: isProd,
+          // only minifies in prod
+          compact: isProd,
+          // caches for better rebuild performance
+          cacheDirectory: true,
+          // ignores .babelrc in directories
+          babelrc: false,
+          // ignores config files in directories
+          configFile: false,
+          ...options
+        }
       }
-    },
+    ],
     include,
     exclude
   }

@@ -1,3 +1,4 @@
+const webpack = require('webpack')
 const path = require('path')
 const paths = require('./paths')
 const merge = require('webpack-merge')
@@ -5,6 +6,7 @@ const Dotenv = require('dotenv-webpack')
 const ImageminPlugin = require("imagemin-webpack")
 const imageminMozJpeg = require("imagemin-mozjpeg")
 const imageminOptipng = require("imagemin-optipng")
+const HardSourcePlugin = require('hard-source-webpack-plugin')
 const WebpackRimrafPlugin = require('@stellar-apps/webpack-rimraf-plugin')
 
 
@@ -24,12 +26,26 @@ if (!isDev) {
         maxConcurrency: 8,
         imageminOptions: {
           plugins: [
-            imageminMozJpeg({quality: isDev ? 70 : 90, progressive: true}),
-            imageminOptipng({optimizationLevel: isDev ? 1 : 7})
+            imageminMozJpeg({quality: 90, progressive: true}),
+            imageminOptipng({optimizationLevel: 7})
           ]
         }
       })
     ]
+  }
+}
+else {
+  envConfig = {
+    plugins: [
+      new HardSourcePlugin(),
+      new webpack.LoaderOptionsPlugin({minimize: false, debug: true}),
+    ],
+
+    optimization: {
+      removeAvailableModules: false,
+      removeEmptyChunks: false,
+      splitChunks: false,
+    }
   }
 }
 
@@ -58,11 +74,16 @@ module.exports = merge(
       rules: [
         {
           test: /\.(jpe?g|png)$/i,
-          loader: 'responsive-loader',
-          options: {
-            name: '[folder]/[name]/[width]x[height]/[md4:hash:12].[ext]',
-            adapter: require('responsive-loader/sharp')
-          }
+          use: [
+            'cache',
+            {
+              loader: 'responsive-loader',
+              options: {
+                name: '[folder]/[name]/[width]x[height]/[md4:hash:12].[ext]',
+                adapter: require('responsive-loader/sharp')
+              }
+            }
+          ]
         }
       ],
     },

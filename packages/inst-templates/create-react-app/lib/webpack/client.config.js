@@ -22,10 +22,7 @@ if (isDev) {
     },
     node: {
       querystring: true,
-    },
-    plugins: [
-      new webpack.LoaderOptionsPlugin({minimize: false, debug: true})
-    ]
+    }
   }
 }
 else {
