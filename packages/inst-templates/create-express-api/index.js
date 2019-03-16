@@ -120,7 +120,8 @@ module.exports.editPackageJson = function editPackageJson (
     deploy: 'stellar-scripts deploy',
     bundle: 'serverless webpack',
     teardown: 'stellar-scripts teardown',
-    sls: 'serverless'
+    sls: 'serverless',
+    postinstall: 'rimraf .cache-loader'
   }
   // this function must return a valid package.json object
   return packageJson

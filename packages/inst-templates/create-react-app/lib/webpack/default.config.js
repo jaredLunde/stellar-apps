@@ -6,7 +6,6 @@ const Dotenv = require('dotenv-webpack')
 const ImageminPlugin = require("imagemin-webpack")
 const imageminMozJpeg = require("imagemin-mozjpeg")
 const imageminOptipng = require("imagemin-optipng")
-const HardSourcePlugin = require('hard-source-webpack-plugin')
 const WebpackRimrafPlugin = require('@stellar-apps/webpack-rimraf-plugin')
 
 
@@ -16,7 +15,23 @@ const createAliases = ps =>
   ps.reduce((a, p) => ({...a, [`~${path.basename(path.dirname(p))}`]: p}), {})
 let envConfig
 
-if (!isDev) {
+if (isDev) {
+  envConfig = {
+    output: {
+      pathinfo: false
+    },
+
+    plugins: [
+      new webpack.LoaderOptionsPlugin({minimize: false, debug: true}),
+    ],
+
+    optimization: {
+      removeAvailableModules: false,
+      removeEmptyChunks: false,
+    }
+  }
+}
+else {
   envConfig = {
     plugins: [
       new ImageminPlugin({
@@ -32,20 +47,6 @@ if (!isDev) {
         }
       })
     ]
-  }
-}
-else {
-  envConfig = {
-    plugins: [
-      new HardSourcePlugin(),
-      new webpack.LoaderOptionsPlugin({minimize: false, debug: true}),
-    ],
-
-    optimization: {
-      removeAvailableModules: false,
-      removeEmptyChunks: false,
-      splitChunks: false,
-    }
   }
 }
 

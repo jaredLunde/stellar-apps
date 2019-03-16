@@ -59,6 +59,7 @@ async function create (pkgName) {
           pkgJson.set('scripts.prettier', 'prettier --single-quote --no-semi --no-bracket-spacing --trailing-comma es5 --write')
           pkgJson.set('scripts.prettier:es', 'yarn prettier \"dist/es/**/*.js\"')
           pkgJson.set('scripts.prettier:cjs', 'yarn prettier \"dist/cjs/**/*.js\"')
+          pkgJson.set('scripts.prepublishOnly', 'yarn build')
           pkgJson.save()
 
           const devDeps = []

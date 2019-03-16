@@ -18,7 +18,8 @@ if (isDev) {
     devtool: 'eval',
     output: {
       globalObject: 'this',
-      pathinfo: false
+      filename: `js/[name].js`,
+      chunkFilename: `js/[name].js`
     },
     node: {
       querystring: true,
@@ -55,7 +56,7 @@ else {
       minimizer: [
         new TerserPlugin({
           cache: true,
-          parallel: true,
+          parallel: 4,
           terserOptions: {
             compress: {
               passes: 2,
@@ -63,12 +64,10 @@ else {
               drop_console: false,
               pure_getters: 'strict',
               toplevel: true,
-              unsafe: true,
               unsafe_comps: true,
               unsafe_Function: true,
               unsafe_math: true,
               unsafe_proto: true,
-              unsafe_regexp: true,
               unsafe_undefined: true,
               warnings: false,
               ecma: 5,
@@ -104,9 +103,7 @@ module.exports = createConfig(
   defaults,
   {
     name: 'client',
-
     entry: [path.join(paths.src, 'client.js')],
-
     output: {
       path: path.join(paths.dist, stage, 'client'),
       filename: `js/[hash].js`,

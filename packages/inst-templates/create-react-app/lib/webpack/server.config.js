@@ -15,7 +15,7 @@ let envConfig
 if (isDev || stage === 'development') {
   envConfig = {
     target: 'node',
-    devtool: isDev ? 'eval' : false
+    devtool: 'eval'
   }
 }
 
@@ -33,20 +33,19 @@ module.exports = createConfig(
       libraryTarget: 'commonjs2'
     },
 
-    externals: [
-      // nodeExternals({modulesDir: '../../../node_modules', whitelist: [/web/,]})
-      'js-beautify',
-      'encoding'
-    ],
-
     module: {
       rules: [
         {
           test: /\.html|\.txt|\.tpl/,
           loaders: ['raw']
         }
-      ]
+      ],
     },
+
+    externals: [
+      'js-beautify',
+      'encoding'
+    ],
 
     plugins: [
       new IgnoreEmitPlugin(/\.(woff|woff2|ttf|eot|png|jpe?g|gif|ico|otf|mp4)$/),
@@ -60,4 +59,3 @@ module.exports = createConfig(
   },
   envConfig
 )
-

@@ -1,6 +1,6 @@
 {
   "name": "@stellar-apps/webpack",
-  "version": "1.0.16",
+  "version": "1.0.17",
   "main": "dist/cjs/index.js",
   "author": "Jared Lunde <jared@BeStellar.co> (https://BeStellar.co)",
   "license": "MIT",
@@ -27,7 +27,6 @@
   "dependencies": {
     "babel-merge": "^2.0.1",
     "cache-loader": "^2.0.1",
-    "hard-source-webpack-plugin": "^0.13.1",
     "webpack-dev-server": "^3.1.14",
     "webpack-jarvis": "^0.3.2",
     "webpack-merge": "^4.2.1",
