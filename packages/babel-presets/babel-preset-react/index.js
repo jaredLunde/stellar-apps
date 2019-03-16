@@ -1,4 +1,4 @@
-// v1.0.1 // 1/24/2019 //
+// v1.0.1 // 3/16/2019 //
 
 function req(plugin) {
   var module = require(plugin)
@@ -51,7 +51,7 @@ module.exports = function(api, opt) {
           : [req('babel-plugin-transform-react-remove-prop-types'), {}],
         opt.transformPure === false
           ? {}
-          : [req('babel-plugin-transform-react-pure-components'), {}],
+          : [req('babel-plugin-transform-react-pure-class-to-function'), {}],
       ],
     }
   } else {

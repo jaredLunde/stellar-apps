@@ -21,8 +21,8 @@ dependencies.production = Object.assign({}, dependencies.development, {
     isBabelPlugin: true,
     isOptional: 'removePropTypes'
   },
-  "babel-plugin-transform-react-pure-components": {
-    version: "^3.1.2",
+  "babel-plugin-transform-react-pure-class-to-function": {
+    version: "^1.0.1",
     isBabelPlugin: true,
     isOptional: 'transformPure'
   }

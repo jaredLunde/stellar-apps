@@ -1,7 +1,7 @@
 {
   "name": "@stellar-apps/babel-preset-react",
   "main": "index.js",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "MIT",
   "devDependencies": {
     "rimraf": "^2.6.2"
@@ -11,9 +11,9 @@
     "clean": "rimraf yarn.lock && rimraf ./node_modules"
   },
   "dependencies": {
-    "@babel/plugin-transform-react-constant-elements": "^7.2.0",
     "@babel/preset-react": "^7.0.0",
-    "babel-plugin-transform-react-pure-components": "^3.1.2",
-    "babel-plugin-transform-react-remove-prop-types": "^0.4.23"
+    "@babel/plugin-transform-react-constant-elements": "^7.2.0",
+    "babel-plugin-transform-react-remove-prop-types": "^0.4.23",
+    "babel-plugin-transform-react-pure-class-to-function": "^1.0.1"
   }
 }
