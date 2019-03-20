@@ -5,7 +5,7 @@ const assign = createPreset.assign
 const dependencies = {}
 dependencies.development = {
   "@babel/preset-env": {
-    version: '^7.3.1',
+    version: '^7.4.0',
     options: assign(
       {
         loose: true,
@@ -22,16 +22,16 @@ dependencies.development = {
     version: '^7.2.3'
   },
   "@babel/core": {
-    version: '^7.2.2'
+    version: '^7.4.0'
   },
   "@babel/plugin-transform-runtime": {
-    version: '^7.2.0',
+    version: '^7.4.0',
     options: assign({}, 'runtime'),
     isOptional: 'runtime',
     isBabelPlugin: true
   },
   "@babel/plugin-proposal-class-properties": {
-    version: '7.3.0',
+    version: '7.4.0',
     options: assign({loose: true}, 'classProps'),
     isBabelPlugin: true
   },
@@ -77,7 +77,7 @@ dependencies.development = {
     isBabelPlugin: true
   },
   "babel-plugin-macros": {
-    version: "^2.4.5",
+    version: "^2.5.0",
     isOptional: 'macros',
     isBabelPlugin: true
   },

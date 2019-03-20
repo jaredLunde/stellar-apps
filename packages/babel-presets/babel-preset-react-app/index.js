@@ -1,4 +1,4 @@
-// v1.0.4 // 1/27/2019 //
+// v1.0.11 // 3/19/2019 //
 
 function req(plugin) {
   var module = require(plugin)
@@ -47,13 +47,14 @@ module.exports = function(api, opt) {
             {
               env: {
                 useBuiltIns: 'usage',
+                corejs: 3,
                 loose: true,
                 modules: false,
                 ignoreBrowserslistConfig: true,
                 exclude: ['transform-typeof-symbol'],
                 targets: {ie: 11, chrome: 41},
               },
-              runtime: {corejs: 2, helpers: true, useESModules: true},
+              runtime: {helpers: true, useESModules: true},
             },
             opt.es,
           ),
@@ -83,13 +84,14 @@ module.exports = function(api, opt) {
             {
               env: {
                 useBuiltIns: 'usage',
+                corejs: 3,
                 loose: true,
                 modules: false,
                 ignoreBrowserslistConfig: true,
                 exclude: ['transform-typeof-symbol'],
                 targets: {browsers: 'last 2 versions'},
               },
-              runtime: {corejs: 2, helpers: false, useESModules: true},
+              runtime: {helpers: true, useESModules: true},
             },
             opt.es,
           ),

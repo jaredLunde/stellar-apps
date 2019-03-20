@@ -1,6 +1,6 @@
 {
   "name": "@stellar-apps/inst-utils",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "dist/cjs/index.js",
   "author": "Jared Lunde <jared@BeStellar.co> (https://BeStellar.co)",
   "license": "MIT",
@@ -17,13 +17,12 @@
     "prettier:cjs": "yarn prettier \"dist/cjs/**/*.js\""
   },
   "devDependencies": {
-    "@stellar-apps/babel-preset-es": "^1.0.1",
+    "@stellar-apps/babel-preset-es": "^1.0.4",
     "prettier": "^1.16.4",
     "rimraf": "^2.6.3"
   },
   "dependencies": {
-    "@babel/runtime": "^7.3.1",
-    "@babel/runtime-corejs2": "^7.3.1",
+    "@babel/runtime": "^7.4.0",
     "fs-extra": "^7.0.1",
     "ncp": "^2.0.0",
     "pkg-up": "^2.0.0"

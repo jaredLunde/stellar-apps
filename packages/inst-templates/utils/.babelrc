@@ -6,9 +6,9 @@
           "@stellar-apps/es",
           {
             "env": {
-              "targets": {"chrome": "41", "ie": "11"}
-            },
-            "runtime": {"corejs": 2}
+              "useBuiltIns": false,
+              "targets": {"node": "8"}
+            } 
           }
         ]
       ]
@@ -21,7 +21,7 @@
             "env": {
               "useBuiltIns": false,
               "modules": false,
-              "targets": {"browsers": ">5% in US"}
+              "targets": {"node": "8"}
             },
             "runtime": {"useESModules": true}
           }

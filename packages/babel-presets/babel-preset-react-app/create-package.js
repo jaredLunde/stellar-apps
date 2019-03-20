@@ -7,6 +7,7 @@ const extendProd = createPreset.extendProd
 const dependencies = {}
 const envDefaults = {
   useBuiltIns: 'usage',
+  corejs: 3,
   loose: true,
   modules: false,
   ignoreBrowserslistConfig: true,
@@ -24,8 +25,7 @@ dependencies.development = {
           targets: {browsers: 'last 2 versions'},
         },
         runtime: {
-          corejs: 2,
-          helpers: false,
+          helpers: true,
           useESModules: true
         }
       },
@@ -64,7 +64,6 @@ extendProd(dependencies, {
           }
         },
         runtime: {
-          corejs: 2,
           helpers: true,
           useESModules: true
         }

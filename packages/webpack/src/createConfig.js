@@ -4,7 +4,7 @@ import path from 'path'
 
 
 const absoluteRuntime = path.dirname(
-  require.resolve('@babel/runtime-corejs2/package.json')
+  require.resolve('@babel/runtime-corejs3/package.json')
 )
 
 function mergeBabelConfig (base, {presets, plugins}) {

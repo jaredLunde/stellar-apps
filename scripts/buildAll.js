@@ -11,7 +11,7 @@ const argv = require('minimist')(process.argv.slice(2))
 const readFile = promisify(fs.readFile)
 
 async function buildAll () {
-  const ignore = argv.ignore ? new RegExp(argv.ignore) : /babel-presets|create-preset/
+  const ignore = argv.ignore ? new RegExp(argv.ignore) : /babel-presets|create-preset|inst-templates/
 
   for (let pkg of getPackages(ignore)) {
     const pkgName = path.basename(pkg)

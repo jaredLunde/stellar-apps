@@ -89,6 +89,18 @@
     lodash "^4.17.11"
     to-fast-properties "^2.0.0"
 
+babel-helper-is-react-class@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/babel-helper-is-react-class/-/babel-helper-is-react-class-1.0.0.tgz#ef6f3678b05c76dbdeedadead7af98c2724d8431"
+  integrity sha1-7282eLBcdtve7a3q16+YwnJNhDE=
+
+babel-plugin-transform-react-pure-class-to-function@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/babel-plugin-transform-react-pure-class-to-function/-/babel-plugin-transform-react-pure-class-to-function-1.0.1.tgz#32a649c97d653250b419cfd1489331b0290d9ee4"
+  integrity sha1-MqZJyX1lMlC0Gc/RSJMxsCkNnuQ=
+  dependencies:
+    babel-helper-is-react-class "^1.0.0"
+
 babel-plugin-transform-react-remove-prop-types@^0.4.23:
   version "0.4.24"
   resolved "https://registry.yarnpkg.com/babel-plugin-transform-react-remove-prop-types/-/babel-plugin-transform-react-remove-prop-types-0.4.24.tgz#f2edaf9b4c6a5fbe5c1d678bfb531078c1555f3a"

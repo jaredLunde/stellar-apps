@@ -1,6 +1,6 @@
 {
   "name": "@stellar-apps/scripts",
-  "version": "1.0.20",
+  "version": "1.0.22",
   "main": "dist/cjs/index.js",
   "bin": {
     "stellar-scripts": "dist/cjs/index.js"
@@ -17,7 +17,7 @@
     "prettier:cjs": "yarn prettier \"dist/cjs/**/*.js\""
   },
   "devDependencies": {
-    "@stellar-apps/babel-preset-es": "^1.0.1",
+    "@stellar-apps/babel-preset-es": "^1.0.4",
     "prettier": "^1.16.1",
     "rimraf": "^2.6.3"
   },

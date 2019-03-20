@@ -1,6 +1,6 @@
 {
   "name": "@stellar-apps/serverless-sync-bundle",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "main": "dist/cjs/serverless-sync-bundle.js",
   "author": "Jared Lunde <jared@BeStellar.co> (https://BeStellar.co)",
   "license": "MIT",
@@ -12,7 +12,7 @@
     "prettier:cjs": "yarn prettier \"dist/cjs/**/*.js\""
   },
   "devDependencies": {
-    "@stellar-apps/babel-preset-es": "^1.0.1",
+    "@stellar-apps/babel-preset-es": "^1.0.4",
     "compression-webpack-plugin": "^2.0.0",
     "prettier": "^1.16.1",
     "rimraf": "^2.6.3"

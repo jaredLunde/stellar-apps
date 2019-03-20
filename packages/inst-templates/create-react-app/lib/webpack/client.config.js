@@ -82,19 +82,29 @@ else {
       ],
 
       splitChunks: {
+        chunks: 'async',
+        minSize: 30 * 1000,
+        minChunks: 1,
+        maxAsyncRequests: 5,
+        maxInitialRequests: 3,
+        name: true,
         cacheGroups: {
           default: {
-            name: 'default',
-            chunks: 'initial',
-            maxSize: 600 * 1000,
-            minChunks: 1,
-            maxAsyncRequests: 3,
-            maxInitialRequests: 3,
-            priority: -10,
+            minChunks: 2,
+            priority: -20,
             reuseExistingChunk: true,
-          }
+          },
+          vendors: {
+            test: /[\\/]node_modules[\\/]/,
+            priority: -10,
+          },
+          commons: {
+            name: 'commons',
+            chunks: 'initial',
+            minChunks: 2,
+          },
         },
-      }
+      },
     }
   }
 }

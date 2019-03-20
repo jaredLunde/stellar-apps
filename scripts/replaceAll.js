@@ -17,7 +17,7 @@ async function editAll () {
     return
   }
 
-  if (!replace) {
+  if (typeof replace !== 'string') {
     console.log(chalk.red('Error'), 'you must include a second argument for `replace`')
     return
   }

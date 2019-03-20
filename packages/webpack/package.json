@@ -1,6 +1,6 @@
 {
   "name": "@stellar-apps/webpack",
-  "version": "1.0.19",
+  "version": "1.0.21",
   "main": "dist/cjs/index.js",
   "author": "Jared Lunde <jared@BeStellar.co> (https://BeStellar.co)",
   "license": "MIT",
@@ -18,7 +18,7 @@
     "prepublishOnly": "yarn build"
   },
   "devDependencies": {
-    "@stellar-apps/babel-preset-es": "^1.0.1",
+    "@stellar-apps/babel-preset-es": "^1.0.4",
     "prettier": "^1.16.1"
   },
   "peerDependencies": {

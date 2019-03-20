@@ -1,6 +1,6 @@
 {
   "name": "@stellar-apps/serverless-certificate-manager",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "main": "dist/cjs/serverless-certificate-manager.js",
   "author": "Jared Lunde <jared@BeStellar.co> (https://BeStellar.co)",
   "license": "MIT",
@@ -13,7 +13,7 @@
     "prettier:cjs": "yarn prettier \"dist/cjs/**/*.js\""
   },
   "devDependencies": {
-    "@stellar-apps/babel-preset-es": "^1.0.1",
+    "@stellar-apps/babel-preset-es": "^1.0.4",
     "prettier": "^1.16.1",
     "rimraf": "^2.6.3"
   },
