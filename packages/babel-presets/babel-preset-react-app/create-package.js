@@ -22,12 +22,11 @@ dependencies.development = {
       {
         env: {
           ...envDefaults,
-          targets: {browsers: 'last 2 versions'},
+          targets: {browsers: '>5%'},
         },
-        runtime: {
-          helpers: true,
-          useESModules: true
-        }
+        closureElimination: false,
+        devExpression: false,
+        runtime: false
       },
       'es'
     )
@@ -42,11 +41,6 @@ dependencies.development = {
     isBabelPreset: true,
     options: assign({"sourceMap": true, "autoLabel": true}, 'emotion'),
     isOptional: 'emotion'
-  },
-  "babel-plugin-polished": {
-    "version": "^1.1.0",
-    isBabelPlugin: true,
-    isOptional: 'polished'
   }
 }
 
@@ -63,6 +57,8 @@ extendProd(dependencies, {
             chrome: 41
           }
         },
+        closureElimination: true,
+        devExpression: false,
         runtime: {
           helpers: true,
           useESModules: true
@@ -73,6 +69,11 @@ extendProd(dependencies, {
   },
   "@emotion/babel-preset-css-prop": {
     options: assign({"sourceMap": false, "hoist": true, "autoLabel": false}, 'emotion')
+  },
+  "babel-plugin-polished": {
+    "version": "^1.1.0",
+    isBabelPlugin: true,
+    isOptional: 'polished'
   }
 })
 
