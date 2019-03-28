@@ -60,8 +60,8 @@ module.exports.prompts = (
 
 // package.json dependencies
 module.exports.dependencies = {
-  "@babel/runtime": "^7.3.1",
-  "@babel/runtime-corejs2": "^7.3.1",
+  "@babel/runtime": "^7.4.0",
+  "@babel/runtime-corejs3": "^7.4.0",
   "aws-sdk": "^2.382.0",
   "change-case": "^3.0.2",
   "cookie-parser": "^1.4.3",
