@@ -19,7 +19,8 @@ const containerPropNames = [
   'fast',
   'med',
   'slow',
-  'verySlow'
+  'verySlow',
+  'transition'
 ]
 
 const HamburgerMenu = React.memo(

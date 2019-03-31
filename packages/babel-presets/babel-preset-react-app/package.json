@@ -1,7 +1,7 @@
 {
   "name": "@stellar-apps/babel-preset-react-app",
   "main": "index.js",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "license": "MIT",
   "devDependencies": {
     "rimraf": "^2.6.2"
