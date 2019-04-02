@@ -115,7 +115,9 @@ export default class Intersection extends React.Component {
   }
 
   componentWillUnmount () {
-    this.observer.disconnect()
+    if (this.observer) {
+      this.observer.disconnect()
+    }
   }
 
   render () {
