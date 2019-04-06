@@ -10,7 +10,7 @@ export default class Intersection extends React.Component {
   static propTypes = {
     root: PropTypes.any,
     pollInterval: PropTypes.number,
-    disableMutationObserver: PropTypes.bool.isRequired,
+    useMutationObserver: PropTypes.bool.isRequired,
     rootMargin: PropTypes.string,
     thresholds: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.number), PropTypes.number]),
     initialIsIntersecting: PropTypes.bool.isRequired
@@ -19,7 +19,7 @@ export default class Intersection extends React.Component {
   static defaultProps = {
     root: null,
     pollInterval: null,
-    disableMutationObserver: false,
+    useMutationObserver: true,
     rootMargin: '0px 0px 0px 0px',
     thresholds: 0,
     initialIsIntersecting: false
@@ -75,20 +75,22 @@ export default class Intersection extends React.Component {
     )
 
     this.observer.POLL_INTERVAL = this.props.pollInterval
-    this.observer.USE_MUTATION_OBSERVER = this.props.useMutationObserver === false
-
+    this.observer.USE_MUTATION_OBSERVER = this.props.useMutationObserver
     this.observer.observe(this.element)
   }
 
-  setObserverState = ([entry]) => this.setState({
-    boundingClientRect: entry.boundingClientRect,
-    intersectionRatio: entry.intersectionRatio,
-    intersectionRect: entry.intersectionRect,
-    isIntersecting: entry.isIntersecting,
-    rootBounds: entry.rootBounds,
-    target: entry.target,
-    time: entry.time,
-  })
+  setObserverState = entries => {
+    const entry = entries[entries.length - 1]
+    this.setState({
+      boundingClientRect: entry.boundingClientRect,
+      intersectionRatio: entry.intersectionRatio,
+      intersectionRect: entry.intersectionRect,
+      isIntersecting: entry.isIntersecting,
+      rootBounds: entry.rootBounds,
+      target: entry.target,
+      time: entry.time,
+    })
+  }
 
   componentDidUpdate ({root, rootMargin, thresholds, pollInterval, useMutationObserver}) {
     if (
@@ -109,7 +111,7 @@ export default class Intersection extends React.Component {
       }
 
       this.observer.POLL_INTERVAL = this.props.pollInterval
-      this.observer.USE_MUTATION_OBSERVER = this.props.useMutationObserver === false
+      this.observer.USE_MUTATION_OBSERVER = this.props.useMutationObserver
       this.observer.observe(this.element)
     }
   }
