@@ -3,7 +3,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import {Router} from 'react-router-dom'
 import createHistory from 'history/createBrowserHistory'
-import Broker from 'react-broker'
+import {loadInitial} from 'react-broker'
 import {ApolloProvider} from 'react-apollo'
 import {createHttpLink} from 'apollo-link-http'
 import {createApolloClient, createRequestHeadersLink, getCsrfHeaders} from './apollo'
@@ -39,4 +39,4 @@ if (__DEV__) {
   module.hot && module.hot.accept('./index', () => hydrate(require('./index').default))
 }
 
-Broker.loadInitial().then(() => hydrate(App))
+loadInitial().then(() => hydrate(App))

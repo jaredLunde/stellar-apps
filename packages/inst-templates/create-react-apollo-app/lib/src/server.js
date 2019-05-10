@@ -7,7 +7,7 @@ import createRenderer, {
 } from '@stellar-apps/ssr/createStreamRenderer'
 import React from 'react'
 import ReactDOMServer from 'react-dom/server'
-import Broker from 'react-broker'
+import * as Broker from 'react-broker'
 import {StaticRouter} from 'react-router-dom'
 import {ApolloProvider} from 'react-apollo'
 import {createHttpLink} from 'apollo-link-http'

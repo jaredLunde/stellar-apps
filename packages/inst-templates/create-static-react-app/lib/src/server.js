@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOMServer from 'react-dom/server'
-import Broker from 'react-broker'
+import * as Broker from 'react-broker'
 import createStaticRenderer from '@stellar-apps/ssr/createStaticRenderer'
 import App from './index'
 

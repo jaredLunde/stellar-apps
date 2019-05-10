@@ -1,5 +1,5 @@
 import React from 'react'
-import Broker from 'react-broker'
+import {Provider as BrokerProvider} from 'react-broker'
 import Helmet, {HelmetProvider} from 'react-helmet-async'
 import {ThemeProvider, browserResets} from 'curls'
 import {Route, Switch} from 'react-router-dom'
@@ -44,7 +44,7 @@ const Document = ({location}) => (
 export default ({helmetContext = {}, chunkCache, device}) => (
   <HelmetProvider context={helmetContext}>
     <ThemeProvider theme={{locals: {device}, ...theme}}>
-      <Broker.Provider chunkCache={chunkCache}>
+      <BrokerProvider chunkCache={chunkCache}>
         <Route children={({location}) => {
           if (typeof window !== 'undefined') {
             window.scrollTo(0, 0)
@@ -52,7 +52,7 @@ export default ({helmetContext = {}, chunkCache, device}) => (
 
           return <Document location={location}/>
         }}/>
-      </Broker.Provider>
+      </BrokerProvider>
     </ThemeProvider>
   </HelmetProvider>
 )

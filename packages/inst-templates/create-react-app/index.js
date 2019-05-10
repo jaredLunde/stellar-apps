@@ -85,9 +85,9 @@ module.exports.dependencies = {
   "invariant": "2.2.4",
   "polished": "^2.3.1",
   "prop-types": "^15.6.2",
-  "react": "^16.8.1",
-  "react-dom": "^16.8.1",
-  "react-broker": "^1.2.0",
+  "react": "^16.8.6",
+  "react-dom": "^16.8.6",
+  "react-broker": "^2.0.0",
   "react-helmet-async": "^0.2.0",
   "serverless-http": "^1.9.0",
 }

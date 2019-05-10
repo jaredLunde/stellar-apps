@@ -15,12 +15,9 @@ const containerPropNames = [
   'leaveDelay',
   'delay',
   'easing',
-  'veryFast',
-  'fast',
-  'med',
-  'slow',
-  'verySlow',
-  'transition'
+  'visible',
+  'transition',
+  'initiallyVisible'
 ]
 
 const HamburgerMenu = React.memo(

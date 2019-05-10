@@ -62,6 +62,8 @@ export default function createHamburger (
           sh={0}
           h='72'
           p='x3'
+          aria-haspopup='menu'
+          aria-expanded={isVisible}
           aria-label='Main Menu'
           ref={ref}
           {...props}

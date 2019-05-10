@@ -55,10 +55,7 @@ extendProd(dependencies, {
       {
         env: {
           ...envDefaults,
-          targets: {
-            ie: 11,
-            chrome: 41
-          }
+          targets: {browsers: 'cover 90% in US, not IE < 12'}
         },
         closureElimination: true,
         devExpression: false,

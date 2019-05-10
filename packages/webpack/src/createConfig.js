@@ -101,7 +101,9 @@ function getBabelLoadersForNode (target, babelOverride) {
       '@stellar-apps/react-app',
       {
         env: {
-          targets: target === 'lambda' ? {'node': '8.10'} : {'node': 'current'}
+          targets: target === 'lambda'
+            ? {'node': '8.10', browsers: void 0}
+            : {'node': 'current', browsers: void 0}
         },
         es: {
           runtime: {absoluteRuntime}

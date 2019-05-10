@@ -1,4 +1,4 @@
-// v1.0.11 // 3/19/2019 //
+// v1.0.17 // 5/7/2019 //
 
 function req(plugin) {
   var module = require(plugin)
@@ -52,8 +52,10 @@ module.exports = function(api, opt) {
                 modules: false,
                 ignoreBrowserslistConfig: true,
                 exclude: ['transform-typeof-symbol'],
-                targets: {ie: 11, chrome: 41},
+                targets: {browsers: 'cover 90% in US, not IE < 12'},
               },
+              closureElimination: true,
+              devExpression: false,
               runtime: {helpers: true, useESModules: true},
             },
             opt.es,
@@ -65,7 +67,12 @@ module.exports = function(api, opt) {
           : [
               req('@emotion/babel-preset-css-prop'),
               Object.assign(
-                {sourceMap: false, hoist: true, autoLabel: false},
+                {
+                  sourceMap: false,
+                  hoist: true,
+                  useBuiltIns: true,
+                  autoLabel: false,
+                },
                 opt.emotion,
               ),
             ],
@@ -89,9 +96,11 @@ module.exports = function(api, opt) {
                 modules: false,
                 ignoreBrowserslistConfig: true,
                 exclude: ['transform-typeof-symbol'],
-                targets: {browsers: 'last 2 versions'},
+                targets: {browsers: '>5%'},
               },
-              runtime: {helpers: true, useESModules: true},
+              closureElimination: false,
+              devExpression: false,
+              runtime: false,
             },
             opt.es,
           ),
@@ -101,13 +110,14 @@ module.exports = function(api, opt) {
           ? {}
           : [
               req('@emotion/babel-preset-css-prop'),
-              Object.assign({sourceMap: true, autoLabel: true}, opt.emotion),
+              Object.assign(
+                {sourceMap: true, useBuiltIns: true, autoLabel: true},
+                opt.emotion,
+              ),
             ],
       ],
 
-      plugins: [
-        opt.polished === false ? {} : [req('babel-plugin-polished'), {}],
-      ],
+      plugins: [],
     }
   }
 }

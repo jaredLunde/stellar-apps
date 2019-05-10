@@ -8,7 +8,7 @@ import createRenderer, {
 import React from 'react'
 import ReactDOMServer from 'react-dom/server'
 import {StaticRouter} from 'react-router-dom'
-import Broker from 'react-broker'
+import * as Broker from 'react-broker'
 import App from './index'
 
 

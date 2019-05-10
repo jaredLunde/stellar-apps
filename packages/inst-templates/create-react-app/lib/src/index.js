@@ -1,5 +1,5 @@
 import React from 'react'
-import Broker from 'react-broker'
+import {Provider as BrokerProvider} from 'react-broker'
 import Helmet, {HelmetProvider} from 'react-helmet-async'
 import {ThemeProvider, browserResets} from 'curls'
 import {css, Global} from '@emotion/core'
@@ -41,9 +41,9 @@ const Document = () => (
 export default ({helmetContext = {}, chunkCache, device}) => (
   <HelmetProvider context={helmetContext}>
     <ThemeProvider theme={{locals: {device}, ...theme}}>
-      <Broker.Provider chunkCache={chunkCache}>
+      <BrokerProvider chunkCache={chunkCache}>
         <Document/>
-      </Broker.Provider>
+      </BrokerProvider>
     </ThemeProvider>
   </HelmetProvider>
 )
