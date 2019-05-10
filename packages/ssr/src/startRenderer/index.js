@@ -53,10 +53,10 @@ function serveStatic (route, localPath) {
         if (streaming === false) {
           // sets the content-type header
           res.setHeader('Content-Type', mime.getType(filename))
+          // brotli hack
+          if (filename.endsWith('.br')) res.setHeader('Content-Encoding', 'br')
           // sets a gzip encoding header if it is compressed content
-          if (isGzip(chunk)) {
-            res.setHeader('Content-Encoding', 'gzip')
-          }
+          if (isGzip(chunk)) res.setHeader('Content-Encoding', 'gzip')
           res.statusCode = 200
           streaming = true
         }
