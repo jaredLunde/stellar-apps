@@ -5,7 +5,7 @@ service: <:ROOT_NAME:>-<:PKG_NAME:>
 
 provider:
   name: aws
-  runtime: nodejs8.10
+  runtime: nodejs10.x
   stage: ${opt:stage, 'staging'}
   # AWS profile to use when deploying
   profile: ${env:SERVERLESS__PROFILE}

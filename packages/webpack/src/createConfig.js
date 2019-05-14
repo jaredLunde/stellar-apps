@@ -102,7 +102,7 @@ function getBabelLoadersForNode (target, babelOverride) {
       {
         env: {
           targets: target === 'lambda'
-            ? {'node': '8.10', browsers: void 0}
+            ? {'node': '10', browsers: void 0}
             : {'node': 'current', browsers: void 0}
         },
         es: {

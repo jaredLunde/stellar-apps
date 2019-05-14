@@ -37,7 +37,7 @@ dependencies.development = {
     options: assign({}, 'react')
   },
   "@emotion/babel-preset-css-prop": {
-    "version": "^10.0.6",
+    "version": "^10.0.9",
     isBabelPreset: true,
     options: assign(
       {"sourceMap": true, "useBuiltIns": true, "autoLabel": true},

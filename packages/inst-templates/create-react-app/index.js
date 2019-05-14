@@ -78,8 +78,8 @@ module.exports.prompts = (
 
 // package.json dependencies
 module.exports.dependencies = {
-  "@babel/runtime": "^7.4.0",
-  "@babel/runtime-corejs3": "^7.4.0",
+  "@babel/runtime": "^7.4.4",
+  "@babel/runtime-corejs3": "^7.4.4",
   "@stellar-apps/ssr": "^2.0.0",
   "curls": "^3.0.10",
   "invariant": "2.2.4",
@@ -94,7 +94,7 @@ module.exports.dependencies = {
 
 // package.json dev dependencies
 module.exports.devDependencies = {
-  "@stellar-apps/babel-preset-react-app": "^1.0.4",
+  "@stellar-apps/babel-preset-react-app": "^1.0.16",
   "@stellar-apps/scripts": "^1.0.0",
   "@stellar-apps/serverless-certificate-manager": "^1.0.5",
   "@stellar-apps/serverless-sync-bundle": "^1.0.4",
@@ -119,7 +119,7 @@ module.exports.devDependencies = {
   "serverless-plugin-lambda-warmup": "^1.0.1",
   "serverless-plugin-scripts": "^1.0.2",
   "serverless-webpack": "^5.2.0",
-  "sharp": "^0.21.3",
+  "sharp": "^0.22.1",
   "terser-webpack-plugin": "^1.2.2",
   "webpack": "^4.29.0",
   "webpack-bundle-analyzer": "^3.0.3",
