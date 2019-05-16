@@ -1,9 +1,11 @@
-import React from 'react'
+import React, {useRef, useCallback, useMemo} from 'react'
 import {callIfExists} from '@render-props/utils'
 import Choices, {Choice} from '@render-props/choices'
 import Toggle from '@render-props/toggle'
 import {canTouch} from '@stellar-apps/utils'
 import emptyFn from 'empty/function'
+import emptyArr from 'empty/array'
+
 
 /*
 <Select options={['foo', 'bar]} initialValue='bar'>
@@ -12,6 +14,17 @@ import emptyFn from 'empty/function'
   )}
 </Select>
  */
+
+const visuallyHidden = {
+  border: 0,
+  clip: "rect(0 0 0 0)",
+  height: "1px",
+  width: "1px",
+  margin: "-1px",
+  padding: 0,
+  overflow: "hidden",
+  position: "absolute"
+}
 
 const selectStyle = {
   zIndex: -1,
@@ -35,117 +48,114 @@ const selectStyle = {
   appearance: 'none'
 }
 
-class Select_ extends React.Component {
-  constructor (props) {
-    super(props)
-    this.selectContext = {
-      show: this.show,
-      hide: this.props.off,
-      toggle: canTouch() === true ? this.show : this.props.toggle,
-      select: this.props.select,
-      isOpen: this.props.value,
-      options: null,
-      value: this.props.selection
-    }
-  }
+let ID = 0
 
-  element = null
+const Select = ({label, name, choices, toggle, innerRef, children}) => {
+  const
+    element = useRef(null),
+    selection = choices.selections[0],
+    id = useMemo(() => `select-menu-${ID++}`, emptyArr)
 
-  setSelectRef = el => {
-    this.element = el
-    callIfExists(this.props.innerRef, el)
-  }
+  const show = useCallback(
+    () => {
+      if (canTouch() === false)
+        toggle.on()
+      else if (element.current?.fireEvent)
+        element.current.fireEvent('onmousedown')
+      else {
+        const evt = window.document.createEvent('MouseEvents')
+        evt.initMouseEvent(
+          'mousedown',
+          true,
+          true,
+          window,
+          0,
+          0,
+          0,
+          0,
+          0,
+          false,
+          false,
+          false,
+          false,
+          0,
+          null
+        )
+        element.current.dispatchEvent(evt)
+      }
+    },
+    [toggle.on]
+  )
 
-  show = () => {
-    if (canTouch() === false) {
-      this.props.on()
-    }
-    else if (this.element.fireEvent) {
-      this.element.fireEvent('onmousedown')
-    }
-    else {
-      const evt = window.document.createEvent('MouseEvents')
-      evt.initMouseEvent(
-        'mousedown',
-        true,
-        true,
-        window,
-        0,
-        0,
-        0,
-        0,
-        0,
-        false,
-        false,
-        false,
-        false,
-        0,
-        null
+  const handleSelectChange = useCallback(
+    e => {
+      choices.select(
+        choices.choices.filter(
+          c => typeof c === 'string' || !isNaN(c)
+            ? c === e.target.value
+            : c.value === e.target.value
+        )[0]
       )
-      this.element.dispatchEvent(evt)
-    }
-  }
+    },
+    [choices.select, choices.choices]
+  )
 
-  handleSelectChange = e => {
-    this.props.select(
-      this.props.choices.filter(
-        c => typeof c === 'string' || !isNaN(c)
-          ? c === e.target.value
-          : c.value === e.target.value
-      )[0]
-    )
-  }
+  const childContext = useMemo(
+    () => ({
+      show,
+      hide: toggle.off,
+      toggle: canTouch() === true ? show : toggle.toggle,
+      isOpen: toggle.value,
+      options: choices.choices,
+      value: selection
+    }),
+    [show, toggle.off, toggle.toggle, toggle.value, choices.choices, selection]
+  )
 
-  render () {
-    this.selectContext.isOpen = this.props.value
-    this.selectContext.options = this.props.choices
-    this.selectContext.value = this.props.selection
+  return (
+    <>
+      {label && <label htmlFor={id} children={label} style={visuallyHidden}/>}
+      <select
+        id={id}
+        name={name}
+        onChange={canTouch() ? handleSelectChange : emptyFn}
+        value={
+          typeof selection === 'string' || !isNaN(selection)
+            ? selection
+            : selection.value
+        }
+        style={selectStyle}
+        ref={el => {
+          element.current = el
+          callIfExists(innerRef, el)
+        }}
+      >
+        {choices.choices.map(
+          choice => React.createElement(
+            'option',
+            typeof choice === 'string' || !isNaN(choice)
+              ? {key: choice, value: choice, children: choice}
+              : Object.assign({key: choice.value}, choice)
+          )
+        )}
+      </select>
 
-    return (
-      <>
-        <select
-          name={this.props.name}
-          onChange={canTouch() ? this.handleSelectChange : emptyFn}
-          value={
-            typeof this.props.selection === 'string' || !isNaN(this.props.selection)
-              ? this.props.selection
-              : this.props.selection.value
-          }
-          style={selectStyle}
-          ref={this.setSelectRef}
-        >
-          {this.props.choices.map(
-            choice => React.createElement(
-              'option',
-              typeof choice === 'string' || !isNaN(choice)
-                ? {key: choice, value: choice, children: choice}
-                : {key: choice.value, ...choice}
-            )
-          )}
-        </select>
-
-        {this.props.children(this.selectContext)}
-      </>
-    )
-  }
+      {children(childContext)}
+    </>
+  )
 }
 
-
-function handleChange (fn) {
-  return function (value) {
-    return callIfExists(
-      fn,
-      value.push === void 0 ? Array.from(value.values())[0] : value[0]
-    )
-  }
-}
+const handleChange = fn => value => callIfExists(
+  fn,
+  value.push === void 0 ? Array.from(value.values())[0] : value[0]
+)
 
 export const Option = Choice
-
 export default React.forwardRef(
-  function Select (
+  (
     {
       name,
+      label,
       options,
       initialValue,
       onChange,
@@ -153,35 +163,32 @@ export default React.forwardRef(
       children
     },
     innerRef
-  ) {
-    return (
-      <Choices
-        initialChoices={options}
-        initialSelections={initialValue ? [initialValue] : void 0}
-        minSelections={0}
-        maxSelections={1}
-        onChange={handleChange(onChange)}
-        onBoundMaxSelections={
-          function ({selections, select, deselect}) {
-            deselect(selections.shift())
-            select(selections.pop())
-          }
+  ) => (
+    <Choices
+      initialChoices={options}
+      initialSelections={initialValue ? [initialValue] : void 0}
+      minSelections={0}
+      maxSelections={1}
+      onChange={handleChange(onChange)}
+      onBoundMaxSelections={
+        ({selections, select, deselect}) => {
+          deselect(selections.shift())
+          select(selections.pop())
         }
-      >
-        {({choices, selections, select}) => <Toggle
-          initialValue={false}
-          onChange={onVisibilityChange}
-          children={toggle => <Select_
-            {...toggle}
-            innerRef={innerRef}
-            name={name}
-            choices={choices}
-            select={select}
-            selection={selections[0]}
-            children={children}
-          />}
+      }
+    >
+      {(choices) => <Toggle
+        initialValue={false}
+        onChange={onVisibilityChange}
+        children={toggle => <Select
+          label={label}
+          name={name}
+          choices={choices}
+          toggle={toggle}
+          innerRef={innerRef}
+          children={children}
         />}
-      </Choices>
-    )
-  }
+      />}
+    </Choices>
+  )
 )
