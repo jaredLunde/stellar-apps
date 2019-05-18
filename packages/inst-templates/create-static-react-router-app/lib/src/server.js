@@ -31,7 +31,7 @@ async function render (locals) {
   const page = await Broker.loadAll(app, ReactDOMServer.renderToString)
   // renders the Helmet attributes
   const {helmet} = helmetContext
-  const chunks = chunkCache.getChunkScripts(clientStats, {preload: true})
+  const chunks = chunkCache.getChunkScripts(locals.clientStats, {preload: true})
   // returns the document
   return `
     <!DOCTYPE html>
