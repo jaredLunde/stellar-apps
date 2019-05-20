@@ -1,32 +1,32 @@
 import React from 'react'
-import {Button, ThemeConsumer} from 'curls'
+import {jsx, Button as CurlsButton, useTheme} from 'curls'
 import * as buttonDefaults from 'curls/dist/es/Button/defaultTheme'
 
 
-export const defaultTheme = {
-  ...buttonDefaults,
-  outline: {
-    bw: 1
-  }
-}
+export const
+  defaultTheme = {
+    ...buttonDefaults,
+    outline: {
+      bw: 1,
+    },
+  },
+  options = {name: 'button', defaultTheme}
 
-export default React.forwardRef(
-  function Button ({outline = false, ...props}, ref) {
-    return (
-      <ThemeConsumer name='button' defaultTheme={defaultTheme}>
-        {({theme}) => {
-          props = {...theme.defaultProps, ...props}
+const Button = React.forwardRef(
+  ({outline = false, ...props}, ref) => {
+    const theme = useTheme(options)
+    props = Object.assign({ref}, theme.defaultProps, props)
 
-          if (outline === true) {
-            props.bc = props.bg || theme.bg
-            props.bg = 'transparent'
-            delete props.sh
-            Object.assign(props, theme.outline)
-          }
+    if (outline === true) {
+      props.bc = props.bg || theme.bg
+      props.bg = 'transparent'
+      delete props.sh
+      Object.assign(props, theme.outline)
+    }
 
-          return <Button ref={ref} {...props}/>
-        }}
-      </ThemeConsumer>
-    )
-  }
+    return jsx(CurlsButton, props)
+  },
 )
+
+if (__DEV__) Button.displayName = 'Button'
+export default Button

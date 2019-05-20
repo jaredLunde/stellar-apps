@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {css} from '@emotion/core'
-import {Button, createComponent, colorize} from 'curls'
+import {css, Button, createComponent, colorize} from 'curls'
 
 
 const defaultTheme = {
@@ -20,7 +19,7 @@ const defaultTheme = {
   `
 }
 
-const SFC = createComponent({
+const Line = createComponent({
   name: 'hamburger',
   styles: {
     lineNo: (n, theme) => theme.getLine(n, theme),
@@ -42,24 +41,20 @@ export default function createHamburger (
 
   for (let i = 0; i < numLines; i++) {
     const sfcProps = {lineNo: i, key: i, children: p => <span {...p}/>}
-
-    if (color) {
-      sfcProps.color = color
-    }
-
-    lines.push(<SFC {...sfcProps}/>)
+    if (color) sfcProps.color = color
+    lines.push(<Line {...sfcProps}/>)
   }
 
-  const Hamburger = ({show, hide, toggle, isVisible}) => {
-    return closeButton !== void 0 && isVisible === true
+  const Hamburger = ({show, hide, toggle, isVisible}) =>
+    closeButton !== void 0 && isVisible === true
       ? closeButton({show, hide, toggle, isVisible, lines, ref})
       : <Button
           column
           align='stretch'
           bg='transparent'
-          bw={0}
-          br={0}
-          sh={0}
+          bw='0'
+          br='0'
+          sh='0'
           h='72'
           p='x3'
           aria-haspopup='menu'
@@ -70,7 +65,6 @@ export default function createHamburger (
           onClick={toggle}
           children={lines}
         />
-  }
 
   Hamburger.propTypes /* remove-proptypes */ = {
     color: PropTypes.string,

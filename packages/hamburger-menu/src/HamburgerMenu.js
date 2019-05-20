@@ -1,7 +1,6 @@
 /** @jsx jsx */
-import {jsx} from '@emotion/core'
 import React from 'react'
-import {Drawer, DrawerBox} from 'curls'
+import {jsx, Drawer, DrawerBox} from 'curls'
 import createHamburger from './createHamburger'
 
 
@@ -22,7 +21,7 @@ const containerPropNames = [
 
 const HamburgerMenu = React.memo(
   React.forwardRef(
-    function HamburgerMenu (
+    (
       {
         as = Drawer,
         menuAs = DrawerBox,
@@ -31,7 +30,7 @@ const HamburgerMenu = React.memo(
         ...props
       },
       ref
-    ) {
+    ) => {
       const containerProps = {}
 
       for (let k in props) {
@@ -57,4 +56,5 @@ const HamburgerMenu = React.memo(
   )
 )
 
+if (__DEV__) HamburgerMenu.displayName = 'HamburgerMenu'
 export default HamburgerMenu

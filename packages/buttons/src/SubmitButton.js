@@ -2,16 +2,15 @@ import React from 'react'
 import SpinnerButton from './SpinnerButton'
 
 
-export default React.forwardRef(
-  function SubmitButton (props, ref) {
-    return React.createElement(
-      SpinnerButton,
-      {
-        ref,
-        type: 'submit',
-        ...props,
-        children: props.children || 'Submit'
-      }
+const SubmitButton = React.forwardRef(
+  (props, ref) => React.createElement(
+    SpinnerButton,
+    Object.assign(
+      {ref, type: 'submit', children: 'Submit',},
+      props
     )
-  }
+  )
 )
+
+if (__DEV__) SubmitButton.displayName = 'SubmitButton'
+export default SubmitButton

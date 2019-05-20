@@ -1,19 +1,21 @@
 import React from 'react'
-import {ThemeConsumer} from 'curls'
+import {useTheme} from 'curls'
 import {Spinner} from '@jaredlunde/curls-addons'
 import TypeButton, {defaultTheme as buttonDefaults} from './TypeButton'
 
 
-const defaultTheme = {
-  ...buttonDefaults,
-  spinner: {
-    size: 16,
-    color: 'white'
-  }
-}
+const
+  defaultTheme = {
+    ...buttonDefaults,
+    spinner: {
+      size: 16,
+      color: 'white'
+    }
+  },
+  options = {name: 'button', defaultTheme}
 
-export default React.forwardRef(
-  function SpinnerButton (
+const SpinnerButton = React.forwardRef(
+  (
     {
       spinnerColor,
       spinnerSize,
@@ -23,33 +25,32 @@ export default React.forwardRef(
       ...props
     },
     ref
-  ) {
-    return (
-      <ThemeConsumer name='button' defaultTheme={defaultTheme}>
-        {({theme}) => {
-          const spinnerProps = {...theme.spinner}
+  ) => {
+    const
+      theme = useTheme(options),
+      spinnerProps = {...theme.spinner}
 
-          spinnerProps.color = spinnerColor
-            ? spinnerColor
-            : typeColor
-              ? typeColor
-              : outline
-                ? (props.bg || theme.defaultProps.bg || theme.type.color || 'primaryText')
-                : spinnerProps.color
+    spinnerProps.color = spinnerColor
+      ? spinnerColor
+      : typeColor
+        ? typeColor
+        : outline
+          ? (props.bg || theme.defaultProps.bg || theme.type.color || 'primaryText')
+          : spinnerProps.color
 
-          spinnerProps.size = spinnerSize || theme.spinner.size
+    spinnerProps.size = spinnerSize || theme.spinner.size
 
-          const buttonProps = {
-            typeColor,
-            outline,
-            ref,
-            ...props,
-            children: loading === true ? <Spinner {...spinnerProps}/> : props.children
-          }
+    const buttonProps = {
+      typeColor,
+      outline,
+      ref,
+      ...props,
+      children: loading === true ? <Spinner {...spinnerProps}/> : props.children
+    }
 
-          return React.createElement(TypeButton, buttonProps)
-        }}
-      </ThemeConsumer>
-    )
+    return React.createElement(TypeButton, buttonProps)
   }
 )
+
+if (__DEV__) SpinnerButton.displayName = 'SpinnerButton'
+export default SpinnerButton
