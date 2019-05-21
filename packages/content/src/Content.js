@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import {css, useStyles, createElement, useBox, memoThemeValue} from 'curls'
 
 const
-  defaultCSS = css`
+  defaultStyles = css`
     width: 100%;
     margin-left: auto;
     margin-right: auto;
@@ -20,15 +20,18 @@ const
         css`max-width: ${theme.slimWidth || theme.width * 0.61803398875}px;`
       ))
     },
+    defaultStyles,
     defaultTheme
   }
 
-const Content = React.forwardRef(
-  (props, ref) => createElement(
-    'div',
-    useBox(useStyles(Object.assign({__base: true, ref}, props), options)),
-    defaultCSS
-  )
+const
+  useContent = props => useStyles(Object.assign({__base: true, ref}, props), options),
+  Content = React.forwardRef(
+  (props, ref) => {
+    props = useBox(useContent(props))
+    props.ref = ref
+    createElement('div', props)
+  }
 )
 
 if (__DEV__) {
@@ -36,4 +39,5 @@ if (__DEV__) {
   Content.propTypes = {slim: PropTypes.bool}
 }
 
+export {useContent}
 export default Content
