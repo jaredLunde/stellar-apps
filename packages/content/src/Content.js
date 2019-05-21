@@ -25,12 +25,12 @@ const
   }
 
 const
-  useContent = props => useStyles(Object.assign({__base: true, ref}, props), options),
+  useContent = props => useStyles(Object.assign({__base: true}, props), options),
   Content = React.forwardRef(
   (props, ref) => {
     props = useBox(useContent(props))
     props.ref = ref
-    createElement('div', props)
+    return createElement('div', props)
   }
 )
 
