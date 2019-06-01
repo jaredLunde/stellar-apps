@@ -211,6 +211,7 @@ resources:
     #     Type: 'A'
 
 plugins:
+  - serverless-pseudo-parameters
   # Loads environment variables defined in .env.[--stage]
   - '@stellar-apps/serverless-dotenv'
   # Creates ACM certificates for the app domains

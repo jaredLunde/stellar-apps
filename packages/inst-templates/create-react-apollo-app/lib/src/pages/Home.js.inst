@@ -1,5 +1,5 @@
 import React from 'react'
-import Helmet from 'react-helmet-async'
+import {Helmet} from 'react-helmet-async'
 import {Spinner} from '@jaredlunde/curls-addons'
 import {Type, Hero} from 'curls'
 import {Query} from 'react-apollo'

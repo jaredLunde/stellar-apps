@@ -112,6 +112,7 @@ functions:
       STAGE: ${self:provider.stage}
 
 plugins:
+  - serverless-pseudo-parameters
   # Loads environment variables defined in .env.[--stage]
   - '@stellar-apps/serverless-dotenv'
   # Creates ACM certificates for the app domains

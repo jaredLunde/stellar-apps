@@ -1,12 +1,12 @@
 {
   "name": "@stellar-apps/create-static-react-app",
-  "version": "1.0.17",
+  "version": "1.0.19",
   "main": "index.js",
   "author": "Jared Lunde <jared@BeStellar.co> (https://BeStellar.co)",
   "license": "MIT",
   "dependencies": {
     "@inst-pkg/template-utils": "^1.0.5",
-    "@stellar-apps/create-react-app": "^1.0.11",
+    "@stellar-apps/create-react-app": "^1.0.59",
     "@stellar-apps/inst-utils": "^1.0.1"
   }
 }

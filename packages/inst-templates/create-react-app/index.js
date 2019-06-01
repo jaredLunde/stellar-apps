@@ -78,18 +78,17 @@ module.exports.prompts = (
 
 // package.json dependencies
 module.exports.dependencies = {
-  "@babel/runtime": "^7.4.4",
-  "@babel/runtime-corejs3": "^7.4.4",
+  "@babel/runtime": "^7.4.5",
+  "@babel/runtime-corejs3": "^7.4.5",
   "@stellar-apps/ssr": "^2.0.0",
-  "curls": "^3.0.10",
+  "curls": "^3.0.60",
   "invariant": "2.2.4",
-  "polished": "^2.3.1",
   "prop-types": "^15.6.2",
   "react": "^16.8.6",
   "react-dom": "^16.8.6",
   "react-broker": "^2.0.0",
-  "react-helmet-async": "^0.2.0",
-  "serverless-http": "^1.9.0",
+  "react-helmet-async": "^1.0.2",
+  "serverless-http": "^2.0.2",
 }
 
 // package.json dev dependencies
@@ -111,6 +110,7 @@ module.exports.devDependencies = {
   "imagemin-mozjpeg": "^8.0.0",
   "imagemin-optipng": "^6.0.0",
   "imagemin-webpack": "^4.1.0",
+  "polished": "^3.4.0",
   "raw-loader": "^1.0.0",
   "responsive-loader": "^1.2.0",
   "serverless": "^1.37.1",
@@ -118,6 +118,7 @@ module.exports.devDependencies = {
   "serverless-domain-manager": "^2.6.13",
   "serverless-plugin-lambda-warmup": "^1.0.1",
   "serverless-plugin-scripts": "^1.0.2",
+  "serverless-pseudo-parameters": "^2.4.0",
   "serverless-webpack": "^5.2.0",
   "sharp": "^0.22.1",
   "terser-webpack-plugin": "^1.2.2",

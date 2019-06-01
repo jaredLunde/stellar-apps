@@ -36,21 +36,29 @@
   dependencies:
     "@inst-pkg/template-utils" "^1.0.5"
 
-"@stellar-apps/create-react-router-app@^1.0.4":
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/@stellar-apps/create-react-router-app/-/create-react-router-app-1.0.4.tgz#f3694ec4d21202534e60503b8d013548c69e3b11"
-  integrity sha512-Fgeej2VygXUJNqpdNsN5Mq30nFMLRhiPln8Mm4IESvXkWz/oadq3hz3lsy1zkId0UYmjadhA0uABg3dgwQpFJA==
+"@stellar-apps/create-react-app@^1.0.59":
+  version "1.0.59"
+  resolved "https://registry.yarnpkg.com/@stellar-apps/create-react-app/-/create-react-app-1.0.59.tgz#cc15ddea9db8350be8ea6d47671644f74f47ffd8"
+  integrity sha512-Terw628fWEPuVGcp07ng+VgnAOSMOY91WiZwa8paJVhupfeOH9u05le/1348uIA4HyMWB2T9lS8FcjFnAZpF8w==
   dependencies:
     "@inst-pkg/template-utils" "^1.0.5"
-    "@stellar-apps/create-react-app" "^1.0.11"
 
-"@stellar-apps/create-static-react-app@^1.0.5":
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/@stellar-apps/create-static-react-app/-/create-static-react-app-1.0.5.tgz#91e0e5fe94e2999a63e507380155249961a24114"
-  integrity sha512-bR11T8cwfmyHcv9g61+KZTtY2y4x2NJLKSaO1rX4chfWFZT5qaw53N7PolHpqusKUy+y0TWCYtrOVHisIfYnPg==
+"@stellar-apps/create-react-router-app@^1.0.26":
+  version "1.0.26"
+  resolved "https://registry.yarnpkg.com/@stellar-apps/create-react-router-app/-/create-react-router-app-1.0.26.tgz#a32e95a3e67939f74b0d4ba41cab9fea6624c4c1"
+  integrity sha512-Jhhbtcp1N6sKE+vlcVTtqm7tPkeAJ8smSO4d+dy+/dJmXk/0XSjmJVBdYBRMxjH6hG1Wi8PEKmtE3rOThzYdWg==
   dependencies:
     "@inst-pkg/template-utils" "^1.0.5"
     "@stellar-apps/create-react-app" "^1.0.11"
+    "@stellar-apps/inst-utils" "^1.0.1"
+
+"@stellar-apps/create-static-react-app@^1.0.19":
+  version "1.0.19"
+  resolved "https://registry.yarnpkg.com/@stellar-apps/create-static-react-app/-/create-static-react-app-1.0.19.tgz#c55e3eb7d53684ef4f571bb8ffb4b263eec88048"
+  integrity sha512-7Y4lFYqQftNDcqXa9VKvNBY4i/U7ZNZdEwuS3A23e+4mdTUVq14WYp0PcXpfFy+AyBTEH3Cz4gqakUHf/BH4xQ==
+  dependencies:
+    "@inst-pkg/template-utils" "^1.0.5"
+    "@stellar-apps/create-react-app" "^1.0.59"
     "@stellar-apps/inst-utils" "^1.0.1"
 
 "@stellar-apps/inst-utils@^1.0.1":

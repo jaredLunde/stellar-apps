@@ -1,6 +1,6 @@
 import React from 'react'
 import {Provider as BrokerProvider} from 'react-broker'
-import Helmet, {HelmetProvider} from 'react-helmet-async'
+import {Helmet, HelmetProvider} from 'react-helmet-async'
 import {ThemeProvider, browserResets} from 'curls'
 import {Route, Switch} from 'react-router-dom'
 import {css, Global} from '@emotion/core'

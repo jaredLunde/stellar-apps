@@ -87,6 +87,7 @@ module.exports.devDependencies = {
   "serverless-offline": "^4.2.2",
   "serverless-plugin-lambda-warmup": "^1.0.1",
   "serverless-plugin-scripts": "^1.0.2",
+  "serverless-pseudo-parameters": "^2.4.0",
   "serverless-webpack": "^5.2.0",
   "terser-webpack-plugin": "^1.2.2",
   "webpack": "^4.29.0",

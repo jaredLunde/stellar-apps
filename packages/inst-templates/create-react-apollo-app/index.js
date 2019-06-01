@@ -61,16 +61,16 @@ module.exports.copy = async function ({PKG_DIR}) {
 module.exports.dependencies = {
   ...reactApp.dependencies,
   "@stellar-apps/apollo": "^2.0.1",
-  "apollo-boost": "^0.1.27",
-  "apollo-link-context": "^1.0.14",
+  "apollo-boost": "^0.4.0",
+  "apollo-link-context": "^1.0.17",
   "apollo-link-logger": "^1.2.3",
-  "graphql": "^14.1.1",
+  "graphql": "^14.3.1",
   "graphql-tag.macro": "^2.1.0",
   "js-cookie": "^2.2.0",
-  "node-fetch": "^2.3.0",
-  "react-apollo": "^2.4.1",
+  "node-fetch": "^2.6.0",
+  "react-apollo": "^2.5.6",
   "set-cookie-parser": "^2.3.5",
-  "unfetch": "^4.0.1"
+  "unfetch": "^4.1.0"
 }
 
 // package.json dev dependencies
