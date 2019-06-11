@@ -110,6 +110,7 @@ export function defaultRenderError ({res, req, err}) {
           <h1>Error <span>${res ? res.statusCode : 500} ${statusText}</span></h1>
           <code>${strErr.split('\n')[0]}</code>
           <pre>${strErr.split('\n').slice(1).join('\n')}</pre>
+          <pre>${err.stack}</pre>
         </div>
       </body>
     </html>

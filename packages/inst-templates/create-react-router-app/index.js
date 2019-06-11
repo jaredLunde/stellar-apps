@@ -16,7 +16,7 @@ module.exports.copy = async function ({PKG_DIR}) {
 module.exports.dependencies = {
   ...reactApp.dependencies,
   "resolve-url": "^0.2.1",
-  "react-router-dom": "^4.3.1",
+  "react-router-dom": "^5.0.0",
   "@jaredlunde/curls-addons": "^4.0.3",
   "@stellar-apps/min-height-hero": "^2.0.2"
 }
