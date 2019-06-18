@@ -13,7 +13,7 @@ const
 
 export let
   config = createEnvConfig(),
-  clear = () => { config = {} },
+  clear = () => { for (let key in config) delete config[key] },
   cache = {
     expires: null,
     items: new Set()
@@ -25,20 +25,21 @@ const maybeInvalidateCache = ttl => {
   if (cache.expires === null)
     cache.expires = now + ttl
   else if (now >= cache.expires) {
-    config = createEnvConfig()
+    clear()
+    Object.assign(config, createEnvConfig())
     cache.items.clear()
     cache.expires = now + ttl
   }
 }
 
 export const createConfig = async ({paths, relativeTo, profile, region = 'us-east-1'}) => {
-  if (paths.length > 0) {
+  if (paths && paths.length > 0) {
     let params = {region}
     if (profile)
       params.credentials = new aws.SharedIniFileCredentials({profile})
 
     const ssmConfig = await ssmToObject(new aws.SSM(params), paths, {relativeTo})
-    config = deepMerge(config, ssmConfig)
+    Object.assign(config, deepMerge(config, ssmConfig))
   }
 }
 
