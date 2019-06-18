@@ -62,6 +62,7 @@ module.exports.prompts = (
 module.exports.dependencies = {
   "@babel/runtime": "^7.4.0",
   "@babel/runtime-corejs3": "^7.4.0",
+  "@stellar-apps/express-config-middleware": "^1.0.1",
   "aws-sdk": "^2.382.0",
   "change-case": "^3.0.2",
   "cookie-parser": "^1.4.3",

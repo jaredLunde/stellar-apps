@@ -4,33 +4,32 @@ import {callIfExists} from '@render-props/utils'
 import {SpinnerButton} from '@stellar-apps/buttons'
 
 
-function defaultUpdater (mutateOptions) {
-  return mutateOptions
-}
+const defaultUpdater = mutateOptions => mutateOptions
 
-export default function MutationButton (
-  {
-    buttonType = SpinnerButton,
-    // mutation
-    mutation,
-    update,
-    prepareUpdate = defaultUpdater,
-    variables,
-    refetchQueries,
-    awaitRefetchQueries,
-    context,
-    preventDefault = true,
-    // events
-    onError,
-    onCompleted,
-    onClick,
-    // confirm
-    confirm,
-    // button props
-    ...props
-  }
-) {
-  return <Mutation
+export default React.forwardRef(
+  (
+    {
+      buttonType = SpinnerButton,
+      // mutation
+      mutation,
+      update,
+      prepareUpdate = defaultUpdater,
+      variables,
+      refetchQueries,
+      awaitRefetchQueries,
+      context,
+      preventDefault = true,
+      // events
+      onError,
+      onCompleted,
+      onClick,
+      // confirm
+      confirm,
+      // button props
+      ...props
+    },
+    ref
+  ) => <Mutation
     mutation={mutation}
     update={update}
     variables={variables}
@@ -45,8 +44,8 @@ export default function MutationButton (
           buttonType,
           {
             ref,
-            onClick: (...args) => {
-              if (typeof confirm !== 'function' || confirm(...args)) {
+            onClick: e => {
+              if (typeof confirm !== 'function' || confirm(variables)) {
                 preventDefault && e.preventDefault()
                 callIfExists(onClick, e)
                 mutate(prepareUpdate({variables}))
@@ -59,4 +58,4 @@ export default function MutationButton (
       }
     }
   />
-}
+)

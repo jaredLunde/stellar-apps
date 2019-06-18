@@ -1,4 +1,4 @@
-service: <: ROOT_NAME :>-<: PKG_NAME :>
+service: <:ROOT_NAME:>-<:PKG_NAME:>
 
 provider:
   name: aws
@@ -79,7 +79,6 @@ functions:
     # Function level environment variables
     environment:
       STAGE: ${self:provider.stage}
-      SSM_CONFIG: ${self:custom.ssmConfig}
     # Function specific tags
     tags:
       STAGE: ${self:provider.stage}
@@ -89,8 +88,6 @@ custom:
   domain: ${env:DOMAIN}
   # The hosted zone in Route 53 where the domain records reside
   hostedZone: ${env:SERVERLESS__HOSTED_ZONE, ""}
-  # Configuration path for SSM if using
-  ssmConfig: ${env:SERVERLESS__SSM_CONFIG_PATH}
   # Environment variables attached to each function
   dotenv:
     exclude:

@@ -15,10 +15,10 @@ module.exports.copy = async function ({PKG_DIR}) {
 // package.json dependencies
 module.exports.dependencies = {
   ...expressApi.dependencies,
-  "apollo-server": "^2.4.0",
-  "apollo-server-express": "^2.4.0",
-  "graphql": "^14.1.1",
-  "graphql-fields": "^2.0.1",
+  "apollo-server": "^2.6.3",
+  "apollo-server-express": "^2.6.3",
+  "graphql": "^14.3.1",
+  "graphql-fields": "^2.0.3",
 }
 
 // package.json dev dependencies
