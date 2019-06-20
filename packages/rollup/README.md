@@ -1,10 +1,10 @@
-# @stellar-apps/[packageName]
-[description]
+# @stellar-apps/rollup
+This is primarily used by me for building node AWS Lambda functions
 
 ## Installation
-`yarn add @stellar-apps/[packageName]`
+`yarn add @stellar-apps/rollup`
 
 ## Usage
 ```js
-import _ from '@stellar-apps/[packageName]'
+import createRollupConfig from '@stellar-apps/rollup'
 ```
