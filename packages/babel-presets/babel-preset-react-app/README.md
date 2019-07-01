@@ -46,7 +46,7 @@ A babel preset for configuring React web applications in Stellar apps.
     "modules": false
   },
   "runtime": {
-    corejs: 2
+    corejs: 3
   }
 }
 ```
