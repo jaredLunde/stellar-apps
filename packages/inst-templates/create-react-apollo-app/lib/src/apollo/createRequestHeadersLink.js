@@ -1,8 +1,8 @@
 import {setContext} from 'apollo-link-context'
 
 
-function forwardHeaders (req, ignore = []) {
-  if (req === void 0) return;
+const forwardHeaders = (req, acceptHeaders = []) => {
+  if (req === void 0) return
 
   const output = {
     // always forward IP
@@ -19,10 +19,8 @@ function forwardHeaders (req, ignore = []) {
 
   for (let name in req.headers) {
     name = name.toLowerCase()
-
-    if (ignore.indexOf(name) === -1) {
+    if (acceptHeaders.indexOf(name) > -1)
       output[name] = req.headers[name]
-    }
   }
 
   return output
@@ -30,16 +28,15 @@ function forwardHeaders (req, ignore = []) {
 
 
 export default ({req, assign, ignore}) => setContext(
-  async function (_, context) {
-    const currentHeaders = {...context.headers, ...(req && forwardHeaders(req, ignore))}
-
-    return {
-      ...context,
-      headers: typeof assign === 'function'
+  async (_, context) => {
+    const
+      currentHeaders = {...context.headers, ...(req && forwardHeaders(req, ignore))},
+      headers = typeof assign === 'function'
         ? await assign(currentHeaders)
         : assign && typeof assign === 'object'
           ? {...currentHeaders, assign}
           : currentHeaders
-    }
+
+    return {...context, headers}
   }
 )

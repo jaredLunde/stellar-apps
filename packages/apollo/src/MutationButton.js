@@ -26,6 +26,7 @@ export default React.forwardRef(
       // confirm
       confirm,
       // button props
+      children,
       ...props
     },
     ref
@@ -52,6 +53,10 @@ export default React.forwardRef(
               }
             },
             loading: buttonType === SpinnerButton ? mutationResult.loading : void 0,
+            children:
+              typeof children === 'function'
+                ? children(mutationResult)
+                : children,
             ...props
           }
         )

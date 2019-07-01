@@ -2,16 +2,14 @@ import Cookies from 'js-cookie'
 import cookieParser from 'set-cookie-parser'
 
 
-export default async function getCSRFHeaders (
-  {
-    res,
-    fetch,
-    uri,
-    cookie = '',
-    publicTokenName = 'csrf',
-    privateTokenName = '_csrf'
-  }
-) {
+export default async ({
+  res,
+  fetch,
+  uri,
+  cookie = '',
+  publicTokenName = 'csrf',
+  privateTokenName = '_csrf'
+}) => {
   let publicToken, privateToken
 
   if (typeof window !== 'undefined') {

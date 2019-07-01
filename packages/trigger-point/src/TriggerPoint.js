@@ -19,6 +19,7 @@ class TriggerPoint_ extends React.Component {
     onExitTop: PropTypes.func,
     onEnterBottom: PropTypes.func,
     onExitBottom: PropTypes.func,
+    initialIsIntersecting: PropTypes.bool
   }
 
   constructor (props) {
@@ -105,6 +106,7 @@ class TriggerPoint_ extends React.Component {
 export default function TriggerPoint (
   {
     root,
+    initialIsIntersecting,
     pollInterval,
     disableMutationObserver,
     rootMargin,
@@ -126,6 +128,7 @@ export default function TriggerPoint (
       disableMutationObserver={disableMutationObserver}
       rootMargin={rootMargin}
       thresholds={thresholds}
+      initialIsIntersecting={initialIsIntersecting}
     >
       {({isIntersecting, intersectionRef, intersectionRatio}) =>
         <TriggerPoint_

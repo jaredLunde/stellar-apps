@@ -1,0 +1,12 @@
+{
+  "name": "@stellar-apps/create-apollo-sql-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Jared Lunde <jared@BeStellar.co> (https://BeStellar.co)",
+  "license": "MIT",
+  "dependencies": {
+    "@inst-pkg/template-utils": "^1.0.5",
+    "@stellar-apps/create-apollo-api": "^1.0.5",
+    "@stellar-apps/inst-utils": "^1.0.1"
+  }
+}

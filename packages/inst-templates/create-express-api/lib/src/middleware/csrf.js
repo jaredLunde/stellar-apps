@@ -9,27 +9,23 @@ export const config = {
     key: '_csrf',
     secure: !process.env.STAGE || process.env.STAGE !== 'development',
     httpOnly: true,
-    domain: process.env.DOMAIN
+    domain: process.env.COOKIE_DOMAIN
   },
   value: req => req.headers['x-csrf-token']
 }
 
-export function verifyCSRFToken (req, res, next) {
-  if (__DEV__ === true && parseInt(req.headers['x-bypass-csrf']) === 1) {
+export const verifyCSRFToken = (req, res, next) => {
+  if (__DEV__ === true && parseInt(req.headers['x-bypass-csrf']) === 1)
     next()
-  }
-  else {
+  else
     csrf(config)(req, res, next)
-  }
 }
 
-export function setCSRFToken (req, res, next) {
-  if (__DEV__ === true && parseInt(req.headers['x-bypass-csrf']) === 1) {
+export const setCSRFToken = (req, res, next) => {
+  if (__DEV__ === true && parseInt(req.headers['x-bypass-csrf']) === 1)
     next()
-  }
-  else if (req.cookies[config.name] === void 0) {
+  else if (req.cookies[config.name] === void 0)
     res.cookie('csrf', req.csrfToken(), {...config.cookie, httpOnly: false})
-  }
 
   next()
 }

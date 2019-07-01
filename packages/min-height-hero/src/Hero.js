@@ -1,63 +1,46 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, {useRef, useState, useEffect} from 'react'
 import {Box} from 'curls'
-import {ViewportSize} from '@render-props/viewport'
+import {useWindowHeight} from '@react-hook/window-size'
 
 
-export default class Hero extends React.Component {
-  static propTypes = {
-    headerID: PropTypes.string,
-    footerID: PropTypes.string,
-    maxHeight: PropTypes.number
-  }
+export default React.forwardRef(
+  ({headerID = 'main-header', footerID = null, maxHeight = Infinity, ...props}, ref) => {
+    let
+      headerEl = useRef(headerID && typeof document !== 'undefined' && document.getElementById(headerID)),
+      footerEl = useRef(footerID && typeof document !== 'undefined' && document.getElementById(footerID)),
+      [didMount, setDidMount] = useState(false),
+      height = useWindowHeight(),
+      minH
 
-  static defaultProps = {
-    headerID: 'main-header',
-    footerID: null,
-    maxHeight: Infinity
-  }
+    useEffect(
+      () => {
+        setDidMount(true)
 
-  headerEl = null
-  footerEl = null
-  didMount = false
-
-  componentDidMount () {
-    this.forceUpdate()
-    this.didMount = true
-  }
-
-  getHeight = vh => {
-    if (!vh) {
-      return '100vh'
-    }
-
-    let subtract = this.headerEl ? this.headerEl.getBoundingClientRect().height : 0
-    subtract += this.footerEl ? this.footerEl.getBoundingClientRect().height : 0
-    return Math.min(vh - subtract, this.props.maxHeight)
-  }
-
-  render () {
-    let {headerID, footerID, maxHeight, innerRef, ...props} = this.props
-
-    if (typeof document !== 'undefined') {
-      this.headerEl = document.getElementById(headerID)
-      this.footerEl = document.getElementById(footerID)
-    }
-
-    return (
-      <ViewportSize>
-        {({height}) => (
-          <Box
-            key={`hero-${this.didMount}`}
-            flex
-            wrap
-            w='100%'
-            minH={this.getHeight(height)}
-            ref={innerRef}
-            {...props}
-          />
-        )}
-      </ViewportSize>
+        if (headerID)
+          headerEl.current = document.getElementById(headerID)
+        if (footerID)
+          footerEl.current = document.getElementById(footerID)
+      },
+      [headerID, footerID]
     )
+
+    if (!height)
+      minH = '100vh'
+    else {
+      let subtract = headerEl.current ? headerEl.current.getBoundingClientRect().height : 0
+      subtract += footerEl.current ? footerEl.current.getBoundingClientRect().height : 0
+      minH = Math.min(height - subtract, maxHeight)
+    }
+
+    return <Box
+      key={`hero-${didMount}`}
+      flex
+      wrap
+      w='100%'
+      minH={minH}
+      ref={ref}
+      {...props}
+    />
   }
-}
+
+)

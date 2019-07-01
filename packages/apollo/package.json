@@ -1,6 +1,6 @@
 {
   "name": "@stellar-apps/apollo",
-  "version": "2.0.7",
+  "version": "2.0.8",
   "main": "dist/cjs/index.js",
   "author": "Jared Lunde <jared@BeStellar.co> (https://BeStellar.co)",
   "license": "MIT",

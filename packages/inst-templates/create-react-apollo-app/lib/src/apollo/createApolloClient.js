@@ -3,8 +3,8 @@ import {InMemoryCache} from 'apollo-cache-inmemory'
 import {from as linkFrom} from 'apollo-link'
 
 
-export default function createApolloClient (...link) {
-  return new ApolloClient({
+export default (...link) =>
+  new ApolloClient({
     connectToDevTools: __CLIENT__ && process.env.STAGE !== 'production',
     ssrMode: __SERVER__,
     link: linkFrom(link),
@@ -12,4 +12,3 @@ export default function createApolloClient (...link) {
       typeof window === 'undefined' ? {} : window.__APOLLO_STATE__
     )
   })
-}

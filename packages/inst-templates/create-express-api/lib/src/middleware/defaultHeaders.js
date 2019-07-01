@@ -11,7 +11,7 @@ export const headers = {
   'Vary': 'Accept-Encoding'
 }
 
-export default function defaultHeaders (req, res, next) {
+export default (req, res, next) => {
   res.set(headers)
   next()
 }

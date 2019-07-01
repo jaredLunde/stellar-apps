@@ -4,7 +4,7 @@ import createRenderer, {
   withRobots,
   withCookies,
   pipe
-} from '@stellar-apps/ssr/createStreamRenderer'
+} from '@stellar-apps/ssr/createRenderer'
 import React from 'react'
 import ReactDOMServer from 'react-dom/server'
 import * as Broker from 'react-broker'
@@ -37,21 +37,19 @@ export const renderApp = ({clientStats}) => async function render (
   const helmetContext = {}
   // tracks redirections and status changes in the Router
   const routerContext = {}
-
+  console.log('[Apollo URI]', process.env.APOLLO_URI)
   // creates the Apollo client
   const apolloClient = createApolloClient(
     createRequestHeadersLink({
       req,
       assign: async currentHeaders => Object.assign(
         currentHeaders,
-        await getCsrfHeaders(
-          {
-            res,
-            fetch,
-            uri: process.env.APOLLO_CSRF_URI,
-            cookie: currentHeaders.cookie,
-          }
-        )
+        await getCsrfHeaders({
+          res,
+          fetch,
+          uri: process.env.APOLLO_CSRF_URI,
+          cookie: currentHeaders.cookie,
+        })
       )
     }),
     createResponseHeadersLink({res}),
@@ -66,7 +64,7 @@ export const renderApp = ({clientStats}) => async function render (
   )
   // preloads the async components from react-broker and waits for Apollo to execute
   // Queries and retrieve responses
-  await getMarkupFromTree({
+  const html = await getMarkupFromTree({
     tree: (
       <ApolloProvider client={apolloClient}>
         <StaticRouter location={req.url} context={routerContext}>
@@ -75,7 +73,7 @@ export const renderApp = ({clientStats}) => async function render (
       </ApolloProvider>
     ),
     context: {},
-    renderFunction: ReactDOMServer.renderToStaticMarkup
+    renderFunction: ReactDOMServer.renderToString
   })
   // sets the status from the router context to the response
   if (routerContext.status) {
@@ -89,51 +87,39 @@ export const renderApp = ({clientStats}) => async function render (
   // renders the Helmet attributes
   const {helmet} = helmetContext
   const chunks = chunkCache.getChunkScripts(clientStats, {preload: true})
-  res.write(`
+  return `
     <!DOCTYPE html>
     <html ${helmet.htmlAttributes}>
-      <head>
-        <!-- Preloads bundle scripts -->
-        ${chunks.preload}
-        <!-- Page Title -->
-        ${helmet.title}
-        <!-- Helmet meta -->
-        ${helmet.meta}
-        <!-- Helmet links -->
-        ${helmet.link}
-        <!-- Helmet styles -->
-        ${helmet.style}
-        <!-- Helmet scripts -->
-        ${helmet.script}
-        <!-- Initial Apollo state -->
-        <script>
-          window.__APOLLO_STATE__ = ${
-    JSON.stringify(apolloClient.extract()).replace(/</g, '\\\u003c')
-    }
-        </script>
-      </head>
-      <body ${helmet.bodyAttributes}>
-        <noscript>
-          <div style="font-family: sans-serif; padding: 2rem; text-align: center;">
-            Javascript must be enabled in order to view this website
-          </div>
-        </noscript>
-        <div id="⚛️">
-  `)
-  // renders the app as a stream for HTTP streaming and reducing TTFB on services that
-  // allow such things (not API Gateway as of this writing)
-  const stream = ReactDOMServer.renderToNodeStream(app)
-  stream.pipe(res, {end: false})
-  // when React finishes rendering this sends the rest of the closing tags to the browser
-  stream.on('end', () => {
-    res.end(`
+    <head>
+      <!-- Preloads bundle scripts -->
+      ${__STAGE__ === 'development' && !__DEV__ ? chunks.preload.replace(/\.js/g, '.js.br') : chunks.preload}
+      <!-- Page Title -->
+      ${helmet.title}
+      <!-- Helmet meta -->
+      ${helmet.meta}
+      <!-- Helmet links -->
+      ${helmet.link}
+      <!-- Helmet styles -->
+      ${helmet.style}
+      <!-- Helmet scripts -->
+      ${helmet.script}
+      <!-- Initial Apollo state -->
+      <script>
+        window.__APOLLO_STATE__ = ${JSON.stringify(apolloClient.extract()).replace(/</g, '\\u003c')}
+      </script>
+    </head>
+    <body ${helmet.bodyAttributes}>
+      <noscript>
+        <div style="font-family: sans-serif; padding: 2rem; text-align: center;">
+          Javascript must be enabled in order to view this website
         </div>
-        <!-- Bundle scripts -->
-        ${chunks.scripts}
-      </body>
+      </noscript>
+      <div id="⚛️">${html}</div>
+      <!-- Bundle scripts -->
+      ${__STAGE__ === 'development' && !__DEV__ ? chunks.scripts.replace(/\.js/g, '.js.br') : chunks.scripts}
+    </body>
     </html>
-    `)
-  })
+  `
 }
 
 // creates a middleware pipe for micro
