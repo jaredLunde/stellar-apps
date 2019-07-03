@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {A} from 'curls'
+import {Type} from 'curls'
 import BezierEasing from 'bezier-easing'
 import {callIfExists} from '@render-props/utils'
 import {ViewportScroll} from '@render-props/viewport'
@@ -8,7 +8,7 @@ import {ViewportScroll} from '@render-props/viewport'
 
 export class ScrollToLink_ extends React.PureComponent {
   static defaultProps = {
-    as: A,
+    as: props => <Type as='a' role='button' {...props}/>,
     duration: 400,
     timing: BezierEasing(0.4, 0, 0.2, 1)
   }

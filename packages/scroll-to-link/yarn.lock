@@ -840,6 +840,13 @@
   dependencies:
     regenerator-runtime "^0.13.2"
 
+"@babel/runtime@^7.4.5":
+  version "7.4.5"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.4.5.tgz#582bb531f5f9dc67d2fcb682979894f75e253f12"
+  integrity sha512-TuI4qpWZP6lGOGIuGWtp9sPluqYICmbk8T/1vpSysqJxRPkudh/ofFWyqdcMsDf2s7KvDL4/YHgKyvcS3g9CJQ==
+  dependencies:
+    regenerator-runtime "^0.13.2"
+
 "@babel/template@^7.1.0", "@babel/template@^7.2.2":
   version "7.2.2"
   resolved "https://registry.yarnpkg.com/@babel/template/-/template-7.2.2.tgz#005b3fdf0ed96e88041330379e0da9a708eb2907"
@@ -906,6 +913,35 @@
     lodash "^4.17.11"
     to-fast-properties "^2.0.0"
 
+"@essentials/are-equal@^1.0.0":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@essentials/are-equal/-/are-equal-1.0.1.tgz#7575b603d5c214fa81743d0e3fd1f037461c9218"
+  integrity sha512-3qzr3iVaUDw3sCe70A8MJfxA9BUrC6o5170oqhNckId40fPgUDRyPqbjPjcboZbPqCV3gUuQcCWR8+JP9Uissg==
+
+"@essentials/interpolate@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@essentials/interpolate/-/interpolate-1.0.0.tgz#798f2c8da2db645c2e5f48bf4da90d8dfd73289d"
+  integrity sha512-f3399BNEc5E58I1dFcC9/j4q5g89GnlYBFgSE9N+bY+AwB3NQFCLgSLdbNx2xYimeMPNy38He4SFP7S3CPdiRA==
+  dependencies:
+    performance-now "^2.1.0"
+    raf "^3.4.1"
+
+"@essentials/request-interval@^1.0.1":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@essentials/request-interval/-/request-interval-1.0.2.tgz#402fb3c7159d1b803dca556d69d83c1eae5b394c"
+  integrity sha512-U7VaGqYsFfLliGlDSCudCfsbf4nP8RDBPbXjUyt4UopMusF441Df06UeErWnaQcdVu9QzRtIVdalcAJpoLdAHA==
+  dependencies:
+    performance-now "^2.1.0"
+    raf "^3.4.1"
+
+"@essentials/request-timeout@^1.0.0":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@essentials/request-timeout/-/request-timeout-1.0.1.tgz#fd46f0d7ffdfc422229e5da7de89341fe434d1dd"
+  integrity sha512-31ronVRtN7bTKEwdMnh4/qvNT9pjHpKWt4HFTqNJAIbxeFlO2OLac1vSEH+c1deqkxK0h9wynMxmwRAmQinwwg==
+  dependencies:
+    performance-now "^2.1.0"
+    raf "^3.4.1"
+
 "@render-props/events@^0.1.12":
   version "0.1.12"
   resolved "https://registry.yarnpkg.com/@render-props/events/-/events-0.1.12.tgz#fc0a6babf2da6825fb4f7a17023d6a24ad25d607"
@@ -959,7 +995,7 @@
     "@babel/runtime" "^7.0.0"
     "@render-props/utils" "^0.2.0"
 
-"@render-props/utils@^0.2.0", "@render-props/utils@^0.2.1", "@render-props/utils@^0.2.9":
+"@render-props/utils@^0.2.0", "@render-props/utils@^0.2.1":
   version "0.2.9"
   resolved "https://registry.yarnpkg.com/@render-props/utils/-/utils-0.2.9.tgz#b5b58ee2aaf4bd8444329cadf70aa46b68690be6"
   integrity sha512-tMzS9YuZvxf975RYWEUYBk1oSVskLhvnVN3iTUqwCzKCTJSqrXbDONo4VDiBJyt6hX4fzlRLiEzJnEmFTn3XYA==
@@ -976,13 +1012,22 @@
     "@babel/runtime-corejs2" "^7.3.1"
     raf "^3.4.0"
 
-"@render-props/viewport@^0.3.0":
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/@render-props/viewport/-/viewport-0.3.0.tgz#2cebb0b971e7b1980fa9717753fbc52b75f7542b"
-  integrity sha512-uZ3OBRXJxM2Sj5kFYv7bn5jebqnJ3mOBseH3n/wLr5i0dXPI4THKVCvfDnJmB+EO1Fgxyrh4Lq+s1chIANeyAw==
+"@render-props/utils@^0.2.15":
+  version "0.2.15"
+  resolved "https://registry.yarnpkg.com/@render-props/utils/-/utils-0.2.15.tgz#c5aa11f6f09ad740881e7a91bd1f64e5dac693e3"
+  integrity sha512-PaZxTb/AQen5fZWwKKosl0fdJsh4n3ljDajwIIdLxVOnhd46m5lJnx2FK6E3UHrgfCTfHzLeftQE0vo7OKNqdg==
   dependencies:
-    "@babel/runtime" "^7.3.1"
-    "@babel/runtime-corejs2" "^7.3.1"
+    "@essentials/are-equal" "^1.0.0"
+    "@essentials/interpolate" "^1.0.0"
+    "@essentials/request-interval" "^1.0.1"
+    "@essentials/request-timeout" "^1.0.0"
+
+"@render-props/viewport@^0.3.1":
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/@render-props/viewport/-/viewport-0.3.1.tgz#09d4690298315a26d9ee634e7c509caa8c545a79"
+  integrity sha512-q3PTAvWWs2L/jQ9iyER8tc+0tpXnzjWTslDQCmL8eHrAcHAY+knX9qdVA0XIZYt7GA+meDJ9Hqvc+LlgMfDfnA==
+  dependencies:
+    "@babel/runtime" "^7.4.0"
     "@render-props/events" "^0.1.12"
     "@render-props/rect" "^0.1.21"
     "@render-props/scrollable" "^0.1.19"
@@ -2428,7 +2473,7 @@ pseudomap@^1.0.2:
   resolved "https://registry.yarnpkg.com/pseudomap/-/pseudomap-1.0.2.tgz#f052a28da70e618917ef0a8ac34c1ae5a68286b3"
   integrity sha1-8FKijacOYYkX7wqKw0wa5aaChrM=
 
-raf@^3.4.0:
+raf@^3.4.0, raf@^3.4.1:
   version "3.4.1"
   resolved "https://registry.yarnpkg.com/raf/-/raf-3.4.1.tgz#0742e99a4a6552f445d73e3ee0328af0ff1ede39"
   integrity sha512-Sq4CW4QhwOHE8ucn6J34MqtZCeWFP2aQSmrlroYgqAV1PjStIhJXxYuTgUIfkEk7zTLjmIjLmU5q+fbD1NnOJA==
