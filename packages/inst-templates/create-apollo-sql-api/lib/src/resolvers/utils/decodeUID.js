@@ -1,4 +1,4 @@
-import {columns} from 'gripe'
+import {column} from 'gripe'
 
 
 export default (...fields) => {
@@ -6,11 +6,9 @@ export default (...fields) => {
   return fn => (root, args, context, info) => {
     args = {...args}
 
-    for (let field of fields) {
-      if (args.hasOwnProperty(field)) {
-        args[field] = columns.uid.decode(args[field])
-      }
-    }
+    for (let field of fields)
+      if (args.hasOwnProperty(field))
+        args[field] = column.uid.decode(args[field])
 
     return fn(root, args, context, info)
   }
