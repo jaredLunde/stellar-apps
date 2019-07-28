@@ -10,8 +10,14 @@ export default function createStaticRenderer(
   // options for minify/beautify
   options = {}
 ) {
-  const minify = options.minify || defaultMinifyConfig
-  const beautify = options.beautify || defaultBeautifyConfig
+  const minify =
+    options.minify === true || options.minify === void 0 || options.minify == null
+      ? defaultMinifyConfig
+      : options.minify
+  const beautify =
+    options.beautify === true || options.beautify === void 0 || options.beautify == null
+      ? defaultBeautifyConfig
+      : options.beautify
 
   return async function handler (locals) {
     let html

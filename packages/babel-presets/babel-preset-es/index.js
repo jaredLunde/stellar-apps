@@ -1,5 +1,4 @@
-// v1.0.4 // 3/19/2019 //
-
+// v1.0.0 // 3/19/2019 //
 function req(plugin) {
   var module = require(plugin)
   return module.default || module

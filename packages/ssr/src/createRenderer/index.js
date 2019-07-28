@@ -153,15 +153,9 @@ export const defaultBeautifyConfig = {
 
 export const defaultMinifyConfig = {
   collapseWhitespace: true,
-  collapseBooleanAttributes: true,
-  // conservativeCollapse: true,
+  conservativeCollapse: true,
   removeComments: true,
-  removeEmptyAttributes: true,
-  removeRedundantAttributes: true,
   removeScriptTypeAttributes: true,
-  removeStyleLinkTypeAttributes: true,
-  sortAttributes: true,
-  sortClassName: true,
   quoteCharacter: `'`,
   minifyJS: false
 }
@@ -175,8 +169,14 @@ export default function createRenderer(
   // options for minify/beautify
   options = {}
 ) {
-  const minify = options.minify || defaultMinifyConfig
-  const beautify = options.beautify || defaultBeautifyConfig
+  const minify =
+    options.minify === true || options.minify === void 0 || options.minify == null
+      ? defaultMinifyConfig
+      : options.minify
+  const beautify =
+    options.beautify === true || options.beautify === void 0 || options.beautify == null
+      ? defaultBeautifyConfig
+      : options.beautify
 
   return async function handler (req, res) {
     // we will always be returning HTML from this server

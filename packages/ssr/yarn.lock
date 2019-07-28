@@ -835,10 +835,10 @@
     babel-plugin-macros "^2.5.0"
     cross-env "^5.2.0"
 
-"@stellar-apps/html-minifier@^3.5.23":
-  version "3.5.23"
-  resolved "https://registry.yarnpkg.com/@stellar-apps/html-minifier/-/html-minifier-3.5.23.tgz#376638a698018698b213344cc4fa8b65fa72c126"
-  integrity sha512-eNCQPd8Y2guhLAxk4/UbFbrifwRT0SeErf3b9yraj30Cpj9/Xak+66s1QSo67xnj3vDzy5OcJ9wSWz1fuMAisg==
+"@stellar-apps/html-minifier@^3.5.26":
+  version "3.5.26"
+  resolved "https://registry.yarnpkg.com/@stellar-apps/html-minifier/-/html-minifier-3.5.26.tgz#31d3a045dad74c247de43a89f06af82103f53877"
+  integrity sha512-WDhFegmouPVpI9ymvtmgZL0OJGhIK0yWRH57kCpbQo4WECaRZ+kGFLL7lXkLikk2x6AgI0dkLdeNX0EjlJKCfw==
   dependencies:
     camel-case "3.0.x"
     commander "2.17.x"
