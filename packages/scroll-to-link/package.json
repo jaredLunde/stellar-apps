@@ -1,6 +1,6 @@
 {
   "name": "@stellar-apps/scroll-to-link",
-  "version": "2.0.4",
+  "version": "3.0.0",
   "main": "dist/cjs/index.js",
   "author": "Jared Lunde <jared@BeStellar.co> (https://BeStellar.co)",
   "license": "MIT",
@@ -19,17 +19,18 @@
   },
   "devDependencies": {
     "@stellar-apps/babel-preset-es": "^1.0.4",
-    "@stellar-apps/babel-preset-react": "^1.0.1",
-    "prettier": "^1.15.3"
+    "@stellar-apps/babel-preset-react": "^1.0.3",
+    "prettier": "^1.18.2",
+    "rimraf": "^2.6.3"
   },
   "dependencies": {
-    "@babel/runtime": "^7.4.5",
+    "@babel/runtime": "^7.5.5",
     "@render-props/utils": "^0.2.15",
     "@render-props/viewport": "^0.3.1",
     "bezier-easing": "^2.1.0"
   },
   "peerDependencies": {
-    "curls": "^3.0.3",
+    "curls": "^4.0.0",
     "prop-types": "^15.6.0",
     "react": "^16.7.0"
   }

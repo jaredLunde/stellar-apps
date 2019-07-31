@@ -1,17 +1,17 @@
 import React from 'react'
 import {Helmet} from 'react-helmet-async'
-import {Hero, Type} from 'curls'
+import {Box, Text} from 'curls'
 
 
 const Home = props => (
-  <Hero bg='black'>
+  <Box bg='black' minH='100vh' w='100%'>
     <Helmet>
       <title><:PKG_NAME:></title>
     </Helmet>
-    <Type center ultraLight w='100%' d='block' color='white' size='xl@desktop lg@phone'>
+    <Text center ultraLight w='100%' d='block' color='white' size='xl@desktop lg@phone'>
       Hello world
-    </Type>
-  </Hero>
+    </Text>
+  </Box>
 )
 
 export default Home

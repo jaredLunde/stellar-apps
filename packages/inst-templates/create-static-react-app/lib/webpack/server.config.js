@@ -87,9 +87,17 @@ module.exports = createConfig(
       new IgnoreEmitPlugin(/\.(woff|woff2|ttf|eot|png|jpe?g|gif|ico|otf|mp4)$/),
       new webpack.optimize.LimitChunkCountPlugin({maxChunks: 1}),
       new webpack.DefinePlugin({
+        process: {
+          cwd: function () {},
+          env: {
+            NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+            STAGE: JSON.stringify(process.env.STAGE)
+          }
+        },
         __DEV__: JSON.stringify(isDev),
         __SERVER__: JSON.stringify(true),
         __CLIENT__: JSON.stringify(false),
+        __STAGE__: JSON.stringify(stage)
       })
     ]
   },

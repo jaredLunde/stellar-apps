@@ -1,13 +1,13 @@
 import React from 'react'
-import {NavBar, Type} from 'curls'
+import {Box, Text} from 'curls'
 
 
 const Header = props => (
-  <NavBar justify='center' bg='darkestGrey'>
-    <Type light p='3' color='white' size='md'>
+  <Box flex w='100%' justify='center' bg='darkestGrey'>
+    <Text light p='3' color='white' size='md'>
       <:PKG_NAME:>
-    </Type>
-  </NavBar>
+    </Text>
+  </Box>
 )
 
 export default Header

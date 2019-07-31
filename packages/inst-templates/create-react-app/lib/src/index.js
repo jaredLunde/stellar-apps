@@ -1,13 +1,13 @@
 import React from 'react'
 import {Provider as BrokerProvider} from 'react-broker'
 import {Helmet, HelmetProvider} from 'react-helmet-async'
-import {ThemeProvider, browserResets} from 'curls'
-import {css, Global} from '@emotion/core'
+import {css, ThemeProvider, browserResets, prettyText, containmentAttrs} from 'curls'
 import theme from '~/theme'
 import {Home} from '~/pages'
 import {Header, Footer} from '~/ui'
 
 
+const globalStyles = [browserResets, prettyText, containmentAttrs]
 const Document = () => (
   <>
     <Helmet>
@@ -28,8 +28,6 @@ const Document = () => (
       <link rel="dns-prefetch preconnect" href={process.env.PUBLIC_PATH} crossOrigin/>}
     </Helmet>
 
-    <Global styles={browserResets}/>
-
     <Header/>
     <Home/>
     <Footer/>
@@ -38,9 +36,9 @@ const Document = () => (
   </>
 )
 
-export default ({helmetContext = {}, chunkCache, device}) => (
+export default ({helmetContext = {}, chunkCache}) => (
   <HelmetProvider context={helmetContext}>
-    <ThemeProvider theme={{locals: {device}, ...theme}}>
+    <ThemeProvider theme={theme} globalStyles={globalStyles}>
       <BrokerProvider chunkCache={chunkCache}>
         <Document/>
       </BrokerProvider>

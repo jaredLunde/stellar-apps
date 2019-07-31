@@ -1,14 +1,14 @@
 import React from 'react'
 import {Provider as BrokerProvider} from 'react-broker'
 import {Helmet, HelmetProvider} from 'react-helmet-async'
-import {ThemeProvider, browserResets} from 'curls'
+import {css, ThemeProvider, browserResets, prettyText, containmentAttrs} from 'curls'
 import {Route, Switch} from 'react-router-dom'
-import {css, Global} from '@emotion/core'
 import theme from '~/theme'
 import {Header, Footer} from '~/ui'
 import * as pages from '~/pages'
 
 
+const globalStyles = [browserResets, prettyText, containmentAttrs]
 const Document = ({location}) => (
   <>
     <Helmet>
@@ -29,27 +29,22 @@ const Document = ({location}) => (
       <link rel="dns-prefetch preconnect" href={process.env.PUBLIC_PATH} crossOrigin/>}
     </Helmet>
 
-    <Global styles={browserResets}/>
     <Header/>
-
     <Switch location={location}>
       {Object.values(pages)}
     </Switch>
-
     <Footer/>
+
     <div id='portals'/>
   </>
 )
 
-export default ({helmetContext = {}, chunkCache, device}) => (
+export default ({helmetContext = {}, chunkCache}) => (
   <HelmetProvider context={helmetContext}>
-    <ThemeProvider theme={{locals: {device}, ...theme}}>
+    <ThemeProvider theme={theme} globalStyles={globalStyles}>
       <BrokerProvider chunkCache={chunkCache}>
         <Route children={({location}) => {
-          if (typeof window !== 'undefined') {
-            window.scrollTo(0, 0)
-          }
-
+          if (typeof window !== 'undefined') window.scrollTo(0, 0)
           return <Document location={location}/>
         }}/>
       </BrokerProvider>

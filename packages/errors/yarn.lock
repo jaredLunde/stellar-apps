@@ -811,25 +811,10 @@
     "@babel/plugin-transform-react-jsx-self" "^7.0.0"
     "@babel/plugin-transform-react-jsx-source" "^7.0.0"
 
-"@babel/runtime-corejs2@^7.2.0":
-  version "7.2.0"
-  resolved "https://registry.yarnpkg.com/@babel/runtime-corejs2/-/runtime-corejs2-7.2.0.tgz#5ccd722b72d2c18c6a7224b5751f4b9816b60ada"
-  integrity sha512-kPfmKoRI8Hpo5ZJGACWyrc9Eq1j3ZIUpUAQT2yH045OuYpccFJ9kYA/eErwzOM2jeBG1sC8XX1nl1EArtuM8tg==
-  dependencies:
-    core-js "^2.5.7"
-    regenerator-runtime "^0.12.0"
-
-"@babel/runtime@^7.0.0":
-  version "7.2.0"
-  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.2.0.tgz#b03e42eeddf5898e00646e4c840fa07ba8dcad7f"
-  integrity sha512-oouEibCbHMVdZSDlJBO6bZmID/zA/G/Qx3H1d3rSNPTD+L8UNKvCat7aKWSJ74zYbm5zWGh0GQN0hKj8zYFTCg==
-  dependencies:
-    regenerator-runtime "^0.12.0"
-
-"@babel/runtime@^7.4.0":
-  version "7.4.0"
-  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.4.0.tgz#d523416573f19aa12784639e631257c7fc58c0aa"
-  integrity sha512-/eftZ45kD0OfOFHAmN02WP6N1NVphY+lBf8c2Q/P9VW3tj+N5NlBBAWfqOLOl96YDGMqpIBO5O/hQNx4A/lAng==
+"@babel/runtime@^7.4.4", "@babel/runtime@^7.5.5":
+  version "7.5.5"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.5.5.tgz#74fba56d35efbeca444091c7850ccd494fd2f132"
+  integrity sha512-28QvEGyQyNkB0/m2B4FU7IEZGK2NUrcMtT6BZEFALTguLk+AUT6ofsHtPk5QyjAdUkpMJ+/Em+quwz4HOt30AQ==
   dependencies:
     regenerator-runtime "^0.13.2"
 
@@ -899,96 +884,79 @@
     lodash "^4.17.11"
     to-fast-properties "^2.0.0"
 
-"@jaredlunde/curls-addons@^3.0.1":
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/@jaredlunde/curls-addons/-/curls-addons-3.0.1.tgz#6c95f7b078265666b20f30d61f5600a38704c8ba"
-  integrity sha512-LWmvjzLPnCWNLs5soZDPAmE5WRb+pmuCqw++HCZD4E0lXM68otJPCBBTL+gLwwVQ6gBvtvuEeXES0JBlUIuh0w==
+"@essentials/are-equal@^1.0.0":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@essentials/are-equal/-/are-equal-1.0.1.tgz#7575b603d5c214fa81743d0e3fd1f037461c9218"
+  integrity sha512-3qzr3iVaUDw3sCe70A8MJfxA9BUrC6o5170oqhNckId40fPgUDRyPqbjPjcboZbPqCV3gUuQcCWR8+JP9Uissg==
+
+"@essentials/interpolate@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@essentials/interpolate/-/interpolate-1.0.0.tgz#798f2c8da2db645c2e5f48bf4da90d8dfd73289d"
+  integrity sha512-f3399BNEc5E58I1dFcC9/j4q5g89GnlYBFgSE9N+bY+AwB3NQFCLgSLdbNx2xYimeMPNy38He4SFP7S3CPdiRA==
   dependencies:
-    "@babel/runtime-corejs2" "^7.2.0"
-    "@jaredlunde/react-delayed" "^1.0.5"
-    "@render-props/toggle" "^0.1.28"
-    "@render-props/utils" "^0.2.5"
-    "@render-props/viewport" "^0.2.15"
-    change-case "^3.0.2"
+    performance-now "^2.1.0"
+    raf "^3.4.1"
+
+"@essentials/request-interval@^1.0.1":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@essentials/request-interval/-/request-interval-1.0.2.tgz#402fb3c7159d1b803dca556d69d83c1eae5b394c"
+  integrity sha512-U7VaGqYsFfLliGlDSCudCfsbf4nP8RDBPbXjUyt4UopMusF441Df06UeErWnaQcdVu9QzRtIVdalcAJpoLdAHA==
+  dependencies:
+    performance-now "^2.1.0"
+    raf "^3.4.1"
+
+"@essentials/request-timeout@^1.0.0", "@essentials/request-timeout@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@essentials/request-timeout/-/request-timeout-1.0.1.tgz#fd46f0d7ffdfc422229e5da7de89341fe434d1dd"
+  integrity sha512-31ronVRtN7bTKEwdMnh4/qvNT9pjHpKWt4HFTqNJAIbxeFlO2OLac1vSEH+c1deqkxK0h9wynMxmwRAmQinwwg==
+  dependencies:
+    performance-now "^2.1.0"
+    raf "^3.4.1"
+
+"@jaredlunde/curls-addons@^5.0.0":
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/@jaredlunde/curls-addons/-/curls-addons-5.0.1.tgz#dd0a485b182bb473a26c1ce123ef6d2817374cdb"
+  integrity sha512-v+tdF3iNrWz12p5ahUzc3rcsiO8BgrZHFuOzQGlm5G90B12sPBpNP/gyp5gr5qKSQRYuMHvuokXQesE3Gr2LEg==
+  dependencies:
+    "@babel/runtime" "^7.4.4"
+    "@essentials/request-timeout" "^1.0.1"
+    "@jaredlunde/react-delayed" "^1.0.9"
+    "@react-hook/window-scroll" "^1.0.0"
+    change-case "^3.1.0"
+    empty "^0.10.1"
+    trie-memoize "^1.0.7"
+
+"@jaredlunde/react-delayed@^1.0.9":
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/@jaredlunde/react-delayed/-/react-delayed-1.0.9.tgz#1d264969ab7ec5f4d53d0bf4fc4c6cba0ebf3d40"
+  integrity sha512-ylFZNJ/DwFk4WKG0+MZXXeuX37zlBxDlLr79NX7uO2/3UZBSBtKLFYMftnNf2QLkx68V+lutXmAeYw2lJ7Zn7g==
+  dependencies:
+    "@render-props/utils" "^0.2.13"
+
+"@react-hook/throttle@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@react-hook/throttle/-/throttle-1.0.0.tgz#4f923279357ed0977b4ef004b62a4a01b16327c5"
+  integrity sha512-xmDDBg4BkRe74hkKSPWval0negM81ulmCr0SbnMb/Xgkuro9t8JejX4Up3RLMNXcAJ4Jvd5+BLsKjHn4YjSKuQ==
+  dependencies:
+    "@essentials/request-timeout" "^1.0.0"
+
+"@react-hook/window-scroll@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@react-hook/window-scroll/-/window-scroll-1.0.0.tgz#b2b91edc1b045c0725e631c7b1e805f2f82b4792"
+  integrity sha512-0MGj66Eo8dm6AsypDcLt/Wws0nw9JE8RkTYmQBwPmYInOVxrWlhsc40gtksyQ4K/JUyyklJ4Y/+6cC/+9PXfhg==
+  dependencies:
+    "@react-hook/throttle" "^1.0.0"
     empty "^0.10.1"
 
-"@jaredlunde/react-delayed@^1.0.5":
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/@jaredlunde/react-delayed/-/react-delayed-1.0.6.tgz#8514f1448924f650b16562387a21246f85c56c9d"
-  integrity sha512-gjGTq5UD7fzAG0RSZ5GpsjjLFgqmuh4v4+hd7CLffCwqJlI/f0NIPuwv91J+KuD1d5erqqNiP+tY+Oq6/8nAFQ==
-  dependencies:
-    "@babel/runtime" "^7.0.0"
-    "@render-props/utils" "^0.2.5"
-
-"@render-props/events@^0.1.2":
-  version "0.1.10"
-  resolved "https://registry.yarnpkg.com/@render-props/events/-/events-0.1.10.tgz#f94b64be7b85b727a49a71650af5fb2beb45c439"
-  integrity sha512-d0P6IzvrwgN28Yf1/YAWNX6tXvX3I/HFLEMY1cgT/Q6ZmpjOCOqWKldCZeshLu9043pQ+nX+U38T+lQBdqaOQw==
-  dependencies:
-    "@babel/runtime" "^7.0.0"
-
-"@render-props/rect@^0.1.11":
-  version "0.1.19"
-  resolved "https://registry.yarnpkg.com/@render-props/rect/-/rect-0.1.19.tgz#a6eb4acde765b302f3d2683b7f73a3d57ed6fa22"
-  integrity sha512-nAE+aNaSCnVDHte1hpywgthgi4lmve8+xjm1Xqf4vsn3OwdBTVrsdy+R1ewDE/OWDnlEadtEiUD7qpEP3jsBBw==
-  dependencies:
-    "@babel/runtime" "^7.0.0"
-    "@render-props/events" "^0.1.2"
-    "@render-props/throttle" "^0.1.5"
-
-"@render-props/scrollable@^0.1.11":
-  version "0.1.17"
-  resolved "https://registry.yarnpkg.com/@render-props/scrollable/-/scrollable-0.1.17.tgz#db84f53ed1de93012325b9a7cec40e08f112a437"
-  integrity sha512-e32I/X0+dWyAKvCuGeqV5wWndTLqgex+unwGm/ADXF9/ZMQuFFvPGZslIxiA2PXbtQjrsxW8bcFce2p1+jg5Ig==
-  dependencies:
-    "@babel/runtime" "^7.0.0"
-    "@render-props/events" "^0.1.2"
-    "@render-props/throttle" "^0.1.5"
-    "@render-props/utils" "^0.2.1"
-
-"@render-props/throttle@^0.1.5":
-  version "0.1.13"
-  resolved "https://registry.yarnpkg.com/@render-props/throttle/-/throttle-0.1.13.tgz#bceed9b9eecc581b1c21bf358d36155d141a3534"
-  integrity sha512-dsXaqTOM9vTxonotsa07/1rqqexuDLGmlgKy+IHTo0uW7BC8Z/qK2Jy7tEBXaEoh/WA4zB3pZ+YWeYEAW5PQEA==
-  dependencies:
-    "@babel/runtime" "^7.0.0"
-    "@render-props/utils" "^0.2.0"
-
-"@render-props/toggle@^0.1.28":
-  version "0.1.28"
-  resolved "https://registry.yarnpkg.com/@render-props/toggle/-/toggle-0.1.28.tgz#fb535d6dddd2b76a6be87ae63cba935b0f756752"
-  integrity sha512-KHp8JdFir9sNAKTlvdOWNlwNV4v3dswTUd9FU6/LJWGRDs75dhE+8BTxiKIy8mh4pUFPSlVt2T5/+L1wsjWI/w==
-  dependencies:
-    "@babel/runtime-corejs2" "^7.2.0"
-    "@render-props/value" "^0.1.17"
-
-"@render-props/utils@^0.2.0", "@render-props/utils@^0.2.1", "@render-props/utils@^0.2.5":
-  version "0.2.9"
-  resolved "https://registry.yarnpkg.com/@render-props/utils/-/utils-0.2.9.tgz#b5b58ee2aaf4bd8444329cadf70aa46b68690be6"
-  integrity sha512-tMzS9YuZvxf975RYWEUYBk1oSVskLhvnVN3iTUqwCzKCTJSqrXbDONo4VDiBJyt6hX4fzlRLiEzJnEmFTn3XYA==
-  dependencies:
-    "@babel/runtime" "^7.0.0"
-    raf "^3.4.0"
-
-"@render-props/value@^0.1.17":
-  version "0.1.25"
-  resolved "https://registry.yarnpkg.com/@render-props/value/-/value-0.1.25.tgz#66d02ef196f7dacf08292fb292ac07f23c084ff7"
-  integrity sha512-WSVzw53FQwnUnsDbn0g92cUUEtGU7PLm4m9YvS0/Klhsz2X5pxzhfc7EuuKdhLjLQKNIT5jBcEbBlLWgGEBp0w==
-  dependencies:
-    "@babel/runtime" "^7.0.0"
-    "@render-props/utils" "^0.2.1"
-
-"@render-props/viewport@^0.2.15":
+"@render-props/utils@^0.2.13":
   version "0.2.15"
-  resolved "https://registry.yarnpkg.com/@render-props/viewport/-/viewport-0.2.15.tgz#418faf90b4c91319a851cba1a6c88cc2e121fd86"
-  integrity sha512-PfTA04kYfzxCWaWk1CrTj9OZZzSjfYiTTjAyJNM+KglE/LAUy2pqmFYzTmi822tznhfT2R6W5SqRXBIJxYt0nQ==
+  resolved "https://registry.yarnpkg.com/@render-props/utils/-/utils-0.2.15.tgz#c5aa11f6f09ad740881e7a91bd1f64e5dac693e3"
+  integrity sha512-PaZxTb/AQen5fZWwKKosl0fdJsh4n3ljDajwIIdLxVOnhd46m5lJnx2FK6E3UHrgfCTfHzLeftQE0vo7OKNqdg==
   dependencies:
-    "@babel/runtime-corejs2" "^7.2.0"
-    "@render-props/events" "^0.1.2"
-    "@render-props/rect" "^0.1.11"
-    "@render-props/scrollable" "^0.1.11"
-    "@render-props/throttle" "^0.1.5"
-    "@render-props/utils" "^0.2.1"
+    "@essentials/are-equal" "^1.0.0"
+    "@essentials/interpolate" "^1.0.0"
+    "@essentials/request-interval" "^1.0.1"
+    "@essentials/request-timeout" "^1.0.0"
 
 "@stellar-apps/babel-preset-es@^1.0.4":
   version "1.0.4"
@@ -1014,10 +982,10 @@
     babel-plugin-macros "^2.5.0"
     cross-env "^5.2.0"
 
-"@stellar-apps/babel-preset-react@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@stellar-apps/babel-preset-react/-/babel-preset-react-1.0.1.tgz#52e2a423585448d1504e717672b97bf650dc08c1"
-  integrity sha512-22dze13r0dcl1kqPhc3RQpKxYqiRfk9NEUBPiYyCVKd/WVLJEpiZS+p5xDnhfOnxr0BHnWDRkrk6Pgmv0HoQMQ==
+"@stellar-apps/babel-preset-react@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@stellar-apps/babel-preset-react/-/babel-preset-react-1.0.3.tgz#f76946a8efb548242484866042444ab9e32d973c"
+  integrity sha512-5B4shlmXCxJ/dLYSZ/xIKhhCn+gDoIB8PliVtLh19UuHEKGW/n5dDQ+ctDjiklgSZ5bTVpsyDvrHl2vW8RU6yQ==
   dependencies:
     "@babel/plugin-transform-react-constant-elements" "^7.2.0"
     "@babel/preset-react" "^7.0.0"
@@ -1281,10 +1249,10 @@ chalk@^2.0.0:
     escape-string-regexp "^1.0.5"
     supports-color "^5.3.0"
 
-change-case@^3.0.2:
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/change-case/-/change-case-3.0.2.tgz#fd48746cce02f03f0a672577d1d3a8dc2eceb037"
-  integrity sha512-Mww+SLF6MZ0U6kdg11algyKd5BARbyM4TbFBepwowYSR5ClfQGCGtxNXgykpN0uF/bstWeaGDT4JWaDh8zWAHA==
+change-case@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/change-case/-/change-case-3.1.0.tgz#0e611b7edc9952df2e8513b27b42de72647dd17e"
+  integrity sha512-2AZp7uJZbYEzRPsFoa+ijKdvp9zsrnnt6+yFokfwEpeJm0xuJDVoxiRCAaTzyJND8GJkofo2IcKWaUZ/OECVzw==
   dependencies:
     camel-case "^3.0.0"
     constant-case "^2.0.0"
@@ -1463,11 +1431,6 @@ core-js@3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.0.0.tgz#a8dbfa978d29bfc263bfb66c556d0ca924c28957"
   integrity sha512-WBmxlgH2122EzEJ6GH8o9L/FeoUKxxxZ6q6VUxoTlsE4EvbTWKJb447eyVxTEuq0LpXjlq/kCB2qgBvsYRkLvQ==
-
-core-js@^2.5.7:
-  version "2.6.1"
-  resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.1.tgz#87416ae817de957a3f249b3b5ca475d4aaed6042"
-  integrity sha512-L72mmmEayPJBejKIWe2pYtGis5r0tQ5NaJekdhyXgeMQTpJoBsH0NL4ElY2LfSoV15xeQWKQ+XTTOZdyero5Xg==
 
 core-util-is@~1.0.0:
   version "1.0.2"
@@ -2614,10 +2577,10 @@ posix-character-classes@^0.1.0:
   resolved "https://registry.yarnpkg.com/posix-character-classes/-/posix-character-classes-0.1.1.tgz#01eac0fe3b5af71a2a6c02feabb8c1fef7e00eab"
   integrity sha1-AerA/jta9xoqbAL+q7jB/vfgDqs=
 
-prettier@^1.15.3:
-  version "1.15.3"
-  resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.15.3.tgz#1feaac5bdd181237b54dbe65d874e02a1472786a"
-  integrity sha512-gAU9AGAPMaKb3NNSUUuhhFAS7SCO4ALTN4nRIn6PJ075Qd28Yn2Ig2ahEJWdJwJmlEBTUfC7mMUSFy8MwsOCfg==
+prettier@^1.18.2:
+  version "1.18.2"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.18.2.tgz#6823e7c5900017b4bd3acf46fe9ac4b4d7bda9ea"
+  integrity sha512-OeHeMc0JhFE9idD4ZdtNibzY0+TPHSpSSb9h8FqtP+YnoZZ1sl8Vc9b1sasjfymH3SonAF4QcA2+mzHPhMvIiw==
 
 private@^0.1.6, private@~0.1.5:
   version "0.1.8"
@@ -2639,7 +2602,7 @@ q@^1.1.2:
   resolved "https://registry.yarnpkg.com/q/-/q-1.5.1.tgz#7e32f75b41381291d04611f1bf14109ac00651d7"
   integrity sha1-fjL3W0E4EpHQRhHxvxQQmsAGUdc=
 
-raf@^3.4.0:
+raf@^3.4.1:
   version "3.4.1"
   resolved "https://registry.yarnpkg.com/raf/-/raf-3.4.1.tgz#0742e99a4a6552f445d73e3ee0328af0ff1ede39"
   integrity sha512-Sq4CW4QhwOHE8ucn6J34MqtZCeWFP2aQSmrlroYgqAV1PjStIhJXxYuTgUIfkEk7zTLjmIjLmU5q+fbD1NnOJA==
@@ -2706,11 +2669,6 @@ regenerate@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/regenerate/-/regenerate-1.4.0.tgz#4a856ec4b56e4077c557589cae85e7a4c8869a11"
   integrity sha512-1G6jJVDWrt0rK99kBjvEtziZNCICAuvIPkSiUFIQxVP06RCVpq3dmDo2oi6ABpYaDYaTRr67BEhL8r1wgEZZKg==
-
-regenerator-runtime@^0.12.0:
-  version "0.12.1"
-  resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.12.1.tgz#fa1a71544764c036f8c49b13a08b2594c9f8a0de"
-  integrity sha512-odxIc1/vDlo4iZcfXqRYFj0vpXFNoGdKMAUieAlFYO6m/nl5e9KR/beGf41z4a1FI+aQgtjhuaSlDxQ0hmkrHg==
 
 regenerator-runtime@^0.13.2:
   version "0.13.2"
@@ -2824,7 +2782,7 @@ ret@~0.1.10:
   resolved "https://registry.yarnpkg.com/ret/-/ret-0.1.15.tgz#b8a4825d5bdb1fc3f6f53c2bc33f81388681c7bc"
   integrity sha512-TTlYpa+OL+vMMNG24xSlQGEJ3B/RzEfUlLct7b5G/ytav+wPrplCpVMFuwzXbkecJrb6IYo1iFb0S9v37754mg==
 
-rimraf@^2.6.1:
+rimraf@^2.6.1, rimraf@^2.6.3:
   version "2.6.3"
   resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-2.6.3.tgz#b2d104fe0d8fb27cf9e0a1cda8262dd3833c6cab"
   integrity sha512-mwqeW5XsA2qAejG46gYdENaxXjx9onRNCfn7L0duuP4hCuTIi/QO7PDK07KJfp1d+izWPrzEJDcSqBa0OZQriA==
@@ -3116,6 +3074,13 @@ to-regex@^3.0.1, to-regex@^3.0.2:
     extend-shallow "^3.0.2"
     regex-not "^1.0.2"
     safe-regex "^1.1.0"
+
+trie-memoize@^1.0.7:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/trie-memoize/-/trie-memoize-1.0.8.tgz#090ca1d5e26aea1173e29360c14155d738f46dc8"
+  integrity sha512-WCEQX3alm/JZw0Ok/q23e4WSY4OnJe1pORugCTs5lKZnNtQcTZLca4AjbHJ+siE9v51aGdJ61l7tWfVGD8AC8Q==
+  dependencies:
+    is-plain-object "^2.0.4"
 
 trim-right@^1.0.1:
   version "1.0.1"

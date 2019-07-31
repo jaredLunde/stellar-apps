@@ -4,13 +4,13 @@ import * as Broker from 'react-broker'
 import createStaticRenderer from '@stellar-apps/ssr/createStaticRenderer'
 import App from './index'
 
+
 if (process.env.STAGE === 'production') {
   require('./robots.txt')
 }
 else {
   require('./robots.disallow.txt')
 }
-
 
 async function render (locals) {
   if (process.env.STAGE !== 'development') {

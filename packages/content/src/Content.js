@@ -1,6 +1,4 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import {css, useStyles, createElement, useBox, memoThemeValue} from 'curls'
+import {css, useStyles, createComponent, useBox, memoThemeValue} from 'curls'
 
 const
   defaultStyles = css`
@@ -8,36 +6,22 @@ const
     margin-left: auto;
     margin-right: auto;
   `,
-  defaultTheme = {
-    width: 1360,
-    slimWidth: null
-  },
   options = {
     name: 'content',
     styles: {
-      __base: memoThemeValue((val, theme) => css`max-width: ${theme.width}px;`),
+      __content_defaults: memoThemeValue((val, theme) => css`max-width: ${theme?.content?.width || 1360}px;`),
       slim: memoThemeValue((val, theme) => val === true && (
-        css`max-width: ${theme.slimWidth || theme.width * 0.61803398875}px;`
+        css`max-width: ${theme?.content?.slimWidth || (theme?.content?.width || 1360) * 0.61803398875}px;`
       ))
-    },
-    defaultStyles,
-    defaultTheme
+    }
   }
 
-const
-  useContent = props => useStyles(Object.assign({__base: true}, props), options),
-  Content = React.forwardRef(
-  (props, ref) => {
-    props = useBox(useContent(props))
-    props.ref = ref
-    return createElement('div', props)
-  }
-)
+export const
+  useContent = props => useStyles(options, Object.assign({__content_defaults: true}, props)),
+  Content = createComponent('div', props => useBox(useContent(props)), defaultStyles)
 
 if (__DEV__) {
+  const PropTypes = require('prop-types')
   Content.displayName = 'Content'
   Content.propTypes = {slim: PropTypes.bool}
 }
-
-export {useContent}
-export default Content

@@ -1,13 +1,8 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import {css, Button, createComponent, colorize} from 'curls'
+import {css, useStyles, Button, createComponent, colorize} from 'curls'
 
 
-const defaultTheme = {
-  defaultProps: {
-    color: 'primary',
-  },
-  getLine: n => css`
+const defaultLine = n => css`
     width: 18px;
     height: 2px;
     min-height: 2px;
@@ -17,33 +12,23 @@ const defaultTheme = {
     position: relative;
     contain: strict;
   `
-}
 
-const Line = createComponent({
-  name: 'hamburger',
-  styles: {
-    lineNo: (n, theme) => theme.getLine(n, theme),
-    color: (val, theme) => val && colorize('background-color', val, theme)
+const
+  options = {
+    name: 'hamburger',
+    styles: {
+      lineNo: (n, theme) => (theme.hamburger.getLine || defaultLine)(n, theme),
+      color: (val, theme) => val && colorize('background-color', val, theme)
+    }
   },
-  defaultTheme
-})
+  useLine = props => useStyles(options, props),
+  Line = createComponent('span', useLine)
 
-export default function createHamburger (
-  {
-    numLines = 3,
-    closeButton,
-    color,
-    ref,
-    ...props
-  }
-) {
+export default function createHamburger ({numLines = 3, closeButton, color, ref, ...props}) {
   const lines = []
 
-  for (let i = 0; i < numLines; i++) {
-    const sfcProps = {lineNo: i, key: i, children: p => <span {...p}/>}
-    if (color) sfcProps.color = color
-    lines.push(<Line {...sfcProps}/>)
-  }
+  for (let i = 0; i < numLines; i++)
+    lines.push(<Line lineNo={i} key={i} color={color || 'currentColor'}/>)
 
   const Hamburger = ({show, hide, toggle, isVisible}) =>
     closeButton !== void 0 && isVisible === true
@@ -66,9 +51,12 @@ export default function createHamburger (
           children={lines}
         />
 
-  Hamburger.propTypes /* remove-proptypes */ = {
-    color: PropTypes.string,
+  if (__DEV__) {
+    const PropTypes = require('prop-types')
+    Hamburger.propTypes = {
+      color: PropTypes.string,
       lineNo: PropTypes.number
+    }
   }
 
   return Hamburger

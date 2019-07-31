@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Row, Type} from 'curls'
+import {Box, Text} from 'curls'
 import {Alerts} from '@jaredlunde/curls-addons'
 
 
@@ -41,31 +41,32 @@ export class ErrorsProvider extends React.Component {
 
 export function ErrorBox ({n, id, code, message, ...props}) {
   return (
-    <Row
+    <Box
+      flex
       as='li'
       wrap='no'
       align='center'
-      p={3}
-      m={3}
-      bw={2}
-      br={1}
+      p='3'
+      m='3'
+      bw='2'
+      br='1'
       bc='red'
       bg='white'
       key={id || n}
       w='90%'
-      maxW={600}
+      maxW='600'
       {...props}
     >
       {n === 0 && (
-        <Type xs color='red' m='r2'>
+        <Text size='xs' color='red' m='r2'>
           Close
-        </Type>
+        </Text>
       )}
 
-      <Type center xs semiBold fluid color='red'>
+      <Text center size='xs' semiBold fluid color='red'>
         {message}
-      </Type>
-    </Row>
+      </Text>
+    </Box>
   )
 }
 

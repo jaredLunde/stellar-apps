@@ -1,20 +1,20 @@
 import React from 'react'
 import {Helmet} from 'react-helmet-async'
 import {Spinner} from '@jaredlunde/curls-addons'
-import {Type, Hero} from 'curls'
+import {Text, Box} from 'curls'
 import {Query} from 'react-apollo'
 import gql from 'graphql-tag'
 
 
 const Home = props => (
-  <Hero bg='black'>
+  <Box minH='100vh' w='100%' bg='black'>
     <Helmet>
       <title><:PKG_NAME:></title>
     </Helmet>
 
-    <Type center ultraLight w='100%' d='block' color='white' size='xl@desktop lg@phone'>
+    <Text center ultraLight w='100%' d='block' color='white' size='xl@desktop lg@phone'>
       Hello world
-    </Type>
+    </Text>
 
     <Query query={gql`{hello}`}>
       {({loading, error, data}) => {
@@ -22,12 +22,12 @@ const Home = props => (
         if (error) throw  error
 
         return (
-          <Type light center w='100%' d='block' color='white' m='t3' size='md'>
+          <Text light center w='100%' d='block' color='white' m='t3' size='md'>
             SSR
-            <Type as='pre'>
+            <Text as='pre'>
               {JSON.stringify(data.hello)}
-            </Type>
-          </Type>
+            </Text>
+          </Text>
         )
       }}
     </Query>
@@ -38,16 +38,16 @@ const Home = props => (
         if (error) throw  error
 
         return (
-          <Type light center w='100%' d='block' color='white' m='t3' size='md'>
+          <Text light center w='100%' d='block' color='white' m='t3' size='md'>
             Lazy
-            <Type as='pre'>
+            <Text as='pre'>
               {JSON.stringify(data.hello)}
-            </Type>
-          </Type>
+            </Text>
+          </Text>
         )
       }}
     </Query>
-  </Hero>
+  </Box>
 )
 
 export default Home

@@ -78,11 +78,12 @@ module.exports.prompts = (
 
 // package.json dependencies
 module.exports.dependencies = {
-  "@babel/runtime": "^7.4.5",
-  "@babel/runtime-corejs3": "^7.4.5",
+  "@babel/runtime": "^7.5.5",
+  "@babel/runtime-corejs3": "^7.5.5",
+  "@jaredlunde/curls-addons": "^6.0.0",
   "@stellar-apps/ssr": "^2.0.0",
   "core-js": "^3.1.4",
-  "curls": "^3.0.60",
+  "curls": "^4.0.0",
   "invariant": "2.2.4",
   "prop-types": "^15.6.2",
   "react": "^16.8.6",

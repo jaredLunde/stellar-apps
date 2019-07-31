@@ -125,6 +125,7 @@ module.exports = createConfig(
         __DEV__: JSON.stringify(isDev),
         __SERVER__: JSON.stringify(false),
         __CLIENT__: JSON.stringify(true),
+        __STAGE__: JSON.stringify(stage)
       })
     ]
   },

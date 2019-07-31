@@ -1,4 +1,4 @@
-// v1.0.17 // 5/7/2019 //
+// v1.0.17 // 7/30/2019 //
 
 function req(plugin) {
   var module = require(plugin)
@@ -111,7 +111,7 @@ module.exports = function(api, opt) {
           : [
               req('@emotion/babel-preset-css-prop'),
               Object.assign(
-                {sourceMap: true, useBuiltIns: true, autoLabel: true},
+                {sourceMap: false, useBuiltIns: true, autoLabel: true},
                 opt.emotion,
               ),
             ],

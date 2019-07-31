@@ -40,7 +40,7 @@ dependencies.development = {
     "version": "^10.0.9",
     isBabelPreset: true,
     options: assign(
-      {"sourceMap": true, "useBuiltIns": true, "autoLabel": true},
+      {"sourceMap": false, "useBuiltIns": true, "autoLabel": true},
       'emotion'
     ),
     isOptional: 'emotion'
