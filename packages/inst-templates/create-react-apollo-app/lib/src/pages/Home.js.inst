@@ -7,7 +7,7 @@ import gql from 'graphql-tag'
 
 
 const Home = props => (
-  <Box minH='100vh' w='100%' bg='black'>
+  <Box flex bg='black' minH='100vh' w='100%' align='center'>
     <Helmet>
       <title><:PKG_NAME:></title>
     </Helmet>

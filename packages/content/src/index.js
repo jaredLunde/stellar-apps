@@ -1,1 +1,1 @@
-export default, {useContent} from './Content'
+export {Content, useContent} from './Content'

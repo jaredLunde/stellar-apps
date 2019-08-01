@@ -3,7 +3,7 @@ import {Box, Text} from 'curls'
 
 
 const Footer = props => (
-  <Box w='100%' p='t3 b6' justify='center' bg='darkestGrey'>
+  <Box flex w='100%' p='t3 b6' justify='center' bg='darkestGrey'>
     <Text color='white'>
       &copy;{(new Date()).getFullYear()}{" "}
       <:PKG_NAME:>

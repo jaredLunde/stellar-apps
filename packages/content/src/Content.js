@@ -1,4 +1,4 @@
-import {css, useStyles, createComponent, useBox, memoThemeValue} from 'curls'
+import {css, useStyles, createComponent, useBox, pushCss, memoThemeValue} from 'curls'
 
 const
   defaultStyles = css`
@@ -17,8 +17,11 @@ const
   }
 
 export const
-  useContent = props => useStyles(options, Object.assign({__content_defaults: true}, props)),
-  Content = createComponent('div', props => useBox(useContent(props)), defaultStyles)
+  useContent = props => useStyles(
+    options,
+    pushCss(Object.assign({__content_defaults: true}, props), defaultStyles)
+  ),
+  Content = createComponent('div', props => useBox(useContent(props)))
 
 if (__DEV__) {
   const PropTypes = require('prop-types')

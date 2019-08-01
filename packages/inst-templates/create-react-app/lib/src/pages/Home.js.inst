@@ -4,7 +4,7 @@ import {Box, Text} from 'curls'
 
 
 const Home = props => (
-  <Box bg='black' minH='100vh' w='100%'>
+  <Box flex bg='black' minH='100vh' w='100%' align='center'>
     <Helmet>
       <title><:PKG_NAME:></title>
     </Helmet>
