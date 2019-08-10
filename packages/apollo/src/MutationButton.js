@@ -1,7 +1,7 @@
 import React from 'react'
 import {Mutation} from 'react-apollo'
 import {callIfExists} from '@render-props/utils'
-import {SpinnerButton} from '@stellar-apps/buttons'
+import {Button} from 'curls'
 
 
 const defaultUpdater = mutateOptions => mutateOptions
@@ -9,7 +9,7 @@ const defaultUpdater = mutateOptions => mutateOptions
 export default React.forwardRef(
   (
     {
-      buttonType = SpinnerButton,
+      buttonType = Button,
       // mutation
       mutation,
       update,
@@ -52,7 +52,7 @@ export default React.forwardRef(
                 mutate(prepareUpdate({variables}))
               }
             },
-            loading: buttonType === SpinnerButton ? mutationResult.loading : void 0,
+            loading: mutationResult.loading,
             children:
               typeof children === 'function'
                 ? children(mutationResult)

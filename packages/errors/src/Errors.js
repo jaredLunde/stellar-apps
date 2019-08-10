@@ -70,7 +70,7 @@ export function ErrorBox ({n, id, code, message, ...props}) {
   )
 }
 
-export const formatErrors = function (errors) {
+export function formatErrors (errors) {
   if (Array.isArray(errors)) {
     return errors.map(err => formatErrors(err))
   }

@@ -1,6 +1,6 @@
 {
   "name": "@stellar-apps/errors",
-  "version": "3.0.0",
+  "version": "3.0.2",
   "main": "dist/cjs/index.js",
   "author": "Jared Lunde <jared@BeStellar.co> (https://BeStellar.co)",
   "license": "MIT",
@@ -24,8 +24,7 @@
     "rimraf": "^2.6.3"
   },
   "dependencies": {
-    "@babel/runtime": "^7.5.5",
-    "@jaredlunde/curls-addons": "^5.0.0"
+    "@babel/runtime": "^7.5.5"
   },
   "peerDependencies": {
     "curls": "^4.0.0",

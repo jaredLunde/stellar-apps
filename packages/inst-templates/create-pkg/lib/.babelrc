@@ -1,6 +1,6 @@
 {
   "presets": [
-    ["@stellar-apps/react", {"removePropTypes": false}]
+    "@babel/preset-typescript"
   ],
   "env": {
     "cjs": {
@@ -11,7 +11,8 @@
             "env": {
               "useBuiltIns": false,
               "targets": {"node": "8"}
-            } 
+            },
+            "runtime": false
           }
         ]
       ]
@@ -26,7 +27,7 @@
               "modules": false,
               "targets": {"browsers": ">5% in US"}
             },
-            "runtime": {"useESModules": true}
+            "runtime": false
           }
         ]
       ]

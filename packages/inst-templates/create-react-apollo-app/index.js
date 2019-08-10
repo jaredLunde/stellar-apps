@@ -68,7 +68,7 @@ module.exports.dependencies = {
   "graphql-tag.macro": "^2.1.0",
   "js-cookie": "^2.2.0",
   "node-fetch": "^2.6.0",
-  "react-apollo": "^2.5.6",
+  "react-apollo": "^3.0.0",
   "set-cookie-parser": "^2.3.5",
   "unfetch": "^4.1.0"
 }

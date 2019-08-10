@@ -1,0 +1,10 @@
+{
+  "name": "@stellar-apps/create-pkg",
+  "version": "1.0.22",
+  "main": "index.js",
+  "author": "Jared Lunde <jared@BeStellar.co> (https://BeStellar.co)",
+  "license": "MIT",
+  "dependencies": {
+    "@inst-pkg/template-utils": "^1.0.5"
+  }
+}
