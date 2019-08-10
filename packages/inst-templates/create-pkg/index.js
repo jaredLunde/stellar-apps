@@ -55,47 +55,51 @@ module.exports.rename = (filename) => {
 //
 // this function must return a valid package.json object
 module.exports.editPackageJson = function editPackageJson (
-  packageJson, 
+  {main, ...packageJson},
   variables /*from prompts() above*/
 ) {
-  delete packageJson.main
-  packageJson.main = 'dist/cjs/index.js'
-  packageJson.module = 'dist/es/index.js'
-  packageJson.types = 'dist/types/index.d.ts'
-  packageJson.scripts = {
-    "build": "yarn build:types && yarn build:es && yarn build:cjs",
-    "build:es": "rimraf dist/es && cross-env NODE_ENV=production BABEL_ENV=es babel src --extensions .ts,.tsx,.js  --ignore \"**/*.test.js\",\"**/test.js\" --out-dir dist/es",
-    "build:cjs": "rimraf dist/cjs && cross-env NODE_ENV=production BABEL_ENV=cjs babel src --extensions .ts,.tsx,.js --out-dir dist/cjs",
-    "build:types": "rimraf dist/types && tsc -p tsconfig.json -d --outDir dist/types  && rimraf dist/types/**/*.js",
-    "check-types": "tsc --noEmit --isolatedModules -p tsconfig.json",
-    "format": "yarn format:src && yarn format:cjs && yarn format:es",
-    "format:src": "prettier --write \"src/**/*.js\" \"src/**/*.ts\"",
-    "format:es": "prettier --write \"dist/es/**/*.js\"",
-    "format:cjs": "prettier --write \"dist/es/**/*.js\"",
-    "lint": "eslint src --ext .jsx,.js,.ts,.tsx",
-    "prepublishOnly": "yarn lint && yarn build && yarn format",
-    "test": "yarn build:cjs && ava -v",
-    "validate": "yarn check-types && yarn lint && yarn test && yarn format:src"
-  }
-  packageJson.ava = {
-    "babel": false,
+  return {
+    name: packageJson.name,
+    version: packageJson.version,
+    author: packageJson.author,
+    license: packageJson.license,
+    main: 'dist/cjs/index.js',
+    module: 'dist/es/index.js',
+    types: 'dist/types/index.d.ts',
+    files: ["/dist", "/src"],
+    keywords: [],
+    ...packageJson,
+    scripts: {
+      "build": "yarn build:types && yarn build:cjs && yarn build:es",
+      "build:cjs": "cross-env NODE_ENV=production BABEL_ENV=cjs babel src --out-dir dist/cjs --extensions .ts,.tsx,.js --ignore \"**/*.test.js\",\"**/test.js\",\"**/*.test.ts\",\"**/test.ts\" --delete-dir-on-start",
+      "build:es": "cross-env NODE_ENV=production BABEL_ENV=es babel src --out-dir dist/es --extensions .ts,.tsx,.js  --ignore \"**/*.test.js\",\"**/test.js\",\"**/*.test.ts\",\"**/test.ts\" --delete-dir-on-start",
+      "build:tests": "cross-env NODE_ENV=production BABEL_ENV=cjs babel src --out-dir .tests --extensions .ts,.tsx,.js --delete-dir-on-start",
+      "build:types": "rimraf dist/types && tsc -p tsconfig.json -d --outDir dist/types  && rimraf dist/types/**/*.js",
+      "check-types": "tsc --noEmit --isolatedModules -p tsconfig.json",
+      "format": "yarn format:cjs && yarn format:es && yarn format:src",
+      "format:cjs": "prettier --write \"dist/es/**/*.js\"",
+      "format:es": "prettier --write \"dist/es/**/*.js\"",
+      "format:src": "prettier --write \"src/**/*.js\" \"src/**/*.ts\"",
+      "lint": "eslint src --ext .jsx,.js,.ts,.tsx",
+      "prepublishOnly": "yarn lint && yarn build && yarn format",
+      "test": "yarn build:tests && ava -v && rimraf .tests",
+      "validate": "yarn check-types && yarn lint && yarn test && yarn format:src"
+    },
+    ava: {
+      "babel": false,
       "compileEnhancements": false,
-      "files": [
-        "dist/cjs/**/*.test.js",
-        "dist/cjs/**/test.js"
+      "files": [".tests/**{/,.}test.{ts,js}"]
+    },
+    husky: {
+      "hooks": {
+        "pre-commit": "lint-staged && yarn check-types"
+      }
+    },
+    ['lint-staged']: {
+      "*.{js,jsx,ts,tsx}": [
+        "eslint",
+        "pretty-quick --staged"
       ]
-  }
-  packageJson.husky = {
-    "hooks": {
-      "pre-commit": "lint-staged && yarn check-types"
     }
   }
-  packageJson["lint-staged"] = {
-    "*.{js,jsx,ts,tsx}": [
-      "eslint",
-      "pretty-quick --staged"
-    ]
-  }
-  // this function must return a valid package.json object
-  return packageJson
 }
