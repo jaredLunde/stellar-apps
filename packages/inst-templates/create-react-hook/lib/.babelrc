@@ -1,0 +1,37 @@
+{
+  "presets": [
+    "@babel/preset-typescript",
+    "@babel/preset-react"
+  ],
+  "env": {
+    "cjs": {
+      "presets": [
+        [
+          "@stellar-apps/es",
+          {
+            "env": {
+              "useBuiltIns": false,
+              "targets": {"node": "8"}
+            },
+            "runtime": false
+          }
+        ]
+      ]
+    },
+    "es": {
+      "presets": [
+        [
+          "@stellar-apps/es",
+          {
+            "env": {
+              "useBuiltIns": false,
+              "modules": false,
+              "targets": {"browsers": ">5% in US"}
+            },
+            "runtime": false
+          }
+        ]
+      ]
+    }
+  }
+}

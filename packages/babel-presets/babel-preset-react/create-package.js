@@ -5,24 +5,24 @@ const assign = createPreset.assign
 const dependencies = {}
 dependencies.development = {
   "@babel/preset-react": {
-    version: '^7.0.0',
+    version: 'latest',
     isBabelPreset: true,
   }
 }
 
 dependencies.production = Object.assign({}, dependencies.development, {
   "@babel/plugin-transform-react-constant-elements": {
-    version: '^7.2.0',
+    version: 'latest',
     isBabelPlugin: true,
     isOptional: 'transformConstant'
   },
   "babel-plugin-transform-react-remove-prop-types": {
-    version: "^0.4.23",
+    version: "latest",
     isBabelPlugin: true,
     isOptional: 'removePropTypes'
   },
   "babel-plugin-transform-react-pure-class-to-function": {
-    version: "^1.0.1",
+    version: "latest",
     isBabelPlugin: true,
     isOptional: 'transformPure'
   }

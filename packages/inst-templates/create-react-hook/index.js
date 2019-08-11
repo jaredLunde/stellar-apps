@@ -22,16 +22,26 @@ module.exports.dependencies = {
 
 // package.json dev dependencies
 module.exports.devDependencies = {
+  "@babel/preset-react": "latest",
   "@babel/preset-typescript": "latest",
   "@stellar-apps/babel-preset-es": "latest",
-  "ava": "latest",
+  "@testing-library/react": "latest",
+  "@testing-library/react-hooks": "latest",
+  "@types/react": "latest",
+  "@types/react-dom": "latest",
+  "jest": "latest",
   "babel-eslint": "latest",
   "cross-env": "latest",
   "eslint": "latest",
+  "eslint-plugin-react": "latest",
+  "eslint-plugin-jest": "latest",
   "husky": "latest",
   "lint-staged": "latest",
   "prettier": "latest",
   "pretty-quick": "latest",
+  "react": "latest",
+  "react-dom": "latest",
+  "react-test-renderer": "latest",
   "rimraf": "latest",
   "typescript": "latest"
 }
@@ -68,7 +78,12 @@ module.exports.editPackageJson = function editPackageJson (
     "types": 'types/index.d.ts',
     "files": ["/dist", "/types", "/src"],
     "description": "",
-    "keywords": [variables.PKG_NAME.replace('-', ' ')],
+    "keywords": [
+      "react",
+      "react hook",
+      "react hooks",
+      variables.PKG_NAME.replace('-', ' ')
+    ],
     "sideEffects": false,
     ...packageJson,
     "scripts": {
@@ -84,13 +99,11 @@ module.exports.editPackageJson = function editPackageJson (
       "format:src": "prettier --write \"src/**/*.{ts,js}\"",
       "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
       "prepublishOnly": "npm run lint && npm run build && npm run format",
-      "test": "npm run build:tests && ava -v && rimraf .tests",
+      "test": "jest",
       "validate": "npm run check-types && npm run lint && npm run test && npm run format:src"
     },
-    "ava": {
-      "babel": false,
-      "compileEnhancements": false,
-      "files": [".tests/**{/,.}test.{ts,js}"]
+    "jest": {
+      "verbose": true
     },
     "husky": {
       "hooks": {
