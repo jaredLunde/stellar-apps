@@ -53,9 +53,6 @@ module.exports.rename = (filename) => {
   if (filename.endsWith('gitignore') && !filename.endsWith('.gitignore')) {
     return filename.replace('gitignore', '.gitignore')
   }
-  else if (filename.endsWith('npmignore') && !filename.endsWith('.npmignore')){
-    return filename.replace('npmignore', '.npmignore')
-  }
 
   return filename
 }
