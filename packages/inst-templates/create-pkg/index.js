@@ -24,10 +24,11 @@ module.exports.dependencies = {
 module.exports.devDependencies = {
   "@babel/preset-typescript": "latest",
   "@stellar-apps/babel-preset-es": "latest",
-  "ava": "latest",
+  "jest": "latest",
   "babel-eslint": "latest",
   "cross-env": "latest",
   "eslint": "latest",
+  "eslint-plugin-jest": "latest",
   "husky": "latest",
   "lint-staged": "latest",
   "prettier": "latest",
@@ -70,24 +71,23 @@ module.exports.editPackageJson = function editPackageJson (
     ...packageJson,
     "scripts": {
       "build": "npm run build:types && npm run build:cjs && npm run build:es",
-      "build:cjs": "cross-env BABEL_ENV=cjs babel src -d dist/cjs -x .ts,.tsx,.js --ignore \"**/*.test.js\",\"**/test.js\",\"**/*.test.ts\",\"**/test.ts\" --delete-dir-on-start",
-      "build:es": "cross-env BABEL_ENV=es babel src -d dist/es -x .ts,.tsx,.js  --ignore \"**/*.test.js\",\"**/test.js\",\"**/*.test.ts\",\"**/test.ts\" --delete-dir-on-start",
-      "build:tests": "cross-env BABEL_ENV=cjs babel src -d .tests -x .ts,.tsx,.js --delete-dir-on-start",
+      "build:cjs": "cross-env BABEL_ENV=cjs babel src -d dist/cjs -x .js,.ts --ignore \"**/*.test.js\",\"**/test.js\",\"**/*.test.ts\",\"**/test.ts\" --delete-dir-on-start",
+      "build:es": "cross-env BABEL_ENV=es babel src -d dist/es -x .js,.ts  --ignore \"**/*.test.js\",\"**/test.js\",\"**/*.test.ts\",\"**/test.ts\" --delete-dir-on-start",
       "build:types": "rimraf types && tsc -p tsconfig.json -d --outDir types  && rimraf types/**/*.js",
       "check-types": "tsc --noEmit --isolatedModules -p tsconfig.json",
       "format": "npm run format:cjs && npm run format:es && npm run format:src",
       "format:cjs": "prettier --write \"dist/es/**/*.js\"",
       "format:es": "prettier --write \"dist/es/**/*.js\"",
       "format:src": "prettier --write \"src/**/*.{ts,js}\"",
-      "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
+      "lint": "eslint src --ext .js,.ts",
       "prepublishOnly": "npm run lint && npm run build && npm run format",
-      "test": "npm run build:tests && ava -v && rimraf .tests",
+      "test": "BABEL_ENV=cjs jest",
       "validate": "npm run check-types && npm run lint && npm run test && npm run format:src"
     },
-    "ava": {
-      "babel": false,
-      "compileEnhancements": false,
-      "files": [".tests/**{/,.}test.{ts,js}"]
+    "jest": {
+      "globals": {
+        "__DEV__": true
+      }
     },
     "husky": {
       "hooks": {
@@ -95,7 +95,7 @@ module.exports.editPackageJson = function editPackageJson (
       }
     },
     "lint-staged": {
-      "src/**/*.{js,jsx,ts,tsx}": [
+      "src/**/*.{js,ts}": [
         "eslint",
         "pretty-quick --staged"
       ]

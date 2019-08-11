@@ -1,6 +1,3 @@
-import test from 'ava'
-
-
-test('passes', t => {
-  t.pass()
+test('passes', () => {
+  expect(1).toEqual(1)
 })

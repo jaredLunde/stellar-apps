@@ -85,22 +85,24 @@ module.exports.editPackageJson = function editPackageJson (
     ...packageJson,
     "scripts": {
       "build": "npm run build:types && npm run build:cjs && npm run build:es",
-      "build:cjs": "cross-env BABEL_ENV=cjs babel src -d dist/cjs -x .ts,.tsx,.js --ignore \"**/*.test.js\",\"**/test.js\",\"**/*.test.ts\",\"**/test.ts\" --delete-dir-on-start",
-      "build:es": "cross-env BABEL_ENV=es babel src -d dist/es -x .ts,.tsx,.js  --ignore \"**/*.test.js\",\"**/test.js\",\"**/*.test.ts\",\"**/test.ts\" --delete-dir-on-start",
-      "build:tests": "cross-env BABEL_ENV=cjs babel src -d .tests -x .ts,.tsx,.js --delete-dir-on-start",
+      "build:cjs": "cross-env BABEL_ENV=cjs babel src -d dist/cjs -x .js,.ts,.tsx --ignore \"**/*.test.js\",\"**/test.js\",\"**/*.test.ts\",\"**/test.ts\" --delete-dir-on-start",
+      "build:es": "cross-env BABEL_ENV=es babel src -d dist/es -x .js,.ts,.tsx  --ignore \"**/*.test.js\",\"**/test.js\",\"**/*.test.ts\",\"**/test.ts\" --delete-dir-on-start",
+      "build:tests": "cross-env BABEL_ENV=cjs babel src -d .tests -x .js,.ts,.tsx --delete-dir-on-start",
       "build:types": "rimraf types && tsc -p tsconfig.json -d --outDir types  && rimraf types/**/*.js",
       "check-types": "tsc --noEmit --isolatedModules -p tsconfig.json",
       "format": "npm run format:cjs && npm run format:es && npm run format:src",
       "format:cjs": "prettier --write \"dist/es/**/*.js\"",
       "format:es": "prettier --write \"dist/es/**/*.js\"",
-      "format:src": "prettier --write \"src/**/*.{ts,js}\"",
+      "format:src": "prettier --write \"src/**/*.{js,ts,tsx}\"",
       "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
       "prepublishOnly": "npm run lint && npm run build && npm run format",
-      "test": "jest",
+      "test": "BABEL_ENV=cjs jest",
       "validate": "npm run check-types && npm run lint && npm run test && npm run format:src"
     },
     "jest": {
-      "verbose": true
+      "globals": {
+        "__DEV__": true
+      }
     },
     "husky": {
       "hooks": {

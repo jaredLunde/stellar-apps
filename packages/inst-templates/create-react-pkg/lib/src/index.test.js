@@ -3,6 +3,6 @@
 // import {renderHook} from '@testing-library/react-hooks'
 // import {render} from '@testing-library/react'
 
-it('passes', () => {
+test('passes', () => {
   expect(1).toEqual(1)
 })

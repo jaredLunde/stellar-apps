@@ -1,6 +1,6 @@
 {
   "name": "@stellar-apps/create-pkg",
-  "version": "1.0.35",
+  "version": "1.0.41",
   "main": "index.js",
   "author": "Jared Lunde <jared@BeStellar.co> (https://BeStellar.co)",
   "license": "MIT",
